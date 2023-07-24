@@ -26,8 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // Llamar al método del controlador para insertar el nombre y apellido en la bSase de datos
   try {
     $model->insert_orden($not, $nom_trab, $sitio_trab, $semana, $mes, $status, $obsv, $resp_cco, $resp_tec, $resp_ccf, $hora_pre_ini, $hora_pre_fin, $hora_tra_ini, $hora_tra_fin, $hora_eje_ini, $hora_eje_fin, $fecha, $estado);
-  } catch (Exception $ex) {
-    echo 'Excepción capturada: ',  $e->getMessage(), "\n";
+  } catch (mysqli_sql_exception $ex) {
+    echo 'Excepción capturada: ',  $ex->getMessage(), "\n", $ex->getCode();
   }
 } else {
   // Mostrar la vista para ingresar el nombre y apellido
