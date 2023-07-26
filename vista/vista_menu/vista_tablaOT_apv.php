@@ -4,7 +4,7 @@
 
 // Realiza cualquier procesamiento necesario para obtener el nuevo contenido
 $contenido = "
-<div class='pagetitle' style='padding-left: 20px;'>
+<div class='pagetitle'>
   <h1>Tabla de Ordenes de Trabajos 'Aparato de Via'</h1>
   <nav>
     <ol class='breadcrumb'>
@@ -38,7 +38,7 @@ $contenido = "
           </div>
         </div>
         <div class='row'>
-          <div class='col-md-4 mb-3' style='padding-left: 40px; padding-right: 40px;'>
+          <div class='col-md-4 mb-3' style='padding-right: 40px;'>
             <div class='row mb-3'>
               <h5 class='border-bottom pb-2'>Lista de ordenes</h5>
               <table class='table'>

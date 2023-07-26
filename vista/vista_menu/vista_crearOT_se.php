@@ -15,7 +15,7 @@ $contenido = "<div class='pagetitle'>
 
 <section class='section dashboard' id=''>
 
-<form action='index.php' method='POST'>
+<form action='controlador/controlador_registro_ot.php' method='POST'>
   <div class='container'>
     <div class='row'>
       <div class='col-md-2 mb-3'>
