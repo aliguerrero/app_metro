@@ -30,5 +30,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 } else {
   // Mostrar la vista para ingresar datos
-  include '../index.html';
+  include '../../index.html';
 }

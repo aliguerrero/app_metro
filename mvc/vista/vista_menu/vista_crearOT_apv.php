@@ -4,10 +4,10 @@
 
 // Realiza cualquier procesamiento necesario para obtener el nuevo contenido
 $contenido = "<div class='pagetitle'>
-<h1>Creacion de Orden de Trabajo 'Infraestructura'</h1>
+<h1>Creacion de Orden de Trabajo 'Aparato de Via'</h1>
 <nav>
   <ol class='breadcrumb'>
-    <li class='breadcrumb-item'><a href='index.html'>Infraestructura</a></li>
+    <li class='breadcrumb-item'><a href='index.html'>Aparato de Via</a></li>
     <li class='breadcrumb-item active'>Creacion O.T.</li>
   </ol>
 </nav>
@@ -15,7 +15,7 @@ $contenido = "<div class='pagetitle'>
 
 <section class='section dashboard' id=''>
 
-<form action='index.php' method='POST'>
+<form action='mvc/controlador/controlador_registro_ot.php' method='POST'>
   <div class='container'>
     <div class='row'>
       <div class='col-md-2 mb-3'>

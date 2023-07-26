@@ -1,5 +1,5 @@
 <?php
-require_once '../config/conexion.php';
+require_once '../../config/conexion.php';
 
 class modelo_registro_ot {
   private $db;
