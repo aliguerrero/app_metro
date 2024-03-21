@@ -17,7 +17,7 @@
 
         // Método protegido para establecer la conexión a la base de datos
         protected function conectar (){
-            $conexion = new PDO("mysql:host=".$this->server.";dbname=".$this->db.",".$this->user.",".$this->pass);
+            $conexion = new PDO("mysql:host=".$this->server.";dbname=".$this->db.";charset=utf8",$this->user,$this->pass);
             $conexion->exec("SET CHARACTER SET utf8");
             return $conexion;
         }
@@ -125,8 +125,7 @@
                 $sql->bindParam($clave["campo_marcador"],$clave["campo_valor"]);
             }
             // Ejecutar la consulta
-            $sql->execute();
-        
+            $sql->execute();        
             return $sql;
         }
         /**

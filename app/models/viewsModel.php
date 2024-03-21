@@ -8,7 +8,7 @@ class viewsModel{
     protected function obtenerVistaModelo ($vista){
         // Lista blanca de vistas permitidas
 
-        $listaBlanca = ["dashboard"];
+        $listaBlanca = ["dashboard","gestionMiembro","gestionOT","gestionHerramienta","usuario"];
 
         // Verificar si la vista está en la lista blanca
         if (in_array($vista,$listaBlanca)) {

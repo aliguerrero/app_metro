@@ -36,7 +36,6 @@ if ( isset( $_GET[ 'views' ] ) ) {
         } else {
             // Si es otra vista, incluir el archivo de la vista directamente
             require_once "./app/views/inc/navbar.php";
-            require_once $vista;
         }
         
         // Incluir archivos de script al final del cuerpo del documento

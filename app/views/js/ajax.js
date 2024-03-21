@@ -50,7 +50,45 @@ formularios_ajax.forEach(formulario => {
         });
     });
 });
-
-function alertas_ajax(alerta){
-
+//muestra una alerta específica dependiendo del tipo de alerta proporcionado en el objeto. 
+//Las acciones posibles incluyen mostrar una alerta simple, 
+//recargar la página, limpiar el formulario y redirigir a otra página.
+function alertas_ajax(alerta) {
+    // Verificar el tipo de alerta
+    if (alerta.tipo == "simple") {
+        // Mostrar una alerta simple usando SweetAlert
+        Swal.fire({
+            icon: alerta.icono,
+            title: alerta.titulo,
+            text: alerta.texto,
+            confirmButtonText: 'Aceptar'
+        });
+    } else if (alerta.tipo == "recargar") {
+        // Mostrar una alerta y recargar la página si el usuario confirma
+        Swal.fire({
+            icon: alerta.icono,
+            title: alerta.titulo,
+            text: alerta.texto,
+            confirmButtonText: 'Aceptar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                location.reload(); // Recargar la página
+            }
+        });
+    } else if (alerta.tipo == "limpiar") {
+        // Mostrar una alerta y limpiar el formulario si el usuario confirma
+        Swal.fire({
+            icon: alerta.icono,
+            title: alerta.titulo,
+            text: alerta.texto,
+            confirmButtonText: 'Aceptar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.querySelector(".FormularioAjax").reset(); // Limpiar el formulario
+            }
+        });
+    } else if (alerta.tipo == "redireccionar") {
+        // Redirigir a una URL específica
+        window.location.href = alerta.url; // Redireccionar
+    }
 }
