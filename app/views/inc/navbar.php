@@ -48,11 +48,13 @@
         </ul>
         
         <ul class="header-nav ms-3">
-          <li class="nav-item dropdown"><a class="nav-link py-0" data-coreui-toggle="dropdown" href="#" role="button"
+          <li class="nav-item dropdown">
+            <a class="nav-link py-0" data-coreui-toggle="dropdown" href="#" role="button"
               aria-haspopup="true" aria-expanded="false">
-              <div class="avatar avatar-md"><img class="avatar-img" src="./app/views/img/avatars/8.jpg"
-                  alt="user@email.com">
+              <div class="avatar avatar-md">
+                <img class="avatar-img" src="./app/views/img/avatars/user.png" alt="user@email.com">                
               </div>
+              <label for="">USUARIO NOMBRE</label>
             </a>
             <div class="dropdown-menu dropdown-menu-end pt-0">              
               <div class="dropdown-header bg-light py-2">
@@ -71,7 +73,7 @@
                 <a class="dropdown-item" href="#">                
                   <div class="dropdown-divider">                    
                   </div>
-                  <a class="dropdown-item" href="#">                    
+                  <a class="dropdown-item" href="<?php ECHO APP_URL; ?>logOut">                    
                     <svg class="icon me-2">
                       <use xlink:href="./app/views/icons/svg/free.svg#cil-account-logout"></use>
                     </svg> Cerrar sesión

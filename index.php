@@ -25,6 +25,10 @@ if ( isset( $_GET[ 'views' ] ) ) {
     <?php
         // Importar la clase viewsController
         use app\controllers\viewsController;
+        // Importar la clase loginController
+        use app\controllers\loginController;
+        // Instanciar el controlador de vistas
+        $insLogin = new loginController();
         // Instanciar el controlador de vistas
         $viewsControllers = new viewsController();
         // Obtener la vista correspondiente
@@ -34,6 +38,12 @@ if ( isset( $_GET[ 'views' ] ) ) {
             // Si es la vista de inicio de sesión o error 404, incluir el contenido correspondiente
             require_once "./app/views/content/".$vista."-view.php";
         } else {
+            # cerrar sesion #
+            if (!isset($_SESSION['id']) || !isset($_SESSION['user']) || !isset($_SESSION['username']) || 
+            !isset($_SESSION['tipo']) || $_SESSION['id']=="" || $_SESSION['user']=="" || $_SESSION['username']=="" || $_SESSION['tipo']=="") {
+                $insLogin->cerrarSesionControlador();
+                exit();
+            }
             // Si es otra vista, incluir el archivo de la vista directamente
             require_once "./app/views/inc/navbar.php";
         }

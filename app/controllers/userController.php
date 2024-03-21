@@ -64,6 +64,18 @@
                 return json_encode($alerta);
                 exit();
             }
+            # Verificar la integridad de los datos de nombre #
+            if ($this->verificarDatos('[a-zA-Z0-9]{4,20}', $username)) {
+                // Si el formato del nombre no es válido, se devuelve una alerta de error
+                $alerta = [
+                    "tipo" => "simple",
+                    "titulo" => "Ocurrió un error inesperado",
+                    "texto" => "El USERNAME no cumple con el formato solicitado",
+                    "icono" => "error"
+                ];
+                return json_encode($alerta);
+                exit();
+            }
             # Verificar el username #
             $check_username = $this->ejecutarConsulta("SELECT username FROM user_system WHERE username='$username'");
             if ($check_username->rowCount() > 0) {
@@ -92,6 +104,18 @@
             } else {
                 // Si coinciden, se crea un hash de la clave
                 $clave = password_hash($clave1,PASSWORD_BCRYPT,["cost="=> 10]);
+            }
+            # Verificar la integridad de los datos de clave #
+            if ($this->verificarDatos('[a-zA-Z0-9$@.-]{7,100}', $clave1)) {
+                // Si el formato del nombre no es válido, se devuelve una alerta de error
+                $alerta = [
+                    "tipo" => "simple",
+                    "titulo" => "Ocurrió un error inesperado",
+                    "texto" => "La clave no cumple con el formato solicitado",
+                    "icono" => "error"
+                ];
+                return json_encode($alerta);
+                exit();
             }
 
             $user_datos_reg=[

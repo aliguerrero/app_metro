@@ -14,7 +14,7 @@
               <!-- Cuerpo de la tarjeta -->
               <h1 class="mb-4">Login</h1>
               <!-- Encabezado principal -->
-              <form class="" action="" method="post" class="needs-validation" novalidate>
+              <form class="" action="" method="POST" class="needs-validation" novalidate>
                 <!-- Formulario de inicio de sesión con validación -->
                 <div class="mb-3">
                   <!-- Grupo de entrada para el nombre de usuario -->
@@ -94,3 +94,8 @@
     </div>
   </div>
 </div>
+<?php 
+  if (isset($_POST['username']) && isset($_POST['password'])) {
+    $insLogin->iniciarSesionControlador();
+  }
+?>
