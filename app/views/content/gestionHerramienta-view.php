@@ -36,7 +36,7 @@
           <tr class='align-middle'>
             <th class='text-center'>
               <svg class='icon'>
-                <use xlink:href='./app/views/icons/svg/free.svg#cil-people'></use>
+                <use xlink:href='<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-people'></use>
               </svg>
             </th>
             <th class='text-center'>Codigo</th>
@@ -50,7 +50,7 @@
           
           <tr class='align-middle'>
             <td class='text-center'>
-              <div class='avatar avatar-md'><img class='avatar-img' src='./app/views/img/avatars/1.jpg'
+              <div class='avatar avatar-md'><img class='avatar-img' src='<?php echo APP_URL; ?>app/views/img/avatars/1.jpg'
                   alt='user@email.com'><span class='avatar-status bg-success'></span></div>
             </td>
             <td class='clearfix'>
@@ -76,7 +76,7 @@
                 <button class='btn btn-transparent p-0' type='button' data-coreui-toggle='dropdown'
                   aria-haspopup='true' aria-expanded='false'>
                   <svg class='icon'>
-                    <use xlink:href='./app/views/icons/svg/free.svg#cil-options'></use>
+                    <use xlink:href='<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-options'></use>
                   </svg>
                 </button>
                 <div class='dropdown-menu dropdown-menu-end'>
@@ -102,7 +102,7 @@
           <tr class='align-middle'>
             <th class='text-center'>
               <svg class='icon'>
-                <use xlink:href='./app/views/icons/svg/free.svg#cil-people'></use>
+                <use xlink:href='<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-people'></use>
               </svg>
             </th>
 
@@ -116,7 +116,7 @@
         <tbody>
           <tr class='align-middle'>
             <td class='text-center'>
-              <div class='avatar avatar-md'><img class='avatar-img' src='./app/views/img/avatars/1.jpg'
+              <div class='avatar avatar-md'><img class='avatar-img' src='<?php echo APP_URL; ?>app/views/img/avatars/1.jpg'
                   alt='user@email.com'><span class='avatar-status bg-success'></span></div>
             </td>
             <td class='clearfix'>
@@ -142,7 +142,7 @@
                 <button class='btn btn-transparent p-0' type='button' data-coreui-toggle='dropdown'
                   aria-haspopup='true' aria-expanded='false'>
                   <svg class='icon'>
-                    <use xlink:href='./app/views/icons/svg/free.svg#cil-options'></use>
+                    <use xlink:href='<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-options'></use>
                   </svg>
                 </button>
                 <div class='dropdown-menu dropdown-menu-end'>
@@ -215,7 +215,7 @@
       <div class='card-body'>
         <div class='text-medium-emphasis text-end mb-4'>
           <svg class='icon icon-xxl'>
-            <use xlink:href='./app/views/icons/svg/free.svg#cil-people'></use>
+            <use xlink:href='<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-people'></use>
           </svg>
         </div>
         <div class='fs-4 fw-semibold'>87.500</div><small
@@ -234,7 +234,7 @@
         <div class='text-medium-emphasis text-end mb-4'>
 
           <svg class='icon icon-xxl'>
-            <use xlink:href='./app/views/icons/svg/free.svg#cil-people'></use>
+            <use xlink:href='<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-people'></use>
           </svg>
         </div>
         <div class='fs-4 fw-semibold'>87.500</div><small

@@ -1,4 +1,4 @@
-<div class="bg-light min-vh-100 d-flex flex-row align-items-center">
+<div class="login bg-light min-vh-100 d-flex flex-row align-items-center">
   <!-- Contenedor principal con fondo claro y elementos centrados verticalmente -->
   <div class="container">
     <!-- Contenedor para el contenido principal -->
@@ -26,7 +26,7 @@
                       <!-- Icono de usuario -->
                       <svg class="icon">
                         <!-- Icono SVG -->
-                        <use xlink:href="./app/views/icons/svg/free.svg#cil-user"></use>
+                        <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-user"></use>
                         <!-- Uso del icono definido en el archivo de sprites SVG -->
                       </svg>
                     </span>
@@ -47,7 +47,7 @@
                       <!-- Icono de candado -->
                       <svg class="icon">
                         <!-- Icono SVG -->
-                        <use xlink:href="./app/views/icons/svg/free.svg#cil-lock-locked"></use>
+                        <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-lock-locked"></use>
                         <!-- Uso del icono definido en el archivo de sprites SVG -->
                       </svg>
                     </span>
@@ -60,12 +60,12 @@
                 </div>
                 <div class="row">
                   <!-- Fila para botones -->
-                  <div class="col-6">
+                  <div class="col-4">
                     <!-- Columna para el botón de "Entrar" -->
                     <button class="btn btn-primary w-100" type="submit">Entrar</button>
                     <!-- Botón para enviar el formulario -->
                   </div>
-                  <div class="col-6 text-end">
+                  <div class="col-8 text-end">
                     <!-- Columna para el botón de "¿Has olvidado tu contraseña?" -->
                     <a href="#" class="btn btn-link px-0">¿Has olvidado tu contraseña?</a>
                     <!-- Botón para recuperar la contraseña -->
@@ -74,21 +74,21 @@
               </form>
             </div>
           </div>
-          <div class="card col-md-5 text-white bg-primary py-5">
-            <!-- Tarjeta para información adicional -->
-            <div class="card-body text-center">
-              <!-- Cuerpo de la tarjeta -->
-              <div>
-                <!-- Contenido adicional -->
-                <h2>FerreNet System</h2>
-                <!-- Encabezado secundario -->
-                <p>
-                  Utilizar el sistema ofrece una serie de ventajas significativas que mejoran la eficiencia y la comodidad.
-                </p>
-                <!-- Texto descriptivo -->
+          <div class="card col-md-5 text-white fondo py-5">
+              <!-- Tarjeta para información adicional -->
+              <div class="card-body text-center ">
+                  <!-- Logo de la empresa -->
+                  <img src="<?php echo APP_URL; ?>app/views/img/imagen2.png" alt="Logo de la empresa" class="mb-4" style="max-width: 120px;">
+                  <!-- Contenido adicional -->
+                  <h1 class="fontTitle">FerreNet System</h1>
+                  <!-- Encabezado secundario -->
+                  <b>
+                      Utilizar el sistema ofrece una serie de ventajas significativas que mejoran la eficiencia y la comodidad.
+                  </b>
+                  <!-- Texto descriptivo -->
               </div>
-            </div>
           </div>
+
         </div>
       </div>
     </div>

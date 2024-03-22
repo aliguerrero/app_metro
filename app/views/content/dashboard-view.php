@@ -21,7 +21,7 @@
                 <div>
                   <div class="fs-4 fw-semibold">26K <span class="fs-6 fw-normal">(-12.4%
                       <svg class="icon">
-                        <use xlink:href="./app/views/icons/svg/free.svg#cil-arrow-bottom"></use>
+                        <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-arrow-bottom"></use>
                       </svg>)</span></div>
                   <div>O.T.</div>
                 </div>
@@ -29,7 +29,7 @@
                   <button class="btn btn-transparent text-white p-0" type="button" data-coreui-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                     <svg class="icon">
-                      <use xlink:href="./app/views/icons/svg/free.svg#cil-options"></use>
+                      <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-options"></use>
                     </svg>
                   </button>
                   <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="#">Action</a><a
@@ -49,7 +49,7 @@
                 <div>
                   <div class="fs-4 fw-semibold">15 <span class="fs-6 fw-normal">(40.9%
                       <svg class="icon">
-                        <use xlink:href="./app/views/icons/svg/free.svg#cil-arrow-top"></use>
+                        <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-arrow-top"></use>
                       </svg>)</span></div>
                   <div>Total de O.T. Ejecutadas</div>
                 </div>
@@ -57,7 +57,7 @@
                   <button class="btn btn-transparent text-white p-0" type="button" data-coreui-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                     <svg class="icon">
-                      <use xlink:href="./app/views/icons/svg/free.svg#cil-options"></use>
+                      <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-options"></use>
                     </svg>
                   </button>
                   <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="#">Action</a><a
@@ -77,7 +77,7 @@
                 <div>
                   <div class="fs-4 fw-semibold">2.49% <span class="fs-6 fw-normal">(84.7%
                       <svg class="icon">
-                        <use xlink:href="./app/views/icons/svg/free.svg#cil-arrow-top"></use>
+                        <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-arrow-top"></use>
                       </svg>)</span></div>
                   <div>% En ejecución</div>
                 </div>
@@ -85,7 +85,7 @@
                   <button class="btn btn-transparent text-white p-0" type="button" data-coreui-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                     <svg class="icon">
-                      <use xlink:href="./app/views/icons/svg/free.svg#cil-options"></use>
+                      <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-options"></use>
                     </svg>
                   </button>
                   <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="#">Action</a><a
@@ -105,7 +105,7 @@
                 <div>
                   <div class="fs-4 fw-semibold">57% <span class="fs-6 fw-normal">(-23.6%
                       <svg class="icon">
-                        <use xlink:href="./app/views/icons/svg/free.svg#cil-arrow-bottom"></use>
+                        <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-arrow-bottom"></use>
                       </svg>)</span></div>
                   <div>% Faltante</div>
                 </div>
@@ -113,7 +113,7 @@
                   <button class="btn btn-transparent text-white p-0" type="button" data-coreui-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                     <svg class="icon">
-                      <use xlink:href="./app/views/icons/svg/free.svg#cil-options"></use>
+                      <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-options"></use>
                     </svg>
                   </button>
                   <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="#">Action</a><a
@@ -147,7 +147,7 @@
                 </div>
                 <button class="btn btn-primary" type="button">
                   <svg class="icon">
-                    <use xlink:href="./app/views/icons/svg/free.svg#cil-cloud-download"></use>
+                    <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-cloud-download"></use>
                   </svg>
                 </button>
               </div>
@@ -207,7 +207,7 @@
             <div class="card mb-4" style="--cui-card-cap-bg: #3b5998">
               <div class="card-header position-relative d-flex justify-content-center align-items-center">
                 <svg class="icon icon-3xl text-white my-4">
-                  <use xlink:href="./app/views/icons/svg/brand.svg#cib-facebook-f"></use>
+                  <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/brand.svg#cib-facebook-f"></use>
                 </svg>
                 <div class="chart-wrapper position-absolute top-0 start-0 w-100 h-100">
                   <canvas id="social-box-chart-1" height="90"></canvas>
@@ -231,7 +231,7 @@
             <div class="card mb-4" style="--cui-card-cap-bg: #00aced">
               <div class="card-header position-relative d-flex justify-content-center align-items-center">
                 <svg class="icon icon-3xl text-white my-4">
-                  <use xlink:href="./app/views/icons/svg/brand.svg#cib-twitter"></use>
+                  <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/brand.svg#cib-twitter"></use>
                 </svg>
                 <div class="chart-wrapper position-absolute top-0 start-0 w-100 h-100">
                   <canvas id="social-box-chart-2" height="90"></canvas>
@@ -255,7 +255,7 @@
             <div class="card mb-4" style="--cui-card-cap-bg: #4875b4">
               <div class="card-header position-relative d-flex justify-content-center align-items-center">
                 <svg class="icon icon-3xl text-white my-4">
-                  <use xlink:href="./app/views/icons/svg/brand.svg#cib-linkedin"></use>
+                  <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/brand.svg#cib-linkedin"></use>
                 </svg>
                 <div class="chart-wrapper position-absolute top-0 start-0 w-100 h-100">
                   <canvas id="social-box-chart-3" height="90"></canvas>
@@ -418,7 +418,7 @@
                     <div class="progress-group">
                       <div class="progress-group-header">
                         <svg class="icon icon-lg me-2">
-                          <use xlink:href="./app/views/icons/svg/free.svg#cil-user"></use>
+                          <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-user"></use>
                         </svg>
                         <div>Male</div>
                         <div class="ms-auto fw-semibold">43%</div>
@@ -433,7 +433,7 @@
                     <div class="progress-group mb-5">
                       <div class="progress-group-header">
                         <svg class="icon icon-lg me-2">
-                          <use xlink:href="./app/views/icons/svg/free.svg#cil-user-female"></use>
+                          <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-user-female"></use>
                         </svg>
                         <div>Female</div>
                         <div class="ms-auto fw-semibold">37%</div>
@@ -448,7 +448,7 @@
                     <div class="progress-group">
                       <div class="progress-group-header">
                         <svg class="icon icon-lg me-2">
-                          <use xlink:href="./app/views/icons/svg/brand.svg#cib-google"></use>
+                          <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/brand.svg#cib-google"></use>
                         </svg>
                         <div>Organic Search</div>
                         <div class="ms-auto fw-semibold me-2">191.235</div>
@@ -464,7 +464,7 @@
                     <div class="progress-group">
                       <div class="progress-group-header">
                         <svg class="icon icon-lg me-2">
-                          <use xlink:href="./app/views/icons/svg/brand.svg#cib-facebook-f"></use>
+                          <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/brand.svg#cib-facebook-f"></use>
                         </svg>
                         <div>Facebook</div>
                         <div class="ms-auto fw-semibold me-2">51.223</div>
@@ -480,7 +480,7 @@
                     <div class="progress-group">
                       <div class="progress-group-header">
                         <svg class="icon icon-lg me-2">
-                          <use xlink:href="./app/views/icons/svg/brand.svg#cib-twitter"></use>
+                          <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/brand.svg#cib-twitter"></use>
                         </svg>
                         <div>Twitter</div>
                         <div class="ms-auto fw-semibold me-2">37.564</div>
@@ -496,7 +496,7 @@
                     <div class="progress-group">
                       <div class="progress-group-header">
                         <svg class="icon icon-lg me-2">
-                          <use xlink:href="./app/views/icons/svg/brand.svg#cib-linkedin"></use>
+                          <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/brand.svg#cib-linkedin"></use>
                         </svg>
                         <div>LinkedIn</div>
                         <div class="ms-auto fw-semibold me-2">27.319</div>
@@ -519,7 +519,7 @@
                       <tr class="align-middle">
                         <th class="text-center">
                           <svg class="icon">
-                            <use xlink:href="./app/views/icons/svg/free.svg#cil-people"></use>
+                            <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-people"></use>
                           </svg>
                         </th>
                         <th>User</th>
@@ -533,7 +533,7 @@
                     <tbody>
                       <tr class="align-middle">
                         <td class="text-center">
-                          <div class="avatar avatar-md"><img class="avatar-img" src="./app/views/img/avatars/1.jpg"
+                          <div class="avatar avatar-md"><img class="avatar-img" src="<?php echo APP_URL; ?>app/views/img/avatars/1.jpg"
                               alt="user@email.com"><span class="avatar-status bg-success"></span></div>
                         </td>
                         <td>
@@ -542,7 +542,7 @@
                         </td>
                         <td class="text-center">
                           <svg class="icon icon-xl">
-                            <use xlink:href="./app/views/icons/svg/flag.svg#cif-us"></use>
+                            <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/flag.svg#cif-us"></use>
                           </svg>
                         </td>
                         <td>
@@ -560,7 +560,7 @@
                         </td>
                         <td class="text-center">
                           <svg class="icon icon-xl">
-                            <use xlink:href="./app/views/icons/svg/brand.svg#cib-cc-mastercard"></use>
+                            <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/brand.svg#cib-cc-mastercard"></use>
                           </svg>
                         </td>
                         <td>
@@ -572,7 +572,7 @@
                             <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"
                               aria-haspopup="true" aria-expanded="false">
                               <svg class="icon">
-                                <use xlink:href="./app/views/icons/svg/free.svg#cil-options"></use>
+                                <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-options"></use>
                               </svg>
                             </button>
                             <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="#">Info</a><a
@@ -583,7 +583,7 @@
                       </tr>
                       <tr class="align-middle">
                         <td class="text-center">
-                          <div class="avatar avatar-md"><img class="avatar-img" src="./app/views/img/avatars/2.jpg"
+                          <div class="avatar avatar-md"><img class="avatar-img" src="<?php echo APP_URL; ?>app/views/img/avatars/2.jpg"
                               alt="user@email.com"><span class="avatar-status bg-danger"></span></div>
                         </td>
                         <td>
@@ -592,7 +592,7 @@
                         </td>
                         <td class="text-center">
                           <svg class="icon icon-xl">
-                            <use xlink:href="./app/views/icons/svg/flag.svg#cif-br"></use>
+                            <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/flag.svg#cif-br"></use>
                           </svg>
                         </td>
                         <td>
@@ -610,7 +610,7 @@
                         </td>
                         <td class="text-center">
                           <svg class="icon icon-xl">
-                            <use xlink:href="./app/views/icons/svg/brand.svg#cib-cc-visa"></use>
+                            <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/brand.svg#cib-cc-visa"></use>
                           </svg>
                         </td>
                         <td>
@@ -622,7 +622,7 @@
                             <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"
                               aria-haspopup="true" aria-expanded="false">
                               <svg class="icon">
-                                <use xlink:href="./app/views/icons/svg/free.svg#cil-options"></use>
+                                <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-options"></use>
                               </svg>
                             </button>
                             <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="#">Info</a><a
@@ -633,7 +633,7 @@
                       </tr>
                       <tr class="align-middle">
                         <td class="text-center">
-                          <div class="avatar avatar-md"><img class="avatar-img" src="./app/views/img/avatars/3.jpg"
+                          <div class="avatar avatar-md"><img class="avatar-img" src="<?php echo APP_URL; ?>app/views/img/avatars/3.jpg"
                               alt="user@email.com"><span class="avatar-status bg-warning"></span></div>
                         </td>
                         <td>
@@ -642,7 +642,7 @@
                         </td>
                         <td class="text-center">
                           <svg class="icon icon-xl">
-                            <use xlink:href="./app/views/icons/svg/flag.svg#cif-in"></use>
+                            <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/flag.svg#cif-in"></use>
                           </svg>
                         </td>
                         <td>
@@ -660,7 +660,7 @@
                         </td>
                         <td class="text-center">
                           <svg class="icon icon-xl">
-                            <use xlink:href="./app/views/icons/svg/brand.svg#cib-cc-stripe"></use>
+                            <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/brand.svg#cib-cc-stripe"></use>
                           </svg>
                         </td>
                         <td>
@@ -672,7 +672,7 @@
                             <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"
                               aria-haspopup="true" aria-expanded="false">
                               <svg class="icon">
-                                <use xlink:href="./app/views/icons/svg/free.svg#cil-options"></use>
+                                <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-options"></use>
                               </svg>
                             </button>
                             <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="#">Info</a><a
@@ -683,7 +683,7 @@
                       </tr>
                       <tr class="align-middle">
                         <td class="text-center">
-                          <div class="avatar avatar-md"><img class="avatar-img" src="./app/views/img/avatars/4.jpg"
+                          <div class="avatar avatar-md"><img class="avatar-img" src="<?php echo APP_URL; ?>app/views/img/avatars/4.jpg"
                               alt="user@email.com"><span class="avatar-status bg-secondary"></span></div>
                         </td>
                         <td>
@@ -692,7 +692,7 @@
                         </td>
                         <td class="text-center">
                           <svg class="icon icon-xl">
-                            <use xlink:href="./app/views/icons/svg/flag.svg#cif-fr"></use>
+                            <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/flag.svg#cif-fr"></use>
                           </svg>
                         </td>
                         <td>
@@ -710,7 +710,7 @@
                         </td>
                         <td class="text-center">
                           <svg class="icon icon-xl">
-                            <use xlink:href="./app/views/icons/svg/brand.svg#cib-cc-paypal"></use>
+                            <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/brand.svg#cib-cc-paypal"></use>
                           </svg>
                         </td>
                         <td>
@@ -722,7 +722,7 @@
                             <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"
                               aria-haspopup="true" aria-expanded="false">
                               <svg class="icon">
-                                <use xlink:href="./app/views/icons/svg/free.svg#cil-options"></use>
+                                <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-options"></use>
                               </svg>
                             </button>
                             <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="#">Info</a><a
@@ -733,7 +733,7 @@
                       </tr>
                       <tr class="align-middle">
                         <td class="text-center">
-                          <div class="avatar avatar-md"><img class="avatar-img" src="./app/views/img/avatars/5.jpg"
+                          <div class="avatar avatar-md"><img class="avatar-img" src="<?php echo APP_URL; ?>app/views/img/avatars/5.jpg"
                               alt="user@email.com"><span class="avatar-status bg-success"></span></div>
                         </td>
                         <td>
@@ -742,7 +742,7 @@
                         </td>
                         <td class="text-center">
                           <svg class="icon icon-xl">
-                            <use xlink:href="./app/views/icons/svg/flag.svg#cif-es"></use>
+                            <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/flag.svg#cif-es"></use>
                           </svg>
                         </td>
                         <td>
@@ -760,7 +760,7 @@
                         </td>
                         <td class="text-center">
                           <svg class="icon icon-xl">
-                            <use xlink:href="./app/views/icons/svg/brand.svg#cib-cc-apple-pay"></use>
+                            <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/brand.svg#cib-cc-apple-pay"></use>
                           </svg>
                         </td>
                         <td>
@@ -772,7 +772,7 @@
                             <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"
                               aria-haspopup="true" aria-expanded="false">
                               <svg class="icon">
-                                <use xlink:href="./app/views/icons/svg/free.svg#cil-options"></use>
+                                <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-options"></use>
                               </svg>
                             </button>
                             <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="#">Info</a><a
@@ -783,7 +783,7 @@
                       </tr>
                       <tr class="align-middle">
                         <td class="text-center">
-                          <div class="avatar avatar-md"><img class="avatar-img" src="./app/views/img/avatars/6.jpg"
+                          <div class="avatar avatar-md"><img class="avatar-img" src="<?php echo APP_URL; ?>app/views/img/avatars/6.jpg"
                               alt="user@email.com"><span class="avatar-status bg-danger"></span></div>
                         </td>
                         <td>
@@ -792,7 +792,7 @@
                         </td>
                         <td class="text-center">
                           <svg class="icon icon-xl">
-                            <use xlink:href="./app/views/icons/svg/flag.svg#cif-pl"></use>
+                            <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/flag.svg#cif-pl"></use>
                           </svg>
                         </td>
                         <td>
@@ -810,7 +810,7 @@
                         </td>
                         <td class="text-center">
                           <svg class="icon icon-xl">
-                            <use xlink:href="./app/views/icons/svg/brand.svg#cib-cc-amex"></use>
+                            <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/brand.svg#cib-cc-amex"></use>
                           </svg>
                         </td>
                         <td>
@@ -822,7 +822,7 @@
                             <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"
                               aria-haspopup="true" aria-expanded="false">
                               <svg class="icon">
-                                <use xlink:href="./app/views/icons/svg/free.svg#cil-options"></use>
+                                <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-options"></use>
                               </svg>
                             </button>
                             <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="#">Info</a><a

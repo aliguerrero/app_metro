@@ -266,18 +266,18 @@
                     <li class="page-item disabled">
                         <a class="page-link" href="#">Siguiente</a>
                     </li>
-                    </ul>                    
+                                       
                 ';
             } else {
                 $tabla .= '
                     <li class="page-item">
                         <a class="page-link" href="' . $url . ($pagina + 1) . '/">Siguiente</a>
                     </li>
-                    </ul>                    
+                                   
                 ';
             }
         
-            $tabla .= '</nav>'; // Cierra el contenedor de navegación
+            $tabla .= '</ul> </nav>'; // Cierra el contenedor de navegación
         
             return $tabla; // Retorna el paginador generado
         }       

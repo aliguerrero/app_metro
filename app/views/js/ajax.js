@@ -92,3 +92,30 @@ function alertas_ajax(alerta) {
         window.location.href = alerta.url; // Redireccionar
     }
 }
+
+/* boton cerrar sesion*/
+
+// Selecciona el botón de salida por su ID
+let btn_exit = document.getElementById("btn_exit");
+
+// Agrega un event listener al botón de salida
+btn_exit.addEventListener("click", function(e){
+    e.preventDefault(); // Evita que se produzca el comportamiento predeterminado del enlace
+
+    // Muestra un cuadro de diálogo de confirmación utilizando SweetAlert
+    Swal.fire({
+        title: "¿Deseas cerrar sesión?", // Título del cuadro de diálogo
+        text: "¡La sesión actual se cerrará y saldrás del sistema!", // Texto del cuadro de diálogo
+        icon: "question", // Icono del cuadro de diálogo
+        showCancelButton: true, // Muestra el botón de cancelar
+        confirmButtonColor: "#3085d6", // Color del botón de confirmación
+        cancelButtonColor: "#d33", // Color del botón de cancelar
+        confirmButtonText: "Sí, salir", // Texto del botón de confirmación
+        cancelButtonText: "No, cancelar", // Texto del botón de cancelar
+    }).then((result) => { // Una vez que el usuario hace clic en el botón del cuadro de diálogo...
+        if (result.isConfirmed) { // Si el usuario confirma la acción...
+            let url = this.getAttribute("href"); // Obtiene la URL del enlace especificada en el botón
+            window.location.href = url; // Redirige a la URL obtenida, lo que efectivamente cierra la sesión
+        }
+    });
+});

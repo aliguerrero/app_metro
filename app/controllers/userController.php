@@ -165,4 +165,158 @@
             }
             return json_encode($alerta);
         }
+
+        # controlador listar usuarios # 
+        public function listarUsuarioControlador ($pagina, $registros, $url, $busqueda){
+
+            $pagina = $this->limpiarCadena($pagina);
+            $registros = $this->limpiarCadena($registros);
+
+            $url = $this->limpiarCadena($url);
+            $url= APP_URL.$url."/";
+
+            $busqueda = $this->limpiarCadena($busqueda);
+
+            $tabla="";
+
+            $pagina = (isset($pagina) && $pagina>0) ? (int) $pagina : 1;
+            $inicio = ($pagina>0) ? (($pagina*$registros)-$registros) : 0;
+            
+            if (isset($busqueda) && $busqueda!= "") {
+
+                $consulta_datos="SELECT * FROM user_system WHERE 
+                ((id_user!='".$_SESSION['id']."' AND tipo!='1') AND (user LIKE '%$busqueda%' 
+                OR id_user LIKE '%$busqueda%' OR username LIKE '%$busqueda%')) ORDER 
+                BY user ASC LIMIT $inicio, $registros";
+
+                $consulta_total="SELECT COUNT(id_user) FROM user_system WHERE 
+                ((id_user!='".$_SESSION['id']."' AND tipo!='1') AND (user LIKE '%$busqueda%' 
+                OR id_user LIKE '%$busqueda%' OR username LIKE '%$busqueda%'))";
+         
+            } else {
+                $consulta_datos="SELECT * FROM user_system WHERE
+                id_user!='".$_SESSION['id']."' ORDER
+                BY user ASC LIMIT $inicio, $registros";
+
+                $consulta_total="SELECT COUNT(id_user) FROM user_system WHERE
+                id_user!='".$_SESSION['id']."'";
+            }
+            
+            $datos = $this->ejecutarConsulta($consulta_datos);
+            $datos = $datos->fetchAll();
+
+            $total = $this->ejecutarConsulta($consulta_total);
+            $total = (int) $total->fetchColumn();
+
+            $numeroPaginas = ceil($total/$registros);
+
+            $tabla .='
+                <div class="table-responsive">
+                    <table class="table border mb-0 table-info table-hover table-striped">
+                        <thead class="table-light fw-semibold">
+                            <tr class="align-middle">
+                                <th class="clearfix">#</th>
+                                <th class="clearfix">
+                                    <svg class="icon">
+                                        <use xlink:href="'.APP_URL.'app/views/icons/svg/free.svg#cil-people"></use>
+                                    </svg>
+                                </th>
+                                <th class="clearfix">Cedula</th>
+                                <th class="clearfix">Nombre Completo </th>
+                                <th class="text-center">Tipo de Cuenta</th>
+                                <th class="clearfix">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            ';
+            if ($total >= 1 && $pagina <= $numeroPaginas) {
+                $contador = $inicio + 1;
+                $pag_inicio= $inicio + 1;
+                foreach ($datos as $rows) {
+                    $tabla.='
+                        <tr class="align-middle">
+                            <td class="clearfix">
+                                <div class="">'.$contador.'</div>
+                            </td>
+                            <td class="text-center">
+                                <div class="avatar avatar-md"><img class="avatar-img"
+                                        src="'.APP_URL.'app/views/img/avatars/user.png" alt="user@email.com"><span
+                                        class="avatar-status bg-success"></span></div>
+                            </td>                            
+                            <td>
+                                <div class="clearfix">
+                                    <div class="">'.$rows['id_user'].'</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="clearfix">
+                                    <div class="">'.$rows['user'].'</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    <div class="">'.$rows['tipo'].'</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn btn-transparent p-0" type="button"
+                                        data-coreui-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                        <svg class="icon">
+                                            <use
+                                                xlink:href="'.APP_URL.'app/views/icons/svg/free.svg#cil-options">
+                                            </use>
+                                        </svg>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <a class="dropdown-item" href="#">Ver</a>
+                                        <a class="dropdown-item" href="#">Editar</a>
+                                        <form class="FormularioAjax" action="<?php APP_URL ?>app/ajax/userAjax.php" method="POST" autocomplete="off">
+                                            <input type="hidden" name="modulo_user" value="eliminar">
+                                            <input type="hidden" name="usuario_id" value="'.$rows['id_user'].'">
+                                            <a class="dropdown-item text-danger" href="#" type="submit">Eliminar</a>
+                                        </form>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    ';
+                    $contador++;
+                }
+                $pag_final = $contador-1;
+            } else {
+                if ($total >= 1) {
+                    $tabla.='
+                        <tr class="align-middle">
+                            <td class="text-center">
+                                <a class="btn btn-primary" href="'.$url.'1/" role="button">Haga clic para recargar la tabla</a>
+                            </td>
+                        </tr>
+                    ';
+                } else {
+                    $tabla.='
+                        <tr class="align-middle">
+                            <td class="text-center">
+                                No hay registros en el sistema
+                            </td>
+                        </tr>
+                    ';
+                }
+                
+            }
+            
+            $tabla .='</tbody> </table> </div> ';
+
+            if ($total > 0 && $pagina <= $numeroPaginas) {
+                $tabla .='
+                    <p>Mostrando usuarios <strong>'.$pag_inicio.'</strong> al <strong>'.$pag_final.'</strong> de un 
+                    <strong>total de '.$total.'</strong></p>
+                ';
+
+                $tabla .= $this->paginadorTablas($pagina, $numeroPaginas, $url, 5);
+            }
+
+            return $tabla;
+        }
     }

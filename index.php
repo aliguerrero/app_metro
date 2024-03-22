@@ -1,19 +1,19 @@
 <?php
-// Incluir el archivo de configuración de la aplicación
-require_once "./config/app.php";
-// Incluir el archivo de autoloading
-require_once "./autoload.php";
-// Incluir el archivo de inicio de sesión
-require_once "./app/views/inc/session_start.php";
+    // Incluir el archivo de configuración de la aplicación
+    require_once "./config/app.php";
+    // Incluir el archivo de autoloading
+    require_once "./autoload.php";
+    // Incluir el archivo de inicio de sesión
+    require_once "./app/views/inc/session_start.php";
 
-// Verificar si existe la variable 'views' en la URL
-if ( isset( $_GET[ 'views' ] ) ) {
-    // Si existe, dividir la URL en partes usando '/' como delimitador y almacenarlas en un array
-    $url = explode( "/", $_GET[ 'views' ] );
-} else {
-    // Si no existe, establecer una URL predeterminada ( en este caso, 'login' )
-    $url = ["login"];
-}
+    // Verificar si existe la variable 'views' en la URL
+    if ( isset( $_GET[ 'views' ] ) ) {
+        // Si existe, dividir la URL en partes usando '/' como delimitador y almacenarlas en un array
+        $url = explode( "/", $_GET[ 'views' ] );
+    } else {
+        // Si no existe, establecer una URL predeterminada ( en este caso, 'login' )
+        $url = ["login"];
+    }
 ?>
 
 <!DOCTYPE html>
@@ -39,11 +39,15 @@ if ( isset( $_GET[ 'views' ] ) ) {
             require_once "./app/views/content/".$vista."-view.php";
         } else {
             # cerrar sesion #
+            // Verifica si alguna de las variables de sesión necesarias no está configurada o está vacía
             if (!isset($_SESSION['id']) || !isset($_SESSION['user']) || !isset($_SESSION['username']) || 
-            !isset($_SESSION['tipo']) || $_SESSION['id']=="" || $_SESSION['user']=="" || $_SESSION['username']=="" || $_SESSION['tipo']=="") {
-                $insLogin->cerrarSesionControlador();
-                exit();
+            !isset($_SESSION['tipo']) || $_SESSION['id']=="" || $_SESSION['user']=="" || 
+            $_SESSION['username']=="" || $_SESSION['tipo']=="") {
+                // Si alguna variable de sesión no está configurada o está vacía, se cierra la sesión
+                $insLogin->cerrarSesionControlador(); // Llama al método para cerrar sesión del controlador de inicio de sesión
+                exit(); // Detiene la ejecución del script
             }
+
             // Si es otra vista, incluir el archivo de la vista directamente
             require_once "./app/views/inc/navbar.php";
         }
