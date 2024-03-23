@@ -25,7 +25,7 @@
 <hr>
 
 <div class='row'>
-<div class='col-md-6'>
+<div class='col-md-8'>
   <div class='row'>
     <label for=''>
       <h4>Herramientas</h4>
@@ -159,8 +159,8 @@
   </div>
 </div>
 
-<div class='col-md-4'>
-<form class='row g-3 FormularioAjax' action='<?php APP_URL ?>app/ajax/herramientaAjax.php' method='POST'>
+<div class='col-md-3'>
+  <form class='row g-3 FormularioAjax' action='<?php APP_URL ?>app/ajax/herramientaAjax.php' method='POST'>
     <input type="hidden" name="modulo_herramienta" value="registrar">
     <div class='row'>
       <div class='col-md-5'><br>
@@ -175,13 +175,13 @@
       </div>
     </div>
     <div class='row'>
-      <div class='col-md-6'>
+      <div class='col-md-4'>
         <label class='form-label' for='validationServerUsername'>CANTIDAD:</label>
         <input class='form-control' name='cant' id='validationServerUsername' type='number'
           aria-describedby='inputGroupPrepend3 validationServerUsernameFeedback' >
 
       </div>
-      <div class='col-md-6'>
+      <div class='col-md-8'>
         <label class='form-label' for='validationServer03'>ESTADO:</label>
 
         <select class='form-select' name='estado' aria-label='Default select example'>
@@ -208,7 +208,7 @@
   </form>
 </div>
 
-
+<!--
 <div class='col-md-2 p-4'>
   <div class='row'>
     <div class='card'>
@@ -247,5 +247,5 @@
     </div>
   </div>
 </div>
-<!------------------------ fin widgets-------------------------->
+---------------------->
 </div>

@@ -26,7 +26,7 @@
 <hr>
 
 <div class='row'>
-<div class='col-md-6'>
+<div class='col-md-8'>
     <div class='row'>
         <label for=''>
             <h4>lISTADO DE OPERADORES</h4>
@@ -170,7 +170,7 @@
     </div><br>
 </div>
 
-<div class='col-md-4'>
+<div class='col-md-3'>
     <form class='row g-3 FormularioAjax' action='<?php APP_URL ?>app/ajax/miembroAjax.php' method='POST'>
         <input type="hidden" name="modulo_miembro" value="registrar">
         <div class='row'>
@@ -181,13 +181,14 @@
             </div>
         </div>
         <div class='row'>
-            <div class='col-md-6'>
+            <div class='col-md-12'>
                 <label class='form-label' for='validationServer02'>NOMBRE DEL OPERADOR:</label>
                 <input class='form-control ' name='nombre' id='' type='text' value=''
                     placeholder='Ingrese Nombre/Apellido'>
             </div>
-
-            <div class='col-md-6'>
+        </div>
+        <div class='row'>
+            <div class='col-md-12'>
                 <label class='form-label' for='validationServer03'>TIPO DE OPERADOR:</label>
 
                 <select class='form-select' name='tipo' aria-label='Default select example'>
@@ -212,7 +213,7 @@
         </div>
     </form>    
 </div>
- <!------------------------widgets-------------------------->
+ <!------------------------widgets------------------------
 
  <div class='col-md-2 p-4'>
     <div class='row'>
@@ -252,5 +253,5 @@
         </div>
     </div>
 </div>
-<!------------------------ fin widgets-------------------------->
+---------------->
 </div>

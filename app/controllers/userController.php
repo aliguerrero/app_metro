@@ -168,7 +168,7 @@
 
         # controlador listar usuarios # 
         public function listarUsuarioControlador ($pagina, $registros, $url, $busqueda){
-
+            
             $pagina = $this->limpiarCadena($pagina);
             $registros = $this->limpiarCadena($registros);
 
@@ -224,7 +224,7 @@
                                 <th class="clearfix">Cedula</th>
                                 <th class="clearfix">Nombre Completo </th>
                                 <th class="text-center">Tipo de Cuenta</th>
-                                <th class="clearfix">Acciones</th>
+                                <th class="text-center" colspan="3">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -232,11 +232,17 @@
             if ($total >= 1 && $pagina <= $numeroPaginas) {
                 $contador = $inicio + 1;
                 $pag_inicio= $inicio + 1;
+                $tipo_user="";
                 foreach ($datos as $rows) {
+                    if($rows['tipo']=='1'){
+                        $tipo_user="Administrador";
+                    }else{
+                        $tipo_user="Operador";
+                    }
                     $tabla.='
                         <tr class="align-middle">
                             <td class="clearfix">
-                                <div class="">'.$contador.'</div>
+                                <div class=""><b>'.$contador.'</b></div>
                             </td>
                             <td class="text-center">
                                 <div class="avatar avatar-md"><img class="avatar-img"
@@ -245,41 +251,39 @@
                             </td>                            
                             <td>
                                 <div class="clearfix">
-                                    <div class="">'.$rows['id_user'].'</div>
+                                    <div class=""><b>'.$rows['id_user'].'</b></div>
                                 </div>
                             </td>
                             <td>
                                 <div class="clearfix">
-                                    <div class="">'.$rows['user'].'</div>
+                                    <div class=""><b>'.$rows['user'].'</b></div>
                                 </div>
                             </td>
                             <td>
                                 <div class="text-center">
-                                    <div class="">'.$rows['tipo'].'</div>
+                                    <div class=""><b>'.$tipo_user.'</b></div>
                                 </div>
                             </td>
                             <td>
-                                <div class="dropdown">
-                                    <button class="btn btn-transparent p-0" type="button"
-                                        data-coreui-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">
-                                        <svg class="icon">
-                                            <use
-                                                xlink:href="'.APP_URL.'app/views/icons/svg/free.svg#cil-options">
-                                            </use>
-                                        </svg>
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <a class="dropdown-item" href="#">Ver</a>
-                                        <a class="dropdown-item" href="#">Editar</a>
-                                        <form class="FormularioAjax" action="<?php APP_URL ?>app/ajax/userAjax.php" method="POST" autocomplete="off">
-                                            <input type="hidden" name="modulo_user" value="eliminar">
-                                            <input type="hidden" name="usuario_id" value="'.$rows['id_user'].'">
-                                            <a class="dropdown-item text-danger" href="#" type="submit">Eliminar</a>
-                                        </form>
-                                    </div>
-                                </div>
+                                <button type="button" title="Ver" class="btn" style="background-color: #EBEDEF; color:white ;">
+                                    <img src="'.APP_URL.'app/views/icons/ver.png" alt="icono" width="32" height="32">
+                                </button>                       
                             </td>
+                            <td>
+                                <button type="button" title="Modificar" class="btn" style="background-color: #EBEDEF; color:white ;">
+                                    <img src="'.APP_URL.'app/views/icons/modificar.png" alt="icono" width="32" height="32">
+                                </button> 
+                            </td>
+                            <td>
+                                <form class="FormularioAjax" action="'.APP_URL.'app/ajax/usuarioAjax.php" method="POST" autocomplete="off" >
+
+                                    <input type="hidden" name="modulo_usuario" value="eliminar">
+                                    <input type="hidden" name="usuario_id" value="'.$rows['id_user'].'">
+                                    <button type="button" class="btn" title="Eliminar" style="background-color: #EBEDEF; color:white ;">
+                                        <img src="'.APP_URL.'app/views/icons/eliminar.png" alt="icono" width="32" height="32">
+                                    </button> 
+                                </form>
+                            </td>    
                         </tr>
                     ';
                     $contador++;
@@ -290,7 +294,7 @@
                     $tabla.='
                         <tr class="align-middle">
                             <td class="text-center">
-                                <a class="btn btn-primary" href="'.$url.'1/" role="button">Haga clic para recargar la tabla</a>
+                                <a style="background-color: #EBEDEF; color:white ;" href="'.$url.'1/" role="button">Haga clic para recargar la tabla</a>
                             </td>
                         </tr>
                     ';

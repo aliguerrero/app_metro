@@ -91,6 +91,9 @@
   font-weight: normal;
   font-style: normal;
 }
+.btn-tabla:hover{
+  background:#0d6efd;
+}
 .fontTitle{
   font-family: 'Fugaz One', sans-serif; 
 }
@@ -2072,7 +2075,7 @@ html:not([dir=rtl]) .offset-11 {
 
 .table-hover > tbody > tr:hover > * {
   --cui-table-accent-bg: var(--cui-table-hover-bg);
-  color: var(--cui-table-hover-color);
+  color: var(--cui-table-hover-color);  
 }
 
 .table-primary {
