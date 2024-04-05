@@ -1,4 +1,4 @@
-<div class="login bg-light min-vh-100 d-flex flex-row align-items-center">
+<div class="login bg-light min-vh-100 min-vw-100 d-flex flex-row align-items-center">
   <!-- Contenedor principal con fondo claro y elementos centrados verticalmente -->
   <div class="container">
     <!-- Contenedor para el contenido principal -->

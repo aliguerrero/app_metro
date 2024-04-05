@@ -53,7 +53,7 @@
               <div class="avatar avatar-md">
                 <img class="avatar-img" src="<?php echo APP_URL; ?>app/views/img/avatars/user.png" alt="user@email.com">                
               </div>
-              <label for=""><?php echo $_SESSION['user'] ?></label>
+              <label><?php echo $_SESSION['user'] ?></label>
             </a>
             <div class="dropdown-menu dropdown-menu-end pt-0">              
               <div class="dropdown-header bg-light py-2">
@@ -72,7 +72,7 @@
                 <a class="dropdown-item" href="#">                
                   <div class="dropdown-divider">                    
                   </div>
-                  <a class="dropdown-item" href="<?php ECHO APP_URL; ?>logOut/" id="btn_exit">                    
+                  <a class="dropdown-item" href="<?php echo APP_URL; ?>logOut/" id="btn_exit">                    
                     <svg class="icon me-2">
                       <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-account-logout"></use>
                     </svg> Cerrar sesión

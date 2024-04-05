@@ -28,150 +28,20 @@
 <div class='row'>
 <div class='col-md-8'>
     <div class='row'>
-        <label for=''>
-            <h4>lISTADO DE OPERADORES</h4>
+        <label for="">
+            <h4>Miembros registrados</h4>
         </label>
-        <div class='table-responsive'>
-            <table class='table border mb-0'>
-                <thead class='table-light fw-semibold'>
-                    <tr class='align-middle'>
-                        <th class='text-center'>
-                            <svg class='icon'>
-                                <use xlink:href='<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-people'></use>
-                            </svg>
-                        </th>
-                        <th class='text-center'>Codigo</th>
-                        <th>Nombre</th>
-                        <th class='text-center'>Tipo de Operadores</th>
-
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class='align-middle'>
-                        <td class='text-center'>
-                            <div class='avatar avatar-md'><img class='avatar-img'
-                                    src='<?php echo APP_URL; ?>app/views/img/avatars/1.jpg' alt='user@email.com'><span
-                                    class='avatar-status bg-success'></span></div>
-                        </td>
-                        <td class='clearfix'>
-                            <div class=''>H-002</div>
-                        </td>
-                        <td>
-                            <div class='clearfix'>
-                                <div class=''>MARTILLO</div>
-                            </div>
-                        </td>
-                        <td class='text-center'>
-                            <div class='clearfix'>
-                                <div class=''>10</div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class='dropdown'>
-                                <button class='btn btn-transparent p-0' type='button'
-                                    data-coreui-toggle='dropdown' aria-haspopup='true'
-                                    aria-expanded='false'>
-                                    <svg class='icon'>
-                                        <use
-                                            xlink:href='<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-options'>
-                                        </use>
-                                    </svg>
-                                </button>
-                                <div class='dropdown-menu dropdown-menu-end'>
-                                    <a class='dropdown-item' href='#'>Ver</a>
-                                    <a class='dropdown-item' href='#'>Editar</a>
-                                    <a class='dropdown-item text-danger' href='#'>Eliminar</a>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr class='align-middle'>
-                        <td class='text-center'>
-                            <div class='avatar avatar-md'><img class='avatar-img'
-                                    src='<?php echo APP_URL; ?>app/views/img/avatars/1.jpg' alt='user@email.com'><span
-                                    class='avatar-status bg-success'></span></div>
-                        </td>
-                        <td class='clearfix'>
-                            <div class=''>H-002</div>
-                        </td>
-                        <td>
-                            <div class='clearfix'>
-                                <div class=''>MARTILLO</div>
-                            </div>
-                        </td>
-                        <td class='text-center'>
-                            <div class='clearfix'>
-                                <div class=''>10</div>
-                            </div>
-                        </td>
-
-                        <td>
-                            <div class='dropdown'>
-                                <button class='btn btn-transparent p-0' type='button'
-                                    data-coreui-toggle='dropdown' aria-haspopup='true'
-                                    aria-expanded='false'>
-                                    <svg class='icon'>
-                                        <use
-                                            xlink:href='<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-options'>
-                                        </use>
-                                    </svg>
-                                </button>
-                                <div class='dropdown-menu dropdown-menu-end'>
-                                    <a class='dropdown-item' href='#'>Ver</a>
-                                    <a class='dropdown-item' href='#'>Editar</a>
-                                    <a class='dropdown-item text-danger' href='#'>Eliminar</a>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr class='align-middle'>
-                        <td class='text-center'>
-                            <div class='avatar avatar-md'><img class='avatar-img'
-                                    src='<?php echo APP_URL; ?>app/views/img/avatars/1.jpg' alt='user@email.com'><span
-                                    class='avatar-status bg-success'></span></div>
-                        </td>
-                        <td class='clearfix'>
-                            <div class=''>H-002</div>
-                        </td>
-                        <td>
-                            <div class='clearfix'>
-                                <div class=''>MARTILLO</div>
-                            </div>
-                        </td>
-                        <td class='text-center'>
-                            <div class='clearfix'>
-                                <div class=''>10</div>
-                            </div>
-                        </td>
-
-                        <td>
-                            <div class='dropdown'>
-                                <button class='btn btn-transparent p-0' type='button'
-                                    data-coreui-toggle='dropdown' aria-haspopup='true'
-                                    aria-expanded='false'>
-                                    <svg class='icon'>
-                                        <use
-                                            xlink:href='<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-options'>
-                                        </use>
-                                    </svg>
-                                </button>
-                                <div class='dropdown-menu dropdown-menu-end'>
-                                    <a class='dropdown-item' href='#'>Ver</a>
-                                    <a class='dropdown-item' href='#'>Editar</a>
-                                    <a class='dropdown-item text-danger' href='#'>Eliminar</a>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <?php 
+            use app\controllers\miembroController;
+            $insMiembro = new miembroController();
+            
+            echo $insMiembro->listarMiembroControlador ($url[1],8,$url[0],"");
+        ?>      
     </div><br>
 </div>
 
 <div class='col-md-3'>
-    <form class='row g-3 FormularioAjax' action='<?php APP_URL ?>app/ajax/miembroAjax.php' method='POST'>
+    <form class='row g-3 FormularioAjax' action='<?php echo APP_URL ?>app/ajax/miembroAjax.php' method='POST'>
         <input type="hidden" name="modulo_miembro" value="registrar">
         <div class='row'>
             <div class='col-md-6'><br>

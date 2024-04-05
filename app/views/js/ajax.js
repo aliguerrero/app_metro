@@ -84,7 +84,9 @@ function alertas_ajax(alerta) {
             confirmButtonText: 'Aceptar'
         }).then((result) => {
             if (result.isConfirmed) {
-                document.querySelector(".FormularioAjax").reset(); // Limpiar el formulario
+                location.reload();
+                //document.querySelector(".FormularioAjax").reset(); // Limpiar el formulario
+                 // Recargar la página
             }
         });
     } else if (alerta.tipo == "redireccionar") {
@@ -93,7 +95,7 @@ function alertas_ajax(alerta) {
     }
 }
 
-/* boton cerrar sesion*/
+//boton cerrar sesion
 
 // Selecciona el botón de salida por su ID
 let btn_exit = document.getElementById("btn_exit");

@@ -1,161 +1,50 @@
 <div class='row'>
-<div class='row pb-3'>
-          <div class='header-divider'></div>
-          <div class='container-fluid'>
-            <nav aria-label='breadcrumb'>
-              <ol class='breadcrumb my-0 ms-2'>
-                <li class='breadcrumb-item'>
-                  <!-- if breadcrumb is single--><span>Home</span>
-                </li>
-                <li class='breadcrumb-item active'><span>Panel</span></li>
-              </ol>
-            </nav>
+  <div class='row pb-3'>
+            <div class='header-divider'></div>
+            <div class='container-fluid'>
+              <nav aria-label='breadcrumb'>
+                <ol class='breadcrumb my-0 ms-2'>
+                  <li class='breadcrumb-item'>
+                    <!-- if breadcrumb is single--><span>Home</span>
+                  </li>
+                  <li class='breadcrumb-item active'><span>Panel</span></li>
+                </ol>
+              </nav>
+            </div>
           </div>
-        </div>
-<label class='form-label' for='validationServer02'>BUSCADOR HERRAMIENTA:</label>
-<div class='col-md-4'>
-  <input class='form-control ' id='validationServer02' type='text' value='' 
-    placeholder='Codigo/Nombre'>
-</div>
-<div class='col-md-1'>
-  <button class='form-control' style='background-color: rgb(60, 75, 100); color:white ;' type='button'
-    data-coreui-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>Buscar</button>
-</div>
+  <label class='form-label' for='validationServer02'>BUSCADOR HERRAMIENTA:</label>
+  <div class='col-md-4'>
+    <input class='form-control ' id='validationServer02' type='text' value='' 
+      placeholder='Codigo/Nombre'>
+  </div>
+  <div class='col-md-1'>
+    <button class='form-control' style='background-color: rgb(60, 75, 100); color:white ;' type='button'
+      data-coreui-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>Buscar</button>
+  </div>
 </div>
 <hr>
 
 <div class='row'>
 <div class='col-md-8'>
   <div class='row'>
-    <label for=''>
+    <label for="">
       <h4>Herramientas</h4>
     </label>
-    <div class='table-responsive'>
-      <table class='table border mb-0 table-striped table-hover'>
-        <thead class='table-light fw-semibold'>
-          <tr class='align-middle'>
-            <th class='text-center'>
-              <svg class='icon'>
-                <use xlink:href='<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-people'></use>
-              </svg>
-            </th>
-            <th class='text-center'>Codigo</th>
-            <th>Nombre</th>
-            <th class='text-center'>Cant. Disp.</th>
-            <th class='text-center'>estado</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          
-          <tr class='align-middle'>
-            <td class='text-center'>
-              <div class='avatar avatar-md'><img class='avatar-img' src='<?php echo APP_URL; ?>app/views/img/avatars/1.jpg'
-                  alt='user@email.com'><span class='avatar-status bg-success'></span></div>
-            </td>
-            <td class='clearfix'>
-              <div class=''></div>
-            </td>
-            <td>
-              <div class='clearfix'>
-                <div class=''></div>
-              </div>
-            </td>
-            <td class='text-center'>
-              <div class='clearfix'>
-                <div class=''></div>
-              </div>
-            </td>  
-            <td class='text-center'>
-              <div class='clearfix'>
-                <div class=''></div>
-              </div>
-            </td>        
-            <td>
-              <div class='dropdown'>
-                <button class='btn btn-transparent p-0' type='button' data-coreui-toggle='dropdown'
-                  aria-haspopup='true' aria-expanded='false'>
-                  <svg class='icon'>
-                    <use xlink:href='<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-options'></use>
-                  </svg>
-                </button>
-                <div class='dropdown-menu dropdown-menu-end'>
-                  <a class='dropdown-item' href='#'>Ver</a>
-                  <a class='dropdown-item' href='#'>Editar</a>
-                  <a class='dropdown-item text-danger' href='#'>Eliminar</a>
-                </div>
-              </div>
-            </td>
-          </tr>                   
-        </tbody>
-      </table>
-    </div>
+    <?php 
+      use app\controllers\herramientaController;
+      $insHerramienta = new herramientaController();
+        
+      echo $insHerramienta->listarHerramientaControlador ($url[1],4,$url[0],"");
+    ?>  
   </div><br>
 
   <div class='row'>
-    <label for=''>
-      <h4>Herramientas O.T</h4>
+    <label for="">
+      <h4>Herramientas O.T.</h4>
     </label>
-    <div class='table-responsive'>
-      <table class='table border mb-0 table-striped table-hover' >
-        <thead class='table-light fw-semibold'>
-          <tr class='align-middle'>
-            <th class='text-center'>
-              <svg class='icon'>
-                <use xlink:href='<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-people'></use>
-              </svg>
-            </th>
-
-            <th class='text-center'>Codigo</th>
-            <th>Nombre</th>
-            <th class='text-center'>Cant. Disp.</th>
-            <th>Cant. Ocup. </th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class='align-middle'>
-            <td class='text-center'>
-              <div class='avatar avatar-md'><img class='avatar-img' src='<?php echo APP_URL; ?>app/views/img/avatars/1.jpg'
-                  alt='user@email.com'><span class='avatar-status bg-success'></span></div>
-            </td>
-            <td class='clearfix'>
-              <div class=''>H-002</div>
-            </td>
-            <td>
-              <div class='clearfix'>
-                <div class=''>MARTILLO</div>
-              </div>
-            </td>
-            <td class='text-center'>
-              <div class='clearfix'>
-                <div class=''>10</div>
-              </div>
-            </td>
-            <td>
-              <div class='clearfix'>
-                <div class=''>5</div>
-              </div>
-            </td>
-            <td>
-              <div class='dropdown'>
-                <button class='btn btn-transparent p-0' type='button' data-coreui-toggle='dropdown'
-                  aria-haspopup='true' aria-expanded='false'>
-                  <svg class='icon'>
-                    <use xlink:href='<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-options'></use>
-                  </svg>
-                </button>
-                <div class='dropdown-menu dropdown-menu-end'>
-                  <a class='dropdown-item' href='#'>Ver</a>
-                  <a class='dropdown-item' href='#'>Editar</a>
-                  <a class='dropdown-item text-danger' href='#'>Eliminar</a>
-                </div>
-              </div>
-            </td>
-          </tr>          
-        </tbody>
-      </table>
-    </div>
+    <?php        
+      echo $insHerramienta->listarHerramientaOTControlador ($url[1],4,$url[0],"");
+    ?>  
   </div>
 </div>
 
@@ -178,8 +67,7 @@
       <div class='col-md-4'>
         <label class='form-label' for='validationServerUsername'>CANTIDAD:</label>
         <input class='form-control' name='cant' id='validationServerUsername' type='number'
-          aria-describedby='inputGroupPrepend3 validationServerUsernameFeedback' >
-
+          aria-describedby='inputGroupPrepend3 validationServerUsernameFeedback' min="0" >
       </div>
       <div class='col-md-8'>
         <label class='form-label' for='validationServer03'>ESTADO:</label>

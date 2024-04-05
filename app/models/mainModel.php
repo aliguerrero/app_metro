@@ -15,20 +15,63 @@
         private $user   = DB_USER;
         private $pass   = DB_PASS;
 
-        // Método protegido para establecer la conexión a la base de datos
-        protected function conectar (){
-            $conexion = new PDO("mysql:host=".$this->server.";dbname=".$this->db.";charset=utf8",$this->user,$this->pass);
-            $conexion->exec("SET CHARACTER SET utf8");
-            return $conexion;
+        /**
+         * Método protegido para establecer la conexión a la base de datos.
+         *
+         * Este método intenta establecer una conexión PDO con la base de datos utilizando los datos de conexión proporcionados.
+         *
+         * @return PDO Devuelve un objeto PDO que representa la conexión a la base de datos.
+         * @throws PDOException Si ocurre un error al establecer la conexión.
+         */
+        protected function conectar() {
+            try {
+                // Intenta establecer una conexión PDO con la base de datos.
+                $conexion = new PDO("mysql:host={$this->server};dbname={$this->db};charset=utf8", $this->user, $this->pass);
+                
+                // Configura el conjunto de caracteres de la conexión a utf8.
+                $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $conexion->exec("SET CHARACTER SET utf8");
+
+                return $conexion;
+            } catch (PDOException $e) {
+                // Si ocurre un error al establecer la conexión, lanza una excepción PDOException.
+                throw new PDOException('Error al conectar con la base de datos: ' . $e->getMessage());
+            }
         }
 
-        // Método protegido para ejecutar una consulta SQL
-        protected function ejecutarConsulta($consulta){
-            $sql = $this->conectar()->prepare($consulta);
-            $sql->execute();
-            return $sql;
+        /**
+         * Método protegido para ejecutar una consulta SQL en la base de datos.
+         *
+         * Este método prepara y ejecuta una consulta SQL utilizando la conexión PDO establecida.
+         *
+         * @param string $consulta La consulta SQL a ejecutar.
+         * @return PDOStatement|false Devuelve un objeto PDOStatement que contiene el resultado de la consulta,
+         *                           o devuelve false si ocurre un error.
+         */
+        protected function ejecutarConsulta($consulta) {
+            try {
+                // Prepara la consulta SQL utilizando la conexión PDO establecida.
+                $sql = $this->conectar()->prepare($consulta);
+        
+                // Ejecuta la consulta SQL.
+                if ($sql->execute()) {
+                    // Si la consulta se ejecuta correctamente, devuelve el objeto PDOStatement.
+                    return $sql;
+                } else {
+                    // Si ocurre un error al ejecutar la consulta, devuelve false.
+                    return false;
+                }
+            } catch (PDOException $e) {
+                // Captura cualquier excepción de PDO (por ejemplo, error de sintaxis SQL) y maneja el error.
+                // Aquí puedes registrar el error en un archivo de registro, enviar un correo electrónico de notificación, etc.
+                // En este ejemplo, simplemente lanzamos una nueva excepción con el mensaje de error original.
+                throw new Exception('Error al ejecutar la consulta SQL: ' . $e->getMessage());
+            }
         }
-
+        // Método público que envuelve la llamada al método ejecutarConsulta
+        public function ejecutarConsultaDesdeCargarUser($consulta) {
+            return $this->ejecutarConsulta($consulta);
+        }
         // Función pública para limpiar una cadena de posibles inyecciones de código
         public function limpiarCadena($cadena){
             // Array que contiene palabras clave o secuencias de caracteres que podrían indicar intentos de inyección de código.

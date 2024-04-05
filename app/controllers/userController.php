@@ -3,7 +3,6 @@
     use app\models\mainModel;
 
     class userController extends mainModel{
-
         public function registrarUserControlador(){
             // Se obtienen y limpian los datos del formulario
             $cedula = $this->limpiarCadena($_POST['cedula']);
@@ -216,7 +215,7 @@
                         <thead class="table-light fw-semibold">
                             <tr class="align-middle">
                                 <th class="clearfix">#</th>
-                                <th class="clearfix">
+                                <th class="text-center">
                                     <svg class="icon">
                                         <use xlink:href="'.APP_URL.'app/views/icons/svg/free.svg#cil-people"></use>
                                     </svg>
@@ -224,7 +223,7 @@
                                 <th class="clearfix">Cedula</th>
                                 <th class="clearfix">Nombre Completo </th>
                                 <th class="text-center">Tipo de Cuenta</th>
-                                <th class="text-center" colspan="3">Acciones</th>
+                                <th class="text-center" colspan="4">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -241,15 +240,15 @@
                     }
                     $tabla.='
                         <tr class="align-middle">
-                            <td class="clearfix">
+                            <td class="clearfix col-1">
                                 <div class=""><b>'.$contador.'</b></div>
                             </td>
-                            <td class="text-center">
+                            <td class="text-center col-1">
                                 <div class="avatar avatar-md"><img class="avatar-img"
                                         src="'.APP_URL.'app/views/img/avatars/user.png" alt="user@email.com"><span
                                         class="avatar-status bg-success"></span></div>
                             </td>                            
-                            <td>
+                            <td class="col-1">
                                 <div class="clearfix">
                                     <div class=""><b>'.$rows['id_user'].'</b></div>
                                 </div>
@@ -259,28 +258,32 @@
                                     <div class=""><b>'.$rows['user'].'</b></div>
                                 </div>
                             </td>
-                            <td>
+                            <td class="col-1">
                                 <div class="text-center">
                                     <div class=""><b>'.$tipo_user.'</b></div>
                                 </div>
                             </td>
-                            <td>
+                            <td class="col-1">
                                 <button type="button" title="Ver" class="btn" style="background-color: #EBEDEF; color:white ;">
-                                    <img src="'.APP_URL.'app/views/icons/ver.png" alt="icono" width="32" height="32">
+                                    <img src="'.APP_URL.'app/views/icons/view.png" alt="icono" width="32" height="32">
                                 </button>                       
                             </td>
-                            <td>
-                                <button type="button" title="Modificar" class="btn" style="background-color: #EBEDEF; color:white ;">
-                                    <img src="'.APP_URL.'app/views/icons/modificar.png" alt="icono" width="32" height="32">
-                                </button> 
+                            <td class="col-1">                              
+                                <a href="#" title="Cambiar Clave" class="btn" data-bs-toggle="modal" data-bs-target="#ventanaModalModificarPass" data-bs-id="'.$rows['id_user'].'" style="background-color: #EBEDEF; color:white ;">
+                                    <img src="'.APP_URL.'app/views/icons/password.png" alt="icono" width="32" height="32" >
+                                </a> 
                             </td>
-                            <td>
-                                <form class="FormularioAjax" action="'.APP_URL.'app/ajax/usuarioAjax.php" method="POST" autocomplete="off" >
-
-                                    <input type="hidden" name="modulo_usuario" value="eliminar">
-                                    <input type="hidden" name="usuario_id" value="'.$rows['id_user'].'">
-                                    <button type="button" class="btn" title="Eliminar" style="background-color: #EBEDEF; color:white ;">
-                                        <img src="'.APP_URL.'app/views/icons/eliminar.png" alt="icono" width="32" height="32">
+                            <td class="col-1">                              
+                                <a href="#" title="Modificar" class="btn" data-bs-toggle="modal" data-bs-target="#ventanaModalModificar" data-bs-id="'.$rows['id_user'].'" style="background-color: #EBEDEF; color:white ;">
+                                    <img src="'.APP_URL.'app/views/icons/edit.png" alt="icono" width="32" height="32" >
+                                </a> 
+                            </td>
+                            <td class="col-1">
+                                <form class="FormularioAjax" action="'.APP_URL.'app/ajax/userAjax.php" method="POST">
+                                    <input type="hidden" name="modulo_user" value="eliminar">
+                                    <input type="hidden" name="id_user" value="'.$rows['id_user'].'">
+                                    <button type="submit" class="btn" title="Eliminar" style="background-color: #EBEDEF; color:white ;">
+                                        <img src="'.APP_URL.'app/views/icons/delete.png" alt="icono" width="32" height="32">
                                     </button> 
                                 </form>
                             </td>    
@@ -323,4 +326,93 @@
 
             return $tabla;
         }
+
+        # eliminar usuario 
+        public function eliminarUserControlador(){
+            
+            $id = $this->limpiarCadena($_POST['id_user']);
+
+            if ($id == 1) {
+                $alerta = [
+                    "tipo" => "simple",
+                    "titulo" => "Ocurrió un error inesperado",
+                    "texto" => "No podemos eliminar este usuario",
+                    "icono" => "error"
+                ];
+                return json_encode($alerta);
+                exit();
+            }
+            # verificar el usuario
+            $datos = $this->ejecutarConsulta("SELECT * FROM user_system WHERE id_user='$id'");
+            if ($datos->rowCount() <= 0) {
+                $alerta = [
+                    "tipo" => "simple",
+                    "titulo" => "Ocurrió un error inesperado",
+                    "texto" => "No hemos encontrado el usuario en el sistema",
+                    "icono" => "error"
+                ];
+                return json_encode($alerta);
+                exit();
+            } else {
+                $datos = $datos->fetch();
+            }
+            
+            $eliminarUsuario = $this->eliminarRegistro('user_system', 'id_user', $id);
+
+            if ($eliminarUsuario->rowCount() == 1) {
+                $alerta = [
+                    "tipo" => "recargar",
+                    "titulo" => "Usuario Eliminador",
+                    "texto" => "El Usuario ".$datos['user']." ha sido eliminado con exito",
+                    "icono" => "success"                    
+                ];                
+            } else {
+                $alerta = [
+                    "tipo" => "simple",
+                    "titulo" => "Ocurrió un error inesperado",
+                    "texto" => "No se pudo eliminar el usuario, por favor intente nuevamente",
+                    "icono" => "error"
+                ];                
+            }
+            return json_encode($alerta);
+        }
+
+        # cargar datis de la tabla 
+
+        public function cargarUserControlador() {
+            $id = $this->limpiarCadena($_POST['id_user']);
+            
+            # Verificar el usuario
+            $datos = $this->ejecutarConsulta("SELECT * FROM user_system WHERE id_user='$id'");
+            
+            if ($datos->rowCount() <= 0) {
+                // Si no se encuentra el usuario, registra un mensaje de error y devuelve un resultado indicando que no se encontró el usuario
+                error_log("No se encontró el usuario en la base de datos. ID de usuario: $id");
+                
+                $alerta = [
+                    "tipo" => "simple",
+                    "titulo" => "Ocurrió un error inesperado",
+                    "texto" => "No hemos encontrado el usuario en el sistema",
+                    "icono" => "error"
+                ];                
+                return json_encode($alerta);
+                exit();
+            } else {
+                // Si se encuentra el usuario, obtén los datos y devuélvelos en un arreglo asociativo
+                $datosUsuario = $datos->fetch(PDO::FETCH_ASSOC);
+                return $datosUsuario;
+            }
+        }
+
+        public function mostrarDatos(){
+            $id = $this->limpiarCadena($_POST['id_user']);
+
+            $consulta_datos="SELECT * FROM user_system WHERE id_user!='".$id."' ORDER BY user ASC LIMIT 1";
+
+            $datos = $this->ejecutarConsulta($consulta_datos);
+            $datos = $datos->fetchAll();
+
+            echo json_encode($datos, JSON_UNESCAPED_UNICODE);        
+        }
+        
     }
