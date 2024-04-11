@@ -163,46 +163,45 @@
                     }
                     $tabla.='
                         <tr class="align-middle">
-                            <td class="clearfix">
+                            <td class="clearfix col-1">
                                 <div class=""><b>'.$contador.'</b></div>
                             </td>
-                            <td class="text-center">
+                            <td class="text-center col-1">
                                 <div class="avatar avatar-md"><img class="avatar-img"
                                         src="'.APP_URL.'app/views/img/avatars/user.png" alt="user@email.com"><span
                                         class="avatar-status bg-success"></span></div>
                             </td>                            
-                            <td>
+                            <td class="col-1">
                                 <div class="clearfix">
                                     <div class=""><b>'.$rows['id_miembro'].'</b></div>
                                 </div>
                             </td>
-                            <td>
+                            <td class="">
                                 <div class="clearfix">
                                     <div class=""><b>'.$rows['nombre_miembro'].'</b></div>
                                 </div>
                             </td>
-                            <td>
+                            <td class="col-2">
                                 <div class="text-center">
                                     <div class=""><b>'.$tipo_user.'</b></div>
                                 </div>
                             </td>
-                            <td>
+                            <td class="col-1">
                                 <button type="button" title="Ver" class="btn" style="background-color: #EBEDEF; color:white ;">
-                                    <img src="'.APP_URL.'app/views/icons/ver.png" alt="icono" width="32" height="32">
+                                    <img src="'.APP_URL.'app/views/icons/view.png" alt="icono" width="32" height="32">
                                 </button>                       
                             </td>
-                            <td>
-                                <button type="button" title="Modificar" class="btn" style="background-color: #EBEDEF; color:white ;">
-                                    <img src="'.APP_URL.'app/views/icons/modificar.png" alt="icono" width="32" height="32">
-                                </button> 
+                            <td class="col-1">
+                                <a href="#" title="Modificar" class="btn" data-bs-toggle="modal" data-bs-target="#ventanaModalModificarMiem" data-bs-id="'.$rows['id_miembro'].'" style="background-color: #EBEDEF; color:white ;">
+                                    <img src="'.APP_URL.'app/views/icons/edit.png" alt="icono" width="32" height="32" >
+                                </a> 
                             </td>
-                            <td>
-                                <form class="FormularioAjax" action="'.APP_URL.'app/ajax/miembroAjax.php" method="POST" autocomplete="off" >
-
-                                    <input type="hidden" name="modulo_usuario" value="eliminar">
-                                    <input type="hidden" name="usuario_id" value="'.$rows['id_miembro'].'">
-                                    <button type="button" class="btn" title="Eliminar" style="background-color: #EBEDEF; color:white ;">
-                                        <img src="'.APP_URL.'app/views/icons/eliminar.png" alt="icono" width="32" height="32">
+                            <td class="col-1">
+                                <form class="FormularioAjax" action="'.APP_URL.'app/ajax/miembroAjax.php" method="POST">
+                                    <input type="hidden" name="modulo_miembro" value="eliminar">
+                                    <input type="hidden" name="miembro_id" value="'.$rows['id_miembro'].'">
+                                    <button type="submit" class="btn" title="Eliminar" style="background-color: #EBEDEF; color:white ;">
+                                        <img src="'.APP_URL.'app/views/icons/delete.png" alt="icono" width="32" height="32">
                                     </button> 
                                 </form>
                             </td>    
@@ -244,5 +243,155 @@
             }
 
             return $tabla;
+        }
+
+        public function eliminarMiembroControlador(){
+            
+            $id = $this->limpiarCadena($_POST['miembro_id']);
+
+            if ($id == 1) {
+                $alerta = [
+                    "tipo" => "simple",
+                    "titulo" => "Ocurrió un error inesperado",
+                    "texto" => "No podemos eliminar este usuario",
+                    "icono" => "error"
+                ];
+                return json_encode($alerta);
+                exit();
+            }
+            # verificar el usuario
+            $datos = $this->ejecutarConsulta("SELECT * FROM miembro WHERE id_miembro='$id'");
+            if ($datos->rowCount() <= 0) {
+                $alerta = [
+                    "tipo" => "simple",
+                    "titulo" => "Ocurrió un error inesperado",
+                    "texto" => "No hemos encontrado el usuario en el sistema",
+                    "icono" => "error"
+                ];
+                return json_encode($alerta);
+                exit();
+            } else {
+                $datos = $datos->fetch();
+            }
+            
+            $eliminarUsuario = $this->eliminarRegistro('miembro', 'id_miembro', $id);
+
+            if ($eliminarUsuario->rowCount() == 1) {
+                $alerta = [
+                    "tipo" => "recargar",
+                    "titulo" => "Miembro Eliminado",
+                    "texto" => "El Miembro ".$datos['nombre_miembro']." ha sido eliminado con exito",
+                    "icono" => "success"                    
+                ];                
+            } else {
+                $alerta = [
+                    "tipo" => "simple",
+                    "titulo" => "Ocurrió un error inesperado",
+                    "texto" => "No se pudo eliminar el Miembro, por favor intente nuevamente",
+                    "icono" => "error"
+                ];                
+            }
+            return json_encode($alerta);
+        }
+
+        public function actualizarDatosMiembro(){
+            $id = $this->limpiarCadena($_POST['id']);
+
+            $codigo = $this->limpiarCadena($_POST['codigo']);
+            $nombre = $this->limpiarCadena($_POST['nombre']);
+            $tipo   = $this->limpiarCadena($_POST['tipo']);
+
+            # Verificación de campos obligatorios #
+            if ($codigo == "" || $nombre == "" || $tipo == "Seleccionar") {
+                // Si algún campo obligatorio está vacío, se devuelve una alerta de error
+                $alerta = [
+                    "tipo" => "simple",
+                    "titulo" => "Ocurrió un error inesperado",
+                    "texto" => "No has llenado todos los campos que son obligatorios",
+                    "icono" => "error"
+                ];
+                return json_encode($alerta);
+                exit();
+            }
+
+            # Verificar la integridad de los datos de código #
+            if ($this->verificarDatos('^[a-zA-Z0-9-]{1,10}$', $codigo)) {
+                #Si el formato del código no es válido, se devuelve una alerta de error
+                $alerta = [
+                    "tipo" => "simple",
+                    "titulo" => "Ocurrió un error inesperado",
+                    "texto" => "El CÓDIGO no cumple con el formato solicitado",
+                    "icono" => "error"
+                ];
+                return json_encode($alerta);
+                exit();
+            }  
+            #VERIFICAR LA codigo NO EXISTA        
+            $check_codigo = $this->ejecutarConsulta("SELECT * FROM miembro WHERE id_miembro ='$codigo' AND id_miembro !='$id'");
+            if ($check_codigo->rowCount() > 0) {
+                // Si el username ya existe en la base de datos, se devuelve una alerta de error
+                $alerta = [
+                    "tipo" => "simple",
+                    "titulo" => "Ocurrió un error inesperado",
+                    "texto" => "La codigo ingresado ya existe en los registros",
+                    "icono" => "error"
+                ];
+                return json_encode($alerta);
+                exit();
+            }
+            # Verificar la integridad de los datos de nombre #
+            if ($this->verificarDatos('[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{3,40}', $nombre)) {
+                // Si el formato del nombre no es válido, se devuelve una alerta de error
+                $alerta = [
+                    "tipo" => "simple",
+                    "titulo" => "Ocurrió un error inesperado",
+                    "texto" => "El NOMBRE DEL USUARIO no cumple con el formato solicitado",
+                    "icono" => "error"
+                ];
+                return json_encode($alerta);
+                exit();
+            }                      
+
+            $user_datos=[
+                [
+                    "campo_nombre"=>"id_miembro",
+                    "campo_marcador"=>":codigo",
+                    "campo_valor"=> $codigo
+                ],
+                [
+                    "campo_nombre"=>"nombre_miembro",
+                    "campo_marcador"=>":Nombre",
+                    "campo_valor"=> $nombre
+                ],
+                [
+                    "campo_nombre"=>"tipo_miembro",
+                    "campo_marcador"=>":Tipo",
+                    "campo_valor"=> $tipo
+                ]
+            ];
+
+            $condicion=[
+				"condicion_campo"=>"id_miembro",
+				"condicion_marcador"=>":ID",
+				"condicion_valor"=>$id
+			];
+
+            if($this->actualizarDatos("miembro",$user_datos,$condicion)){
+				$alerta=[
+					"tipo"=>"limpiar",
+					"titulo"=>"Datos Actualizados",
+					"texto"=>"Se actualizo correctamente",
+					"icono"=>"success"
+				];
+			}else{
+
+				$alerta = [
+                    "tipo" => "simple",
+                    "titulo" => "Ocurrió un error inesperado",
+                    "texto" => "¡Ha ocurrido un error durante el registro!",
+                    "icono" => "error"
+                ];
+			}
+			return json_encode($alerta);                  
         }
     }

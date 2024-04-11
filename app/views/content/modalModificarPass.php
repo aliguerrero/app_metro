@@ -11,7 +11,7 @@
                 <h3 id="nombreUser" name="nombreUser"></h3>
             </div><br>
             <form class="row g-3 FormularioAjax" action="<?php echo APP_URL; ?>app/ajax/userAjax.php" method="POST">
-                <input type="hidden" name="modulo_user" value="registrar"> 
+                <input type="hidden" name="modulo_user" value="clave"> 
                 <input type="hidden" name="id2" id="id2">                        
                                
                 <div class="row offset-2">

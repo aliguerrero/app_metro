@@ -238,21 +238,20 @@
                             </td>
                             <td class="col-1">
                                 <button type="button" title="Ver" class="btn" style="background-color: #EBEDEF; color:white ;">
-                                    <img src="'.APP_URL.'app/views/icons/ver.png" alt="icono" width="32" height="32">
+                                    <img src="'.APP_URL.'app/views/icons/view.png" alt="icono" width="32" height="32">
                                 </button>                       
                             </td>
                             <td class="col-1">
-                                <button type="button" title="Modificar" class="btn" style="background-color: #EBEDEF; color:white ;">
-                                    <img src="'.APP_URL.'app/views/icons/modificar.png" alt="icono" width="32" height="32">
-                                </button> 
+                                <a href="#" title="Modificar" class="btn" data-bs-toggle="modal" data-bs-target="#ventanaModalModificarHerr" data-bs-id="'.$rows['id_herramienta'].'" style="background-color: #EBEDEF; color:white ;">
+                                    <img src="'.APP_URL.'app/views/icons/edit.png" alt="icono" width="32" height="32" >
+                                </a> 
                             </td>
                             <td class="col-1">
-                                <form class="FormularioAjax" action="'.APP_URL.'app/ajax/herramientaAjax.php" method="POST" autocomplete="off" >
-
-                                    <input type="hidden" name="modulo_usuario" value="eliminar">
-                                    <input type="hidden" name="usuario_id" value="'.$rows['id_herramienta'].'">
-                                    <button type="button" class="btn" title="Eliminar" style="background-color: #EBEDEF; color:white ;">
-                                        <img src="'.APP_URL.'app/views/icons/eliminar.png" alt="icono" width="32" height="32">
+                                <form class="FormularioAjax" action="'.APP_URL.'app/ajax/herramientaAjax.php" method="POST">
+                                    <input type="hidden" name="modulo_herramienta" value="eliminar">
+                                    <input type="hidden" name="herramienta_id" value="'.$rows['id_herramienta'].'">
+                                    <button type="submit" class="btn" title="Eliminar" style="background-color: #EBEDEF; color:white ;">
+                                        <img src="'.APP_URL.'app/views/icons/delete.png" alt="icono" width="32" height="32">
                                     </button> 
                                 </form>
                             </td>    
@@ -375,7 +374,6 @@
                                 <th class="clearfix">N° O.T.</th>
                                 <th class="clearfix">Nombre</th>
                                 <th class="text-center">Cantidad</th>
-                                <th class="text-center" colspan="3">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -408,27 +406,7 @@
                                 <div class="text-center">
                                     <div class=""><b>'.$rows['cantidadot'].'</b></div>
                                 </div>
-                            </td>
-                            <td class="col-1">
-                                <button type="button" title="Ver" class="btn" style="background-color: #EBEDEF; color:white ;">
-                                    <img src="'.APP_URL.'app/views/icons/ver.png" alt="icono" width="32" height="32">
-                                </button>                       
-                            </td>
-                            <td class="col-1">
-                                <button type="button" title="Modificar" class="btn" style="background-color: #EBEDEF; color:white ;">
-                                    <img src="'.APP_URL.'app/views/icons/modificar.png" alt="icono" width="32" height="32">
-                                </button> 
-                            </td>
-                            <td class="col-1">
-                                <form class="FormularioAjax" action="'.APP_URL.'app/ajax/herramientaAjax.php" method="POST" autocomplete="off" >
-
-                                    <input type="hidden" name="modulo_usuario" value="eliminar">
-                                    <input type="hidden" name="usuario_id" value="'.$rows['id_herramientaOT'].'">
-                                    <button type="button" class="btn" title="Eliminar" style="background-color: #EBEDEF; color:white ;">
-                                        <img src="'.APP_URL.'app/views/icons/eliminar.png" alt="icono" width="32" height="32">
-                                    </button> 
-                                </form>
-                            </td>    
+                            </td>                               
                         </tr>
                     ';
                     $contador++;
@@ -467,5 +445,54 @@
             }
 
             return $tabla;
+        }
+
+        public function eliminarHerramientaControlador(){
+            
+            $id = $this->limpiarCadena($_POST['herramienta_id']);
+
+            if ($id == 1) {
+                $alerta = [
+                    "tipo" => "simple",
+                    "titulo" => "Ocurrió un error inesperado",
+                    "texto" => "No podemos eliminar esta herramienta",
+                    "icono" => "error"
+                ];
+                return json_encode($alerta);
+                exit();
+            }
+            # verificar el usuario
+            $datos = $this->ejecutarConsulta("SELECT * FROM herramienta WHERE id_herramienta='$id'");
+            if ($datos->rowCount() <= 0) {
+                $alerta = [
+                    "tipo" => "simple",
+                    "titulo" => "Ocurrió un error inesperado",
+                    "texto" => "No hemos encontrado la herramienta en el sistema",
+                    "icono" => "error"
+                ];
+                return json_encode($alerta);
+                exit();
+            } else {
+                $datos = $datos->fetch();
+            }
+            
+            $eliminarUsuario = $this->eliminarRegistro('herramienta', 'id_herramienta', $id);
+
+            if ($eliminarUsuario->rowCount() == 1) {
+                $alerta = [
+                    "tipo" => "recargar",
+                    "titulo" => "Miembro Eliminado",
+                    "texto" => "La Herramienta ".$datos['nombre_herramienta']." ha sido eliminada con exito",
+                    "icono" => "success"                    
+                ];                
+            } else {
+                $alerta = [
+                    "tipo" => "simple",
+                    "titulo" => "Ocurrió un error inesperado",
+                    "texto" => "No se pudo eliminar la herramienta, por favor intente nuevamente",
+                    "icono" => "error"
+                ];                
+            }
+            return json_encode($alerta);
         }
     }

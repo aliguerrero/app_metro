@@ -8,7 +8,7 @@
         </div>
         <div class="modal-body">
             <form class="row g-3 FormularioAjax" action="<?php echo APP_URL; ?>app/ajax/userAjax.php" method="POST">
-                <input type="hidden" name="modulo_user" value="registrar">                        
+                <input type="hidden" name="modulo_user" value="modificar">                        
                 <div class="row">
                     <div class="col-md-6">
                         <label class="form-label" >CEDULA:</label>

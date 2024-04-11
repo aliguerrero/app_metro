@@ -8,6 +8,6 @@
         </p>
         <!-- Enlace para redirigir a la página de inicio -->
         <a href="<?php ECHO APP_URL; ?>" class="btn btn-primary">Ir a Inicio</a>
-    </div>fff
+    </div>
 </div>
 

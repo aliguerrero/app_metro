@@ -1,23 +1,24 @@
 // Esperar a que el DOM esté completamente cargado
 document.addEventListener('DOMContentLoaded', function() {
     // Obtener el modal de modificación por su ID
-    let modificarModal = document.getElementById('ventanaModalModificar');
-    let modificarModalPass = document.getElementById('ventanaModalModificarPass');
+    //Vista Usuario
+    let modificarModalUser = document.getElementById('ventanaModalModificar');
+    let modificarModalPassUser = document.getElementById('ventanaModalModificarPass');   
 
-
+    //Vista Usuario
     // Agregar un listener para el evento "shown.bs.modal", que se dispara cuando el modal se muestra al usuario
-    modificarModal.addEventListener('show.bs.modal', function(event) {
+    modificarModalUser.addEventListener('show.bs.modal', function(event) {
         // Obtener el botón que abrió el modal
         let button = event.relatedTarget;
         // Obtener el ID del usuario del atributo "data-bs-id" del botón
         let id = button.getAttribute('data-bs-id');
 
         // Obtener referencias a los campos de entrada dentro del modal
-        let inputId = modificarModal.querySelector('.modal-body #id');
-        let inputId2 = modificarModal.querySelector('.modal-body #cedula');
-        let inputNombre = modificarModal.querySelector('.modal-body #nombre');
-        let inputUser = modificarModal.querySelector('.modal-body #username');
-        let inputTipo = modificarModal.querySelector('.modal-body #tipo');
+        let inputId = modificarModalUser.querySelector('.modal-body #id');
+        let inputId2 = modificarModalUser.querySelector('.modal-body #cedula');
+        let inputNombre = modificarModalUser.querySelector('.modal-body #nombre');
+        let inputUser = modificarModalUser.querySelector('.modal-body #username');
+        let inputTipo = modificarModalUser.querySelector('.modal-body #tipo');
 
         // Construir la URL del script PHP que carga los datos del usuario
         let url = "../app/controllers/cargarDatosUser.php";
@@ -54,15 +55,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     });
 
-    modificarModalPass.addEventListener('show.bs.modal', function(event) {
+    modificarModalPassUser.addEventListener('show.bs.modal', function(event) {
         // Obtener el botón que abrió el modal
         let button = event.relatedTarget;
         // Obtener el ID del usuario del atributo "data-bs-id" del botón
         let id = button.getAttribute('data-bs-id');
 
         // Obtener referencias a los campos de entrada dentro del modal
-        let inputId = modificarModalPass.querySelector('.modal-body #id2');
-        let inputNombre = modificarModalPass.querySelector('.modal-body #nombreUser');
+        let inputId = modificarModalPassUser.querySelector('.modal-body #id2');
+        let inputNombre = modificarModalPassUser.querySelector('.modal-body #nombreUser');
 
         // Construir la URL del script PHP que carga los datos del usuario
         let url = "../app/controllers/cargarDatosUser.php";
@@ -94,5 +95,5 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Ocurrió un error al cargar los datos del usuario. Por favor, inténtalo de nuevo más tarde.');
         });
 
-    });
+    });       
 });

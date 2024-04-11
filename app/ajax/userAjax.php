@@ -20,7 +20,15 @@
         if ($_POST['modulo_user'] == "eliminar") {
             // Si el valor es "eliminar", se llama al método eliminarUserControlador de la instancia $insUser y se muestra el resultado
             echo $insUser->eliminarUserControlador();
-        }              
+        }
+        if ($_POST['modulo_user'] == "modificar") {
+            // Si el valor es "eliminar", se llama al método eliminarUserControlador de la instancia $insUser y se muestra el resultado
+            echo $insUser->actualizarDatosUser();
+        } 
+        if ($_POST['modulo_user'] == "clave") {
+            // Si el valor es "eliminar", se llama al método eliminarUserControlador de la instancia $insUser y se muestra el resultado
+            echo $insUser->actualizarClaveUser();
+        }               
     } else {
         // Si no se ha enviado el parámetro 'modulo_user' a través del método POST, se destruye la sesión y se redirige al usuario a la página de inicio de sesión
         session_destroy();

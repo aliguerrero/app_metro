@@ -1,8 +1,8 @@
 <div class="modal fade" id="ventanaModalRegistrar" tabindex="-1" aria-labelledby="ventanaModalRegistrar" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
         <div class="modal-header">
-            <img src="<?php echo APP_URL; ?>app/views/icons/addUser.png" alt="icono" width="50" height="50">
+            <img src="<?php echo APP_URL; ?>app/views/icons/add.png" alt="icono" width="50" height="50">
             <h5 class="modal-title" id="tituloModal">Registrar Nuevo Usuario</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>

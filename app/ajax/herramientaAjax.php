@@ -10,6 +10,9 @@
         if ($_POST ['modulo_herramienta'] == "registrar") {
             echo $insTools->registrarHerramientaControlador();
         }
+        if ($_POST ['modulo_herramienta'] == "eliminar") {
+            echo $insTools->eliminarHerramientaControlador();
+        }
     } else {
         session_destroy();
         header("Location: ".APP_URL."login/");

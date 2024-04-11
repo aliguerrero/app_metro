@@ -10,6 +10,12 @@
         if ($_POST ['modulo_miembro'] == "registrar") {
             echo $insMiembro->registrarMiembroControlador();
         }
+        if ($_POST ['modulo_miembro'] == "eliminar") {
+            echo $insMiembro->eliminarMiembroControlador();
+        }
+        if ($_POST ['modulo_miembro'] == "modificar") {
+            echo $insMiembro->actualizarDatosMiembro();
+        }
     } else {
         session_destroy();
         header("Location: ".APP_URL."login/");
