@@ -3,6 +3,7 @@
     use app\models\mainModel;
 
     class miembroController extends mainModel{
+        
         public function registrarMiembroControlador(){
             #Se obtienen y limpian los datos del formulario
             $codigo = $this->limpiarCadena($_POST['codigo']);
@@ -23,7 +24,7 @@
             }
 
             # Verificar la integridad de los datos de código #
-            if ($this->verificarDatos('^[a-zA-Z0-9-]{1,10}$', $codigo)) {
+            if ($this->verificarDatos('[a-zA-Z0-9-]{1,10}', $codigo)) {
                 #Si el formato del código no es válido, se devuelve una alerta de error
                 $alerta = [
                     "tipo" => "simple",
@@ -64,6 +65,11 @@
                     "campo_nombre" => "tipo_miembro",
                     "campo_marcador" => ":Tipo",
                     "campo_valor" => $tipo
+                ],
+                [
+                    "campo_nombre"=>"std_reg",
+                    "campo_marcador"=>":std_reg",
+                    "campo_valor"=> "1"
                 ]
             ];
 
@@ -72,6 +78,7 @@
 
             #Verificar si se registró correctamente el miembro
             if ($registrar_miemnbro->rowCount() == 1) {
+                $this->registrarLog($_SESSION['id'],"REGISTRAR MIEMBRO","REGISTRO EXITOSO PARA EL MIEMBRO ".$nombre); 
                 #Si se registró correctamente, se devuelve un mensaje de éxito
                 $alerta = [
                     "tipo" => "limpiar",
@@ -79,7 +86,8 @@
                     "texto" => "El miembro " . $nombre . " se ha registrado con éxito",
                     "icono" => "success"
                 ];
-            } else {               
+            } else {      
+                $this->registrarLog($_SESSION['id'],"REGISTRAR MIEMBRO","REGISTRO FALLIDO PARA EL MIEMBRO ".$nombre);          
                 #Se devuelve un mensaje de error
                 $alerta = [
                     "tipo" => "simple",
@@ -112,16 +120,16 @@
             if (isset($busqueda) && $busqueda!= "") {
 
                 $consulta_datos="SELECT * FROM miembro WHERE 
-                ((id_miembro  LIKE '%$busqueda%' OR nombre_miembro LIKE '%$busqueda%')) ORDER BY id_miembro ASC LIMIT $inicio, $registros";
+                ((id_miembro  LIKE '%$busqueda%' OR nombre_miembro LIKE '%$busqueda%' AND std_reg='1')) ORDER BY id_miembro ASC LIMIT $inicio, $registros";
 
                 $consulta_total="SELECT COUNT(id_miembro) FROM miembro WHERE 
-                ((id_miembro LIKE '%$busqueda%' OR nombre_miembro LIKE '%$busqueda%'))";
+                ((id_miembro LIKE '%$busqueda%' OR nombre_miembro LIKE '%$busqueda%' AND std_reg='1'))";
          
             } else {
-                $consulta_datos="SELECT * FROM miembro ORDER
+                $consulta_datos="SELECT * FROM miembro WHERE std_reg='1' ORDER
                 BY id_miembro ASC LIMIT $inicio, $registros";
 
-                $consulta_total="SELECT COUNT(id_miembro) FROM miembro";
+                $consulta_total="SELECT COUNT(id_miembro) FROM miembro WHERE std_reg='1'";
             }
             
             $datos = $this->ejecutarConsulta($consulta_datos);
@@ -163,15 +171,15 @@
                     }
                     $tabla.='
                         <tr class="align-middle">
-                            <td class="clearfix col-1">
+                            <td class="clearfix col-p">
                                 <div class=""><b>'.$contador.'</b></div>
                             </td>
-                            <td class="text-center col-1">
+                            <td class="text-center col-p">
                                 <div class="avatar avatar-md"><img class="avatar-img"
                                         src="'.APP_URL.'app/views/img/avatars/user.png" alt="user@email.com"><span
                                         class="avatar-status bg-success"></span></div>
                             </td>                            
-                            <td class="col-1">
+                            <td class="col-p">
                                 <div class="clearfix">
                                     <div class=""><b>'.$rows['id_miembro'].'</b></div>
                                 </div>
@@ -186,22 +194,22 @@
                                     <div class=""><b>'.$tipo_user.'</b></div>
                                 </div>
                             </td>
-                            <td class="col-1">
+                            <td class="col-p">
                                 <button type="button" title="Ver" class="btn" style="background-color: #EBEDEF; color:white ;">
-                                    <img src="'.APP_URL.'app/views/icons/view.png" alt="icono" width="32" height="32">
+                                    <img src="'.APP_URL.'app/views/icons/view.png" alt="icono" width="28" height="28">
                                 </button>                       
                             </td>
-                            <td class="col-1">
+                            <td class="col-p">
                                 <a href="#" title="Modificar" class="btn" data-bs-toggle="modal" data-bs-target="#ventanaModalModificarMiem" data-bs-id="'.$rows['id_miembro'].'" style="background-color: #EBEDEF; color:white ;">
-                                    <img src="'.APP_URL.'app/views/icons/edit.png" alt="icono" width="32" height="32" >
+                                    <img src="'.APP_URL.'app/views/icons/edit.png" alt="icono" width="28" height="28" >
                                 </a> 
                             </td>
-                            <td class="col-1">
+                            <td class="col-p">
                                 <form class="FormularioAjax" action="'.APP_URL.'app/ajax/miembroAjax.php" method="POST">
                                     <input type="hidden" name="modulo_miembro" value="eliminar">
                                     <input type="hidden" name="miembro_id" value="'.$rows['id_miembro'].'">
                                     <button type="submit" class="btn" title="Eliminar" style="background-color: #EBEDEF; color:white ;">
-                                        <img src="'.APP_URL.'app/views/icons/delete.png" alt="icono" width="32" height="32">
+                                        <img src="'.APP_URL.'app/views/icons/delete.png" alt="icono" width="28" height="28">
                                     </button> 
                                 </form>
                             </td>    
@@ -248,6 +256,7 @@
         public function eliminarMiembroControlador(){
             
             $id = $this->limpiarCadena($_POST['miembro_id']);
+            $id2 = "E-".$id;        
 
             if ($id == 1) {
                 $alerta = [
@@ -274,9 +283,28 @@
                 $datos = $datos->fetch();
             }
             
-            $eliminarUsuario = $this->eliminarRegistro('miembro', 'id_miembro', $id);
+            $datos_reg=[
+                [
+                    "campo_nombre" => "id_miembro",
+                    "campo_marcador" => ":id",
+                    "campo_valor" => $id2
+                ]
+                ,
+                [
+                    "campo_nombre"=>"std_reg",
+                    "campo_marcador"=>":std_reg",
+                    "campo_valor"=> 0
+                ]
+            ];
 
-            if ($eliminarUsuario->rowCount() == 1) {
+            $condicion=[
+				"condicion_campo"=>"id_miembro",
+				"condicion_marcador"=>":id_miembro",
+				"condicion_valor"=>$id
+			];
+
+            if($this->actualizarDatos("miembro",$datos_reg,$condicion)){
+                $this->registrarLog($_SESSION['id'],"ELIMINAR MIEMBRO","ELIMINACION EXITOSA PARA EL MIEMBRO ".$datos['nombre_miembro']); 
                 $alerta = [
                     "tipo" => "recargar",
                     "titulo" => "Miembro Eliminado",
@@ -284,6 +312,7 @@
                     "icono" => "success"                    
                 ];                
             } else {
+                $this->registrarLog($_SESSION['id'],"ELIMINAR MIEMBRO","ELIMINACION FALLIDA PARA EL MIEMBRO ".$datos['nombre_miembro']); 
                 $alerta = [
                     "tipo" => "simple",
                     "titulo" => "Ocurrió un error inesperado",
@@ -377,6 +406,7 @@
 			];
 
             if($this->actualizarDatos("miembro",$user_datos,$condicion)){
+                $this->registrarLog($_SESSION['id'],"ACTUALIZAR MIEMBRO","MODIFICACIÓN EXITOSA PARA EL MIEMBRO ".$nombre); 
 				$alerta=[
 					"tipo"=>"limpiar",
 					"titulo"=>"Datos Actualizados",
@@ -384,7 +414,7 @@
 					"icono"=>"success"
 				];
 			}else{
-
+                $this->registrarLog($_SESSION['id'],"ACTUALIZAR MIEMBRO","MODIFICACIÓN FALLIDA PARA EL MIEMBRO ".$nombre); 
 				$alerta = [
                     "tipo" => "simple",
                     "titulo" => "Ocurrió un error inesperado",
@@ -393,5 +423,5 @@
                 ];
 			}
 			return json_encode($alerta);                  
-        }
+        }       
     }

@@ -1,48 +1,55 @@
-<div class="modal fade" id="ventanaModalRegistrarMiem" tabindex="-1" aria-labelledby="ventanaModalRegistrarMiem"
+<div class="modal fade" id="ventanaModalRegistrarHerr" tabindex="-1" aria-labelledby="ventanaModalRegistrarHerr"
     aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <img src="<?php echo APP_URL; ?>app/views/icons/add.png" alt="icono" width="50" height="50">
-                <h5 class="modal-title" id="tituloModal">Registrar Nuevo Miembro</h5>
+                <h5 class="modal-title" id="tituloModal">Registrar Herramienta</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form class='row g-3 FormularioAjax' action='<?php echo APP_URL ?>app/ajax/miembroAjax.php'
+                <form class='row g-3 FormularioAjax' action='<?php echo APP_URL; ?>app/ajax/herramientaAjax.php'
                     method='POST'>
-                    <input type="hidden" name="modulo_miembro" value="registrar">
+                    <input type="hidden" name="modulo_herramienta" value="registrar">
                     <div class='row'>
-                        <div class='col-md-6'><br>
-                            <label class='form-label' for='validationServer01'>CODIGO:</label>
+                        <div class='col-md-4'><br>
+                            <label class='form-label'>CODIGO:</label>
                             <input class='form-control ' name='codigo' id='codigo' type='text' value=''
-                                placeholder='Ingrese Codigo'>
+                                placeholder='Ingrese codigo'>
                         </div>
                     </div>
                     <div class='row'>
                         <div class='col-md-12'>
-                            <label class='form-label' for='validationServer02'>NOMBRE DEL OPERADOR:</label>
+                            <label class='form-label'>NOMBRE DE LA HERRAMIENTA:</label>
                             <input class='form-control ' name='nombre' id='nombre' type='text' value=''
-                                placeholder='Ingrese Nombre/Apellido'>
+                                placeholder='Ingrese Nombre de la herramienta'>
                         </div>
                     </div>
                     <div class='row'>
-                        <div class='col-md-12'>
-                            <label class='form-label' for='validationServer03'>TIPO DE OPERADOR:</label>
+                        <div class='col-md-4'>
+                            <label class='form-label'>CANTIDAD:</label>
+                            <input class='form-control' name='cant' id='cant' type='number' min="0"
+                                placeholder='Ingrese cantidad'>
+                        </div>
+                        <div class='col-md-8'>
+                            <label class='form-label'>ESTADO:</label>
 
-                            <select class='form-select' name='tipo' id="tipo" aria-label='Default select example'>
+                            <select class='form-select' name='estado' id="estado" aria-label='Default select example'>
                                 <option selected>Seleccionar</option>
-                                <option value='1'>Op./Centro de Control de Falla</option>
-                                <option value='2'>Op./Centro de Control de Operaciones</option>
+                                <option value='1'>Buen Estado</option>
+                                <option value='2'>Regular</option>
+                                <option value='3'>Mal Estado</option>
                             </select>
                         </div>
                     </div>
-                    <div class='row offset-2 p-4'>
-                        <div class='col-md-4'>
+                    <hr>
+                    <div class='row'>
+                        <div class='col-md-6'>
                             <button class='form-control' style='background-color: rgb(60, 75, 100); color:white ;'
                                 type='submit' aria-haspopup='true' aria-expanded='false'>Guardar</button>
                         </div>
 
-                        <div class='col-md-4'>
+                        <div class='col-md-6'>
                             <button class='form-control' style='background-color: rgb(60, 75, 100); color:white ;'
                                 type='button' aria-haspopup='true' aria-expanded='false'
                                 data-bs-dismiss="modal">Cancelar</button>

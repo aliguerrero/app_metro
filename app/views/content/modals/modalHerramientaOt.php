@@ -1,4 +1,4 @@
-<div class="modal fade" id="ventanaModalModificarHerr" tabindex="-1" aria-labelledby="ventanaModalModificarHerr"
+<div class="modal fade" id="ventanaModalModificarHerrOt" tabindex="-1" aria-labelledby="ventanaModalModificarHerrOt"
     aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
@@ -8,9 +8,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form class='row g-3 FormularioAjax' action='<?php APP_URL ?>app/ajax/herramientaAjax.php'
+                <form class='row g-3 FormularioAjax' action='<?php echo APP_URL; ?>app/ajax/herramientaAjax.php'
                     method='POST'>
-                    <input type="hidden" name="modulo_herramienta" value="registrar">
+                    <input type="hidden" name="modulo_herramienta" value="modificar">
                     <div class='row'>
                         <div class='col-md-4'><br>
                             <input type="hidden" name="id" id="id">
@@ -43,13 +43,14 @@
                             </select>
                         </div>
                     </div>
-                    <div class='row offset-2 p-4'>
-                        <div class='col-md-4'>
+                    <hr>
+                    <div class='row'>
+                        <div class='col-md-6'>
                             <button class='form-control' style='background-color: rgb(60, 75, 100); color:white ;'
                                 type='submit' aria-haspopup='true' aria-expanded='false'>Guardar</button>
                         </div>
 
-                        <div class='col-md-4'>
+                        <div class='col-md-6'>
                             <button class='form-control' style='background-color: rgb(60, 75, 100); color:white ;'
                                 type='button' aria-haspopup='true' aria-expanded='false'
                                 data-bs-dismiss="modal">Cancelar</button>

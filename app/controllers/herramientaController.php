@@ -94,19 +94,26 @@
                     "campo_nombre"=>"estado",
                     "campo_marcador"=>":Estado",
                     "campo_valor"=> $estado
+                ],
+                [
+                    "campo_nombre"=>"std_reg",
+                    "campo_marcador"=>":std_reg",
+                    "campo_valor"=> "1"
                 ]
             ];
 
             $registrar_tools= $this->guardarDatos("herramienta", $tools_datos_reg);
 
             if ($registrar_tools->rowCount()==1) {
+                $this->registrarLog($_SESSION['id'],"REGISTRAR HERRAMIENTA","REGISTRO EXITOSO PARA LA HERRAMIENTA ".$codigo.' '.$nombre); 
                 $alerta = [
                     "tipo" => "limpiar",
                     "titulo" => "Herramienta Registrada",
                     "texto" => "La herramienta se ha resgitrado con exito",
                     "icono" => "success"
                 ];            
-            }else{            
+            }else{           
+                $this->registrarLog($_SESSION['id'],"REGISTRAR HERRAMIENTA","REGISTRO FALLIDO PARA LA HERRAMIENTA ".$codigo.' '.$nombre);  
                 $alerta = [
                     "tipo" => "simple",
                     "titulo" => "Ocurrió un error inesperado",
@@ -115,8 +122,8 @@
                 ];
             }
             return json_encode($alerta);
-        }
-        
+        }    
+                
         public function listarHerramientaControlador ($pagina, $registros, $url, $busqueda){
             
             $pagina = $this->limpiarCadena($pagina);
@@ -141,7 +148,7 @@
                 LEFT JOIN 
                 herramientaot hot ON h.id_herramienta = hot.id_herramienta
                 WHERE 
-                ((h.id_herramienta   LIKE '%$busqueda%' OR h.nombre_herramienta LIKE '%$busqueda%')) ORDER BY h.id_herramienta  ASC LIMIT $inicio, $registros";
+                ((h.id_herramienta   LIKE '%$busqueda%' OR h.nombre_herramienta LIKE '%$busqueda%' AND std_reg='1')) ORDER BY h.id_herramienta  ASC LIMIT $inicio, $registros";
 
                 $consulta_total="SELECT COUNT(h.id_herramienta) 
                 FROM 
@@ -149,7 +156,7 @@
                 LEFT JOIN 
                 herramientaot hot ON h.id_herramienta = hot.id_herramienta 
                 WHERE 
-                ((h.id_herramienta  LIKE '%$busqueda%' OR h.nombre_herramienta LIKE '%$busqueda%'))";
+                ((h.id_herramienta  LIKE '%$busqueda%' OR h.nombre_herramienta LIKE '%$busqueda%' AND std_reg='1'))";
          
             } else {
                 $consulta_datos="SELECT h.*,(h.cantidad - COALESCE(SUM(hot.cantidadot), 0)) AS cantidad_disponible,
@@ -157,7 +164,7 @@
                 FROM 
                 herramienta h
                 LEFT JOIN 
-                herramientaot hot ON h.id_herramienta = hot.id_herramienta
+                herramientaot hot ON h.id_herramienta = hot.id_herramienta WHERE std_reg='1'
                 GROUP BY 
                 h.id_herramienta ASC LIMIT $inicio, $registros";
 
@@ -165,7 +172,7 @@
                 FROM 
                 herramienta h
                 LEFT JOIN 
-                herramientaot hot ON h.id_herramienta = hot.id_herramienta";
+                herramientaot hot ON h.id_herramienta = hot.id_herramienta WHERE std_reg='1'";
             }
             
             $datos = $this->ejecutarConsulta($consulta_datos);
@@ -184,7 +191,7 @@
                                 <th class="clearfix">#</th>
                                 <th class="text-center">
                                     <svg class="icon">
-                                        <use xlink:href="'.APP_URL.'app/views/icons/svg/free.svg#cil-people"></use>
+                                        <use xlink:href="'.APP_URL.'app/views/icons/svg/free.svg#cil-settings"></use>
                                     </svg>
                                 </th>
                                 <th class="clearfix">Codigo</th>
@@ -203,15 +210,15 @@
                 foreach ($datos as $rows) {               
                     $tabla.='
                         <tr class="align-middle">
-                            <td class="clearfix col-1">
+                            <td class="clearfix col-p">
                                 <div class=""><b>'.$contador.'</b></div>
                             </td>
-                            <td class="text-center col-1">
+                            <td class="text-center col-p">
                                 <div class="avatar avatar-md"><img class="avatar-img"
                                         src="'.APP_URL.'app/views/img/tools.png" alt="user@email.com"><span
                                         class="avatar-status bg-success"></span></div>
                             </td>                            
-                            <td class="col-1">
+                            <td class="col-p">
                                 <div class="clearfix">
                                     <div class=""><b>'.$rows['id_herramienta'].'</b></div>
                                 </div>
@@ -221,37 +228,37 @@
                                     <div class=""><b>'.$rows['nombre_herramienta'].'</b></div>
                                 </div>
                             </td>
-                            <td class="col-1">
+                            <td class="col-p">
                                 <div class="text-center">
                                     <div class=""><b>'.$rows['cantidad'].'</b></div>
                                 </div>
                             </td>
-                            <td class="col-1">
+                            <td class="col-p">
                                 <div class="text-center">
                                     <div class=""><b>'.$rows['cantidad_disponible'].'</b></div>
                                 </div>
                             </td>
-                            <td class="col-1">
+                            <td class="col-p">
                                 <div class="text-center ">
                                     <div class=""><b>'.$rows['herramienta_ocupada'].'</b></div>
                                 </div>
                             </td>
-                            <td class="col-1">
-                                <button type="button" title="Ver" class="btn" style="background-color: #EBEDEF; color:white ;">
-                                    <img src="'.APP_URL.'app/views/icons/view.png" alt="icono" width="32" height="32">
+                            <td class="col-p">
+                                <button type="button" title="Ver" class="btn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style="background-color: #EBEDEF; color:white ;">
+                                    <img src="'.APP_URL.'app/views/icons/view.png" alt="icono" width="28" height="28">
                                 </button>                       
                             </td>
-                            <td class="col-1">
+                            <td class="col-p">
                                 <a href="#" title="Modificar" class="btn" data-bs-toggle="modal" data-bs-target="#ventanaModalModificarHerr" data-bs-id="'.$rows['id_herramienta'].'" style="background-color: #EBEDEF; color:white ;">
-                                    <img src="'.APP_URL.'app/views/icons/edit.png" alt="icono" width="32" height="32" >
+                                    <img src="'.APP_URL.'app/views/icons/edit.png" alt="icono" width="28" height="28" >
                                 </a> 
                             </td>
-                            <td class="col-1">
+                            <td class="col-p">
                                 <form class="FormularioAjax" action="'.APP_URL.'app/ajax/herramientaAjax.php" method="POST">
                                     <input type="hidden" name="modulo_herramienta" value="eliminar">
                                     <input type="hidden" name="herramienta_id" value="'.$rows['id_herramienta'].'">
                                     <button type="submit" class="btn" title="Eliminar" style="background-color: #EBEDEF; color:white ;">
-                                        <img src="'.APP_URL.'app/views/icons/delete.png" alt="icono" width="32" height="32">
+                                        <img src="'.APP_URL.'app/views/icons/delete.png" alt="icono" width="28" height="28">
                                     </button> 
                                 </form>
                             </td>    
@@ -384,15 +391,15 @@
                 foreach ($datos as $rows) {                 
                     $tabla.='
                         <tr class="align-middle">
-                            <td class="clearfix col-1">
+                            <td class="clearfix col-p">
                                 <div class=""><b>'.$contador.'</b></div>
                             </td>
-                            <td class="text-center col-1">
+                            <td class="text-center col-p">
                                 <div class="avatar avatar-md"><img class="avatar-img"
                                         src="'.APP_URL.'app/views/img/tools.png" alt="user@email.com"><span
                                         class="avatar-status bg-success"></span></div>
                             </td>                            
-                            <td class="col-1">
+                            <td class="col-p">
                                 <div class="clearfix">
                                     <div class=""><b>'.$rows['n_ot'].'</b></div>
                                 </div>
@@ -402,7 +409,7 @@
                                     <div class=""><b>'.$rows['nombre_herramienta'].'</b></div>
                                 </div>
                             </td>
-                            <td class="col-1">
+                            <td class="col-p">
                                 <div class="text-center">
                                     <div class=""><b>'.$rows['cantidadot'].'</b></div>
                                 </div>
@@ -449,18 +456,8 @@
 
         public function eliminarHerramientaControlador(){
             
-            $id = $this->limpiarCadena($_POST['herramienta_id']);
-
-            if ($id == 1) {
-                $alerta = [
-                    "tipo" => "simple",
-                    "titulo" => "Ocurrió un error inesperado",
-                    "texto" => "No podemos eliminar esta herramienta",
-                    "icono" => "error"
-                ];
-                return json_encode($alerta);
-                exit();
-            }
+            $id = $this->limpiarCadena($_POST['herramienta_id']);   
+            $id2 = "E-".$id;        
             # verificar el usuario
             $datos = $this->ejecutarConsulta("SELECT * FROM herramienta WHERE id_herramienta='$id'");
             if ($datos->rowCount() <= 0) {
@@ -476,9 +473,28 @@
                 $datos = $datos->fetch();
             }
             
-            $eliminarUsuario = $this->eliminarRegistro('herramienta', 'id_herramienta', $id);
+            $datos_reg=[
+                [
+                    "campo_nombre" => "id_herramienta",
+                    "campo_marcador" => ":id_herr",
+                    "campo_valor" => $id2
+                ]
+                ,
+                [
+                    "campo_nombre"=>"std_reg",
+                    "campo_marcador"=>":std_reg",
+                    "campo_valor"=> 0
+                ]
+            ];
 
-            if ($eliminarUsuario->rowCount() == 1) {
+            $condicion=[
+				"condicion_campo"=>"id_herramienta",
+				"condicion_marcador"=>":id_herramienta",
+				"condicion_valor"=>$id
+			];
+
+            if($this->actualizarDatos("herramienta",$datos_reg,$condicion)){
+                $this->registrarLog($_SESSION['id'],"ELIMINAR HERRAMIENTA","ELIMINADA EXITOSAMENTE PARA LA HERRAMIENTA ".$id.' '.$datos['nombre_herramienta']); 
                 $alerta = [
                     "tipo" => "recargar",
                     "titulo" => "Miembro Eliminado",
@@ -486,6 +502,7 @@
                     "icono" => "success"                    
                 ];                
             } else {
+                $this->registrarLog($_SESSION['id'],"ELIMINAR HERRAMIENTA","ELIMINACIÓN FALLIDA PARA LA HERRAMIENTA ".$id.' '.$datos['nombre_herramienta']); 
                 $alerta = [
                     "tipo" => "simple",
                     "titulo" => "Ocurrió un error inesperado",
@@ -495,4 +512,114 @@
             }
             return json_encode($alerta);
         }
+
+        public function actualizarDatosHeramienta(){
+            $id = $this->limpiarCadena($_POST['id']);
+
+            $codigo = $this->limpiarCadena($_POST['codigo']);
+            $nombre = $this->limpiarCadena($_POST['nombre']);
+            $cant = $this->limpiarCadena($_POST['cant']);
+            $estado = $this->limpiarCadena($_POST['estado']);
+
+            # Verificación de campos obligatorios #
+            if ($codigo == "" || $nombre == "" || $cant == ""|| $estado == "Seleccionar") {
+                // Si algún campo obligatorio está vacío, se devuelve una alerta de error
+                $alerta = [
+                    "tipo" => "simple",
+                    "titulo" => "Ocurrió un error inesperado",
+                    "texto" => "No has llenado todos los campos que son obligatorios",
+                    "icono" => "error"
+                ];
+                return json_encode($alerta);
+                exit();
+            }
+
+            # Verificar la integridad de los datos de código #
+            if ($this->verificarDatos('^[a-zA-Z0-9-]{1,10}$', $codigo)) {
+                // Si el formato del código no es válido, se devuelve una alerta de error
+                $alerta = [
+                    "tipo" => "simple",
+                    "titulo" => "Ocurrió un error inesperado",
+                    "texto" => "La CODIGO no cumple con el formato solicitado",
+                    "icono" => "error"
+                ];
+                return json_encode($alerta);
+                exit();
+            } 
+            #VERIFICAR LA codigo NO EXISTA        
+            $check_codigo = $this->ejecutarConsulta("SELECT id_herramienta FROM herramienta WHERE id_herramienta='$codigo' AND id_herramienta !='$id'");
+            if ($check_codigo->rowCount() > 0) {
+                // Si la Cedula ya existe en la base de datos, se devuelve una alerta de error
+                $alerta = [
+                    "tipo" => "simple",
+                    "titulo" => "Ocurrió un error inesperado",
+                    "texto" => "El CODIGO ingresado ya existe en los registros",
+                    "icono" => "error"
+                ];
+                return json_encode($alerta);
+                exit();
+            }
+            # Verificar la integridad de los datos de nombre #
+            if ($this->verificarDatos('[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{3,40}', $nombre)) {
+                // Si el formato del nombre no es válido, se devuelve una alerta de error
+                $alerta = [
+                    "tipo" => "simple",
+                    "titulo" => "Ocurrió un error inesperado",
+                    "texto" => "El NOMBRE DE LA HERRAMIENTA no cumple con el formato solicitado",
+                    "icono" => "error"
+                ];
+                return json_encode($alerta);
+                exit();
+            }                    
+
+            $herr_datos=[
+                [
+                    "campo_nombre"=>"id_herramienta",
+                    "campo_marcador"=>":Codigo",
+                    "campo_valor"=> $codigo
+                ],
+                [
+                    "campo_nombre"=>"nombre_herramienta",
+                    "campo_marcador"=>":Nombre",
+                    "campo_valor"=> $nombre
+                ],
+                [
+                    "campo_nombre"=>"cantidad",
+                    "campo_marcador"=>":Cant",
+                    "campo_valor"=> $cant
+                ],
+                [
+                    "campo_nombre"=>"estado",
+                    "campo_marcador"=>":Estado",
+                    "campo_valor"=> $estado
+                ]
+            ];
+
+            $condicion=[
+				"condicion_campo"=>"id_herramienta",
+				"condicion_marcador"=>":ID",
+				"condicion_valor"=>$id
+			];
+
+            if($this->actualizarDatos("herramienta",$herr_datos,$condicion)){
+                $this->registrarLog($_SESSION['id'],"MODIFICAR HERRAMIENTA","MODIFICADA EXITOSAMENTE PARA LA HERRAMIENTA ".$id.' '.$nombre); 
+				$alerta=[
+					"tipo"=>"limpiar",
+					"titulo"=>"Datos Actualizados",
+					"texto"=>"Se actualizo correctamente",
+					"icono"=>"success"
+				];
+			}else{
+                $this->registrarLog($_SESSION['id'],"MODIFICAR HERRAMIENTA","MODIFICACIÓN FALLIDA PARA LA HERRAMIENTA ".$id.' '.$nombre); 
+				$alerta = [
+                    "tipo" => "simple",
+                    "titulo" => "Ocurrió un error inesperado",
+                    "texto" => "¡Ha ocurrido un error durante el registro!",
+                    "icono" => "error"
+                ];
+			}
+			return json_encode($alerta);                  
+        }
+        
+        
     }

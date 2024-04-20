@@ -12,24 +12,23 @@
             </nav>
         </div>
     </div>
-    <label class='form-label' for='validationServer02'>BUSCAR OPERADOR:</label>
-    <div class='col-md-4'>
-        <input class='form-control is-valid' id='validationServer02' type='text' value='' required=''
-            placeholder='Codigo/Nombre'>
-        <div class='valid-feedback'>Bien Hecho</div>
-    </div>
-    <div class='col-md-1'>
-        <button class='form-control' style='background-color: rgb(60, 75, 100); color:white ;' type='button'
-            data-coreui-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>Buscar
-        </button>
-    </div>
-    <div class="col-md-3">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-            data-bs-target="#ventanaModalRegistrarMiem">
-            <!-- Icono para agregar usuario -->
-            <img src="<?php echo APP_URL; ?>app/views/icons/add.png" alt="icono" width="26" height="26">
-            Nuevo miembro
-        </button>
+    <div class="row">
+        <div class="col-md-6 p-4">
+            <label class="form-label" for="validationServer03">BUSCAR OPERADOR:</label>
+            <div class="input-group">
+                <input class="form-control" name="buscar" id="buscar" type="text" value=""
+                    placeholder="Busqueda por codigo o nombre">
+                <button class="btn btn-primary" type="button" id="btnBuscar">
+                    <img src="<?php echo APP_URL; ?>app/views/icons/buscar.png" width="20" height="20">buscar
+                </button>
+                <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                    data-bs-target="#ventanaModalRegistrarMiem">
+                    <!-- Icono para agregar usuario -->
+                    <img src="<?php echo APP_URL; ?>app/views/icons/add.png" alt="icono" width="20" height="20">
+                    Nuevo miembro
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 <hr>
@@ -49,8 +48,8 @@
         </div><br>
     </div>
 
-    <?php include 'modalRegistroMiembro.php' ?>
-    <?php include 'modalModificarMiembro.php' ?>
+    <?php include 'modals/modalRegistroMiembro.php' ?>
+    <?php include 'modals/modalModificarMiembro.php' ?>
 
     <?php require_once "./app/views/scripts/script-miem.php"; ?>
 </div>

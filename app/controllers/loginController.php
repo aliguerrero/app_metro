@@ -51,27 +51,47 @@
                             </script>
                         ";
                     } else {
+                        
                         // Verificar el username en la base de datos
                         $check_username = $this->ejecutarConsulta("SELECT * FROM user_system WHERE username='$username'");
                         if ($check_username->rowCount()==1) {
                             $check_username = $check_username->fetch();
                             // Verificar si el username y la contraseña coinciden
-                            if ($check_username['username'] == $username && password_verify($password,$check_username['password'])) {
-                                // Establecer variables de sesión y redirigir al usuario al panel de control
-                                $_SESSION['id']= $check_username['id_user'];
-                                $_SESSION['user']= $check_username['user'];
-                                $_SESSION['username']= $check_username['username'];
-                                $_SESSION['tipo']= $check_username['tipo'];
-                                if (headers_sent()) {
-                                    echo "
-                                        <script>
-                                            window.location.href='".APP_URL."dashboard/';
-                                        </script>
-                                    ";
+                            if ($check_username['username'] == $username && password_verify($password,$check_username['password'])  ) { 
+                                if ($check_username['std_reg'] == 1) {
+                                    $this->registrarLog($check_username['id_user'],"INICIAR SESION","ACCESO CONCEDIDO");                                                       
+                                    // Establecer variables de sesión y redirigir al usuario al panel de control
+                                    $_SESSION['id']= $check_username['id_user'];
+                                    $_SESSION['user']= $check_username['user'];
+                                    $_SESSION['username']= $check_username['username'];
+                                    $_SESSION['tipo']= $check_username['tipo'];
+                                    if (headers_sent()) {
+                                        echo "
+                                            <script>
+                                                window.location.href='".APP_URL."dashboard/';
+                                            </script>
+                                        ";
+                                    } else {
+                                        header("Location: ".APP_URL."dashboard/");
+                                    } 
                                 } else {
-                                    header("Location: ".APP_URL."dashboard/");
-                                }                        
-                            } else {
+                                    $this->registrarLog($check_username['id_user'],"INICIAR SESION","USUARIO ELIMINADO HA INTENTADO INICIAR SESION");
+                                    echo "
+                                    <script>
+                                        Swal.fire({
+                                            icon: 'warning',
+                                            title: 'Acceso denegado',
+                                            text: 'Su cuenta ha sido eliminada',
+                                            confirmButtonText: 'Aceptar'
+                                        });
+                                    </script>
+                                ";
+                                }
+                                
+                                                       
+                            } else {                                
+                                 
+                                $this->registrarLog($check_username['id_user'],"INICIAR SESION","ACCESO DENEGADO, CLAVE INCORRECTA"); 
                                 // Mostrar alerta si el username o la contraseña son incorrectos
                                 echo "
                                     <script>
@@ -101,7 +121,7 @@
                 }    
             }
         }        
-
+        
         # controlador cerrar sesion #
         public function cerrarSesionControlador(){
             // Destruir todas las variables de sesión

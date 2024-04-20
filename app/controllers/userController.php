@@ -12,7 +12,7 @@
             $clave1 = $this->limpiarCadena($_POST['clave1']);
             $clave2 = $this->limpiarCadena($_POST['clave2']);
             $tipo   = $this->limpiarCadena($_POST['tipo']);
-
+        
             # Verificación de campos obligatorios #
             if ($cedula == "" || $nombre == "" || $username == ""|| $clave1 == ""|| $clave2 == ""|| $tipo == "Seleccionar") {
                 // Si algún campo obligatorio está vacío, se devuelve una alerta de error
@@ -25,57 +25,60 @@
                 return json_encode($alerta);
                 exit();
             }
-
-            # Verificar la integridad de los datos de código #
+        
+            # Verificar la integridad de los datos de cédula #
             if ($this->verificarDatos('^[0-9]{6,10}$', $cedula)) {
-                // Si el formato del código no es válido, se devuelve una alerta de error
+                // Si el formato de la cédula no es válido, se devuelve una alerta de error
                 $alerta = [
                     "tipo" => "simple",
                     "titulo" => "Ocurrió un error inesperado",
-                    "texto" => "La CEDULA no cumple con el formato solicitado",
+                    "texto" => "La cédula no cumple con el formato solicitado",
                     "icono" => "error"
                 ];
                 return json_encode($alerta);
                 exit();
             }
+        
             # Verificar el Cedula #
             $check_cedula = $this->ejecutarConsulta("SELECT id_user FROM user_system WHERE id_user='$cedula'");
             if ($check_cedula->rowCount() > 0) {
-                // Si la Cedula ya existe en la base de datos, se devuelve una alerta de error
+                // Si la Cédula ya existe en la base de datos, se devuelve una alerta de error
                 $alerta = [
                     "tipo" => "simple",
                     "titulo" => "Ocurrió un error inesperado",
-                    "texto" => "La Cedula ingresada ya existe en los registros",
+                    "texto" => "La Cédula ingresada ya existe en los registros",
                     "icono" => "error"
                 ];
                 return json_encode($alerta);
                 exit();
             }
-
+        
             # Verificar la integridad de los datos de nombre #
             if ($this->verificarDatos('[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{3,40}', $nombre)) {
                 // Si el formato del nombre no es válido, se devuelve una alerta de error
                 $alerta = [
                     "tipo" => "simple",
                     "titulo" => "Ocurrió un error inesperado",
-                    "texto" => "El NOMBRE DEL USUARIO no cumple con el formato solicitado",
+                    "texto" => "El nombre de usuario no cumple con el formato solicitado",
                     "icono" => "error"
                 ];
                 return json_encode($alerta);
                 exit();
             }
-            # Verificar la integridad de los datos de nombre #
+        
+            # Verificar la integridad de los datos de nombre de usuario #
             if ($this->verificarDatos('[a-zA-Z0-9]{4,20}', $username)) {
-                // Si el formato del nombre no es válido, se devuelve una alerta de error
+                // Si el formato del nombre de usuario no es válido, se devuelve una alerta de error
                 $alerta = [
                     "tipo" => "simple",
                     "titulo" => "Ocurrió un error inesperado",
-                    "texto" => "El USERNAME no cumple con el formato solicitado",
+                    "texto" => "El username no cumple con el formato solicitado",
                     "icono" => "error"
                 ];
                 return json_encode($alerta);
                 exit();
             }
+        
             # Verificar el username #
             $check_username = $this->ejecutarConsulta("SELECT username FROM user_system WHERE username='$username'");
             if ($check_username->rowCount() > 0) {
@@ -83,13 +86,13 @@
                 $alerta = [
                     "tipo" => "simple",
                     "titulo" => "Ocurrió un error inesperado",
-                    "texto" => "El USERNAME ingresado ya existe en los registros",
+                    "texto" => "El username ingresado ya existe en los registros",
                     "icono" => "error"
                 ];
                 return json_encode($alerta);
                 exit();
             }
-
+        
             # Verificar las claves #
             if ($clave1 != $clave2) {
                 // Si las claves no coinciden, se devuelve una alerta de error
@@ -105,9 +108,10 @@
                 // Si coinciden, se crea un hash de la clave
                 $clave = password_hash($clave1,PASSWORD_BCRYPT,["cost="=> 10]);
             }
-            # Verificar la integridad de los datos de clave #
+        
+            # Verificar la integridad de los datos de la clave #
             if ($this->verificarDatos('[a-zA-Z0-9$@.-]{8,15}', $clave1)) {
-                // Si el formato del nombre no es válido, se devuelve una alerta de error
+                // Si el formato de la clave no es válido, se devuelve una alerta de error
                 $alerta = [
                     "tipo" => "simple",
                     "titulo" => "Ocurrió un error inesperado",
@@ -117,7 +121,8 @@
                 return json_encode($alerta);
                 exit();
             }
-
+        
+            // Definición de un array asociativo $user_datos_reg que contiene los datos del usuario a registrar
             $user_datos_reg=[
                 [
                     "campo_nombre"=>"id_user",
@@ -143,19 +148,29 @@
                     "campo_nombre"=>"tipo",
                     "campo_marcador"=>":Tipo",
                     "campo_valor"=> $tipo
+                ],
+                [
+                    "campo_nombre"=>"std_reg",
+                    "campo_marcador"=>":std_reg",
+                    "campo_valor"=> "1"
                 ]
             ];
-
+        
+            // Llamada al método guardarDatos() para guardar los datos del usuario en la base de datos
             $registrar_user= $this->guardarDatos("user_system", $user_datos_reg);
-
+        
             if ($registrar_user->rowCount()==1) {
+                $this->registrarLog($_SESSION['id'],"REGISTRO DE USUARIO","REGISTRO EXITOSO DEL USUARIO ".$nombre);
+                // Si se registró correctamente, se devuelve un mensaje de éxito
                 $alerta = [
                     "tipo" => "limpiar",
                     "titulo" => "Usuario Registrado",
-                    "texto" => "El Usuario ".$nombre." se ha resgitrado con exito",
+                    "texto" => "El Usuario ".$nombre." se ha registrado con éxito",
                     "icono" => "success"
                 ];            
-            }else{            
+            } else {      
+                $this->registrarLog($_SESSION['id'],"REGISTRO DE USUARIO","REGISTRO FALLIDO DEL USUARIO ".$nombre);      
+                // Si no se pudo registrar, se devuelve un mensaje de error
                 $alerta = [
                     "tipo" => "simple",
                     "titulo" => "Ocurrió un error inesperado",
@@ -165,6 +180,7 @@
             }
             return json_encode($alerta);
         }
+        
 
         # controlador listar usuarios # 
         public function listarUsuarioControlador ($pagina, $registros, $url, $busqueda){
@@ -185,21 +201,21 @@
             if (isset($busqueda) && $busqueda!= "") {
 
                 $consulta_datos="SELECT * FROM user_system WHERE 
-                ((id_user!='".$_SESSION['id']."' AND tipo!='1') AND (user LIKE '%$busqueda%' 
+                ((id_user!='".$_SESSION['id']."' AND tipo!='1' AND 	std_reg='1') AND (user LIKE '%$busqueda%' 
                 OR id_user LIKE '%$busqueda%' OR username LIKE '%$busqueda%')) ORDER 
                 BY user ASC LIMIT $inicio, $registros";
 
                 $consulta_total="SELECT COUNT(id_user) FROM user_system WHERE 
-                ((id_user!='".$_SESSION['id']."' AND tipo!='1') AND (user LIKE '%$busqueda%' 
+                ((id_user!='".$_SESSION['id']."' AND tipo!='1' AND 	std_reg='1') AND (user LIKE '%$busqueda%' 
                 OR id_user LIKE '%$busqueda%' OR username LIKE '%$busqueda%'))";
          
             } else {
                 $consulta_datos="SELECT * FROM user_system WHERE
-                id_user!='".$_SESSION['id']."' ORDER
+                id_user!='".$_SESSION['id']."' AND 	std_reg='1' ORDER
                 BY user ASC LIMIT $inicio, $registros";
 
                 $consulta_total="SELECT COUNT(id_user) FROM user_system WHERE
-                id_user!='".$_SESSION['id']."'";
+                id_user!='".$_SESSION['id']."' AND 	std_reg='1'";
             }
             
             $datos = $this->ejecutarConsulta($consulta_datos);
@@ -216,7 +232,7 @@
                         <thead class="table-light fw-semibold">
                             <tr class="align-middle">
                                 <th class="clearfix">#</th>
-                                <th class="text-center">
+                                <th class="clearfix">
                                     <svg class="icon">
                                         <use xlink:href="'.APP_URL.'app/views/icons/svg/free.svg#cil-people"></use>
                                     </svg>
@@ -241,15 +257,15 @@
                     }
                     $tabla.='
                         <tr class="align-middle">
-                            <td class="clearfix col-1">
+                            <td class="clearfix col-p">
                                 <div class=""><b>'.$contador.'</b></div>
                             </td>
-                            <td class="text-center col-1">
+                            <td class="clearfix col-p">
                                 <div class="avatar avatar-md"><img class="avatar-img"
                                         src="'.APP_URL.'app/views/img/avatars/user.png" alt="user@email.com"><span
                                         class="avatar-status bg-success"></span></div>
                             </td>                            
-                            <td class="col-1">
+                            <td class="col-p">
                                 <div class="clearfix">
                                     <div class=""><b>'.$rows['id_user'].'</b></div>
                                 </div>
@@ -259,32 +275,32 @@
                                     <div class=""><b>'.$rows['user'].'</b></div>
                                 </div>
                             </td>
-                            <td class="col-1">
+                            <td class="col-p">
                                 <div class="text-center">
                                     <div class=""><b>'.$tipo_user.'</b></div>
                                 </div>
                             </td>
-                            <td class="col-1">
+                            <td class="col-p">
                                 <button type="button" title="Ver" class="btn" style="background-color: #EBEDEF; color:white ;">
-                                    <img src="'.APP_URL.'app/views/icons/view.png" alt="icono" width="32" height="32">
+                                    <img src="'.APP_URL.'app/views/icons/view.png" alt="icono" width="28" height="28">
                                 </button>                       
                             </td>
-                            <td class="col-1">                              
+                            <td class="col-p">                              
                                 <a href="#" title="Cambiar Clave" class="btn" data-bs-toggle="modal" data-bs-target="#ventanaModalModificarPass" data-bs-id="'.$rows['id_user'].'" style="background-color: #EBEDEF; color:white ;">
-                                    <img src="'.APP_URL.'app/views/icons/password.png" alt="icono" width="32" height="32" >
+                                    <img src="'.APP_URL.'app/views/icons/password.png" alt="icono" width="28" height="28" >
                                 </a> 
                             </td>
-                            <td class="col-1">                              
+                            <td class="col-p">                              
                                 <a href="#" title="Modificar" class="btn" data-bs-toggle="modal" data-bs-target="#ventanaModalModificar" data-bs-id="'.$rows['id_user'].'" style="background-color: #EBEDEF; color:white ;">
-                                    <img src="'.APP_URL.'app/views/icons/edit.png" alt="icono" width="32" height="32" >
+                                    <img src="'.APP_URL.'app/views/icons/edit.png" alt="icono" width="28" height="28" >
                                 </a> 
                             </td>
-                            <td class="col-1">
+                            <td class="col-p">
                                 <form class="FormularioAjax" action="'.APP_URL.'app/ajax/userAjax.php" method="POST">
                                     <input type="hidden" name="modulo_user" value="eliminar">
                                     <input type="hidden" name="id_user" value="'.$rows['id_user'].'">
                                     <button type="submit" class="btn" title="Eliminar" style="background-color: #EBEDEF; color:white ;">
-                                        <img src="'.APP_URL.'app/views/icons/delete.png" alt="icono" width="32" height="32">
+                                        <img src="'.APP_URL.'app/views/icons/delete.png" alt="icono" width="28" height="28">
                                     </button> 
                                 </form>
                             </td>    
@@ -332,6 +348,7 @@
         public function eliminarUserControlador(){
             
             $id = $this->limpiarCadena($_POST['id_user']);
+            $id2 = "E-".$id;        
 
             if ($id == 1) {
                 $alerta = [
@@ -358,9 +375,28 @@
                 $datos = $datos->fetch();
             }
             
-            $eliminarUsuario = $this->eliminarRegistro('user_system', 'id_user', $id);
+            $datos_reg=[
+                [
+                    "campo_nombre" => "id_user",
+                    "campo_marcador" => ":id",
+                    "campo_valor" => $id2
+                ]
+                ,
+                [
+                    "campo_nombre"=>"std_reg",
+                    "campo_marcador"=>":std_reg",
+                    "campo_valor"=> 0
+                ]
+            ];
 
-            if ($eliminarUsuario->rowCount() == 1) {
+            $condicion=[
+				"condicion_campo"=>"id_user",
+				"condicion_marcador"=>":id_user",
+				"condicion_valor"=>$id
+			];
+
+            if($this->actualizarDatos("user_system",$datos_reg,$condicion)){
+                $this->registrarLog($_SESSION['id'],"ELIMINACION DE USUARIO","ELIMINACION EXITOSA DEL USUARIO ".$datos['user']);
                 $alerta = [
                     "tipo" => "recargar",
                     "titulo" => "Usuario Eliminador",
@@ -368,6 +404,7 @@
                     "icono" => "success"                    
                 ];                
             } else {
+                $this->registrarLog($_SESSION['id'],"ELIMINACION DE USUARIO","ELIMINACION FALLIDA DEL USUARIO ".$datos['user']);
                 $alerta = [
                     "tipo" => "simple",
                     "titulo" => "Ocurrió un error inesperado",
@@ -518,6 +555,7 @@
 			];
 
             if($this->actualizarDatos("user_system",$user_datos,$condicion)){
+                $this->registrarLog($_SESSION['id'],"ACTUALIZACION DE DATOS","ACTUALIZACION EXITOSA");
 				$alerta=[
 					"tipo"=>"limpiar",
 					"titulo"=>"Datos Actualizados",
@@ -525,7 +563,7 @@
 					"icono"=>"success"
 				];
 			}else{
-
+                $this->registrarLog($_SESSION['id'],"ACTUALIZACION DE DATOS","ERROR EN LA ACTUALIZACION");
 				$alerta = [
                     "tipo" => "simple",
                     "titulo" => "Ocurrió un error inesperado",
@@ -613,6 +651,7 @@
 
             // Intentar actualizar la clave en la base de datos
             if($this->actualizarDatos("user_system",$user_datos,$condicion)){
+                $this->registrarLog($_SESSION['id'],"CAMBIO DE CLAVE","CLAVE MODIFICADA EXITOSAMENTE"); 
                 // Si se actualiza correctamente, se devuelve un mensaje de éxito
                 $alerta=[
                     "tipo"=>"limpiar",
@@ -621,6 +660,7 @@
                     "icono"=>"success"
                 ];
             } else {
+                $this->registrarLog($_SESSION['id'],"CAMBIO DE CLAVE","ERROR AL MODIFICAR LA CLAVE"); 
                 // Si ocurre algún error durante la actualización, se devuelve una alerta de error
                 $alerta = [
                     "tipo" => "simple",
@@ -632,6 +672,6 @@
 
             // Devolver el mensaje resultante en formato JSON
             return json_encode($alerta);                  
-        }
+        }       
 
     }

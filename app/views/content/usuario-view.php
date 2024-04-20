@@ -1,26 +1,32 @@
-<div class="body flex-grow-1 px-3">
     <!-- Sección de búsqueda de usuario -->
+    <div class='row pb-3'>
+        <div class='header-divider'></div>
+        <div class='container-fluid'>
+            <nav aria-label='breadcrumb'>
+                <ol class='breadcrumb my-0 ms-2'>
+                    <li class='breadcrumb-item'>
+                        <!-- if breadcrumb is single--><span>Home</span>
+                    </li>
+                    <li class='breadcrumb-item active'><span>Panel</span></li>
+                </ol>
+            </nav>
+        </div>
+    </div>
     <div class="row">
-        <div class="col-md-8 p-4">
-            <div class="row">
-                <label class="form-label">BUSCAR USUARIO:</label>
-                <div class="col-md-4">
-                    <input class="form-control " type="text" placeholder="Cedula / Nombre">
-                </div>
-                <div class="col-md-1">
-                    <button type="button" class="btn btn-primary">
-                        <!-- Icono de búsqueda -->
-                        <img src="<?php echo APP_URL; ?>app/views/icons/buscar.png" alt="icono" width="26" height="26">
-                    </button>
-                </div>
-                <div class="col-md-3">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#ventanaModalRegistrar">
-                        <!-- Icono para agregar usuario -->
-                        <img src="<?php echo APP_URL; ?>app/views/icons/add.png" alt="icono" width="26" height="26">
-                        Nuevo usuario
-                    </button>
-                </div>
+        <div class="col-md-6 p-4">
+            <label class="form-label" for="validationServer03">BUSCAR USUARIO:</label>
+            <div class="input-group">
+                <input class="form-control" name="buscar" id="buscar" type="text" value=""
+                    placeholder="Busqueda por cedula o nombre">
+                <button class="btn btn-primary" type="button" id="btnBuscar">
+                    <img src="<?php echo APP_URL; ?>app/views/icons/buscar.png" width="20" height="20">buscar
+                </button>
+                <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                    data-bs-target="#ventanaModalRegistrar">
+                    <!-- Icono para agregar usuario -->
+                    <img src="<?php echo APP_URL; ?>app/views/icons/add.png" alt="icono" width="20" height="20">
+                    Nuevo Usuario
+                </button>
             </div>
         </div>
     </div>
@@ -28,7 +34,7 @@
 
     <!-- Sección de usuarios registrados -->
     <div class="row">
-        <div class="col-md-12 p-3">
+        <div class="col-md-12">
             <div class="row">
                 <label>
                     <h4>Usuarios registrados</h4>
@@ -44,10 +50,9 @@
             </div>
         </div>
         <!-- Incluir modales -->
-        <?php include 'modalRegistroUser.php' ?>
-        <?php include 'modalModificarUser.php' ?>
-        <?php include 'modalModificarPass.php' ?>
+        <?php include 'modals/modalRegistroUser.php' ?>
+        <?php include 'modals/modalModificarUser.php' ?>
+        <?php include 'modals/modalModificarPass.php' ?>
 
         <?php require_once "./app/views/scripts/script-user.php"; ?>
     </div>
-</div>

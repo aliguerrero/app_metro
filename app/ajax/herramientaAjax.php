@@ -13,6 +13,9 @@
         if ($_POST ['modulo_herramienta'] == "eliminar") {
             echo $insTools->eliminarHerramientaControlador();
         }
+        if ($_POST ['modulo_herramienta'] == "modificar") {
+            echo $insTools->actualizarDatosHeramienta();
+        }
     } else {
         session_destroy();
         header("Location: ".APP_URL."login/");
