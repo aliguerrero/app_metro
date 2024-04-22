@@ -1,4 +1,3 @@
-<div class='row'>
     <div class='row pb-3'>
         <div class='header-divider'></div>
         <div class='container-fluid'>
@@ -13,43 +12,47 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-6 p-4">
-            <label class="form-label" for="validationServer03">BUSCAR OPERADOR:</label>
-            <div class="input-group">
-                <input class="form-control" name="buscar" id="buscar" type="text" value=""
-                    placeholder="Busqueda por codigo o nombre">
-                <button class="btn btn-primary" type="button" id="btnBuscar">
-                    <img src="<?php echo APP_URL; ?>app/views/icons/buscar.png" width="20" height="20">buscar
-                </button>
-                <button type="button" class="btn btn-success" data-bs-toggle="modal"
+        <form class="FormularioAjax row" action="<?php echo APP_URL; ?>app/ajax/otAjax.php" method="POST">
+            <div class="col-md-4" id="nrot_field">
+                <label class="form-label"><b>BUSCAR OPERADOR</b></label>
+                <div class="input-group">
+                    <input class="form-control" name="nrot" id="nrot" type="text" value=""
+                        placeholder="Busqueda por codigo o nombre">
+                    <button class="btn btn-primary" type="submit" id="" title="Buscar">
+                        <img src="<?php echo APP_URL; ?>app/views/icons/buscar.png" width="20" height="20">
+                    </button>
+                </div>
+            </div>
+
+            <div class="col-md-2 d-flex flex-column">
+                <!-- Añadir clase d-flex y flex-column -->
+                <button type="button" class="btn btn-success mt-auto" data-bs-toggle="modal"
                     data-bs-target="#ventanaModalRegistrarMiem">
                     <!-- Icono para agregar usuario -->
                     <img src="<?php echo APP_URL; ?>app/views/icons/add.png" alt="icono" width="20" height="20">
-                    Nuevo miembro
+                    Nuevo Miembro
                 </button>
             </div>
-        </div>
+        </form>
     </div>
-</div>
-<hr>
-
-<div class='row'>
-    <div class='col-md-12'>
-        <div class='row'>
-            <label>
-                <h4>Miembros registrados</h4>
-            </label>
-            <?php 
+    <hr>
+    <div class='row'>
+        <div class='col-md-12'>
+            <div class='row'>
+                <label>
+                    <h4>Miembros registrados</h4>
+                </label>
+                <?php 
                 use app\controllers\miembroController;
                 $insMiembro = new miembroController();
                 
                 echo $insMiembro->listarMiembroControlador ($url[1],8,$url[0],"");
             ?>
-        </div><br>
+            </div><br>
+        </div>
+
+        <?php include 'modals/modalRegistroMiembro.php' ?>
+        <?php include 'modals/modalModificarMiembro.php' ?>
+
+        <?php require_once "./app/views/scripts/script-miem.php"; ?>
     </div>
-
-    <?php include 'modals/modalRegistroMiembro.php' ?>
-    <?php include 'modals/modalModificarMiembro.php' ?>
-
-    <?php require_once "./app/views/scripts/script-miem.php"; ?>
-</div>

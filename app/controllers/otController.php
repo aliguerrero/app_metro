@@ -164,7 +164,7 @@
             $status = $this->limpiarCadena($_POST['status']);
             $cco = $this->limpiarCadena($_POST['cco']);
             $ccf   = $this->limpiarCadena($_POST['ccf']);
-            $tecnico = $this->limpiarCadena($_POST['tecnico']);
+            $tecnico = $this->limpiarCadena($_POST['tec']);
             $prep_ini = $this->limpiarCadena($_POST['prep_ini']);
             $prep_fin = $this->limpiarCadena($_POST['prep_fin']);
             $tras_ini = $this->limpiarCadena($_POST['tras_ini']);
@@ -174,7 +174,7 @@
             $observacion = $this->limpiarCadena($_POST['observacion']);
             
             # Verificación de campos obligatorios #
-            if ($id == "" || $cant > 0 || $turno == "Seleccionar"|| $status == "Seleccionar"|| $cco == "Seleccionar"|| $ccf == "Seleccionar"|| $tecnico == ""|| $prep_ini == ""|| $prep_fin == ""|| $tras_ini == ""|| $tras_fin == ""|| $ejec_ini == ""|| $ejec_fin == "") {
+            if ($id == "" || $cant == 0 || $turno == "Seleccionar"|| $status == "Seleccionar"|| $cco == "Seleccionar"|| $ccf == "Seleccionar"|| $tecnico == "Seleccionar"|| $prep_ini == ""|| $prep_fin == ""|| $tras_ini == ""|| $tras_fin == ""|| $ejec_ini == ""|| $ejec_fin == "") {
                 // Si algún campo obligatorio está vacío, se devuelve una alerta de error
                 $alerta = [
                     "tipo" => "simple",
@@ -212,7 +212,7 @@
                 [
                     "campo_nombre" => "responsable_act",
                     "campo_marcador" => ":responsable",
-                    "campo_valor" => $_SESSION['id']
+                    "campo_valor" => $tecnico
                 ],
                 [
                     "campo_nombre" => "responsable_ccf ",

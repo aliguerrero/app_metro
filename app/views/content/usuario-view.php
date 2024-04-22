@@ -13,22 +13,29 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-6 p-4">
-            <label class="form-label" for="validationServer03">BUSCAR USUARIO:</label>
-            <div class="input-group">
-                <input class="form-control" name="buscar" id="buscar" type="text" value=""
-                    placeholder="Busqueda por cedula o nombre">
-                <button class="btn btn-primary" type="button" id="btnBuscar">
-                    <img src="<?php echo APP_URL; ?>app/views/icons/buscar.png" width="20" height="20">buscar
-                </button>
-                <button type="button" class="btn btn-success" data-bs-toggle="modal"
+        <form class="FormularioAjax row" action="<?php echo APP_URL; ?>app/ajax/otAjax.php" method="POST">
+
+            <div class="col-md-4" id="nrot_field">
+                <label class="form-label"><b>BUSCAR USUARIO</b></label>
+                <div class="input-group">
+                    <input class="form-control" name="nrot" id="nrot" type="text" value=""
+                        placeholder="Busqueda por cedula o nombre">
+                    <button class="btn btn-primary" type="submit" id="" title="Buscar">
+                        <img src="<?php echo APP_URL; ?>app/views/icons/buscar.png" width="20" height="20">
+                    </button>
+                </div>
+            </div>
+
+            <div class="col-md-2 d-flex flex-column">
+                <!-- Añadir clase d-flex y flex-column -->
+                <button type="button" class="btn btn-success mt-auto" data-bs-toggle="modal"
                     data-bs-target="#ventanaModalRegistrar">
                     <!-- Icono para agregar usuario -->
                     <img src="<?php echo APP_URL; ?>app/views/icons/add.png" alt="icono" width="20" height="20">
                     Nuevo Usuario
                 </button>
             </div>
-        </div>
+        </form>
     </div>
     <hr>
 
