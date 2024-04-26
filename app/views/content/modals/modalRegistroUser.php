@@ -79,7 +79,7 @@
 
                         <div class="col-md-6">
                             <button class="form-control" style="background-color: rgb(60, 75, 100); color: white ;"
-                                type="button" data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                type="button" aria-haspopup="true" aria-expanded="false"
                                 data-bs-dismiss="modal">Cancelar
                             </button>
                         </div>

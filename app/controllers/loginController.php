@@ -98,7 +98,7 @@
                                         Swal.fire({
                                             icon: 'error',
                                             title: 'Ocurrio un error inesperado',
-                                            text: 'Usuario o clave incorrectos',
+                                            text: 'Clave incorrecta',
                                             confirmButtonText: 'Aceptar'
                                         });
                                     </script>

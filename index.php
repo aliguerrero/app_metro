@@ -17,7 +17,7 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-bs-theme="light">
 <head>
     <?php require_once "./app/views/inc/head.php"; ?>
 </head>

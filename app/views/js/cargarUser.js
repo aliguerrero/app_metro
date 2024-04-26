@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let inputNombre = modificarModalPassUser.querySelector('.modal-body #nombreUser');
 
         // Construir la URL del script PHP que carga los datos del usuario
-        let url = "../app/controllers/cargarDatosUser.php";
+        let url = "http://localhost/app_metro/app/controllers/cargarDatosUser.php";
         // Crear un objeto FormData y agregar el ID del usuario como parámetro
         let formData = new FormData();
         formData.append('id', id);

@@ -1,6 +1,6 @@
     <div class='row pb-3'>
-        <div class='header-divider'></div>
         <div class='container-fluid'>
+        <h3>Gestion de Herramientas</h3> 
             <nav aria-label='breadcrumb'>
                 <ol class='breadcrumb my-0 ms-2'>
                     <li class='breadcrumb-item'>

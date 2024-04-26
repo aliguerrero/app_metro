@@ -8,7 +8,7 @@ class viewsModel{
     protected function obtenerVistaModelo ($vista){
         // Lista blanca de vistas permitidas
 
-        $listaBlanca = ["dashboard","gestionMiembro","gestionOT","gestionHerramienta","usuario","logOut"];
+        $listaBlanca = ["dashboard","gestionMiembro","gestionOT","gestionHerramienta","usuario","logOut","herramientaOt","config"];
 
         // Verificar si la vista está en la lista blanca
         if (in_array($vista,$listaBlanca)) {
@@ -17,7 +17,7 @@ class viewsModel{
                 $contenido = "./app/views/content/".$vista."-view.php";
             } else {
                 // Si el archivo de vista no existe, devolver una vista de error 404
-                $contenido = "404";
+        $contenido = "404";
             }    
         } elseif ($vista == "login" || $vista == "index") {
             // Si la vista es "login" o "index", devolver la vista "login"

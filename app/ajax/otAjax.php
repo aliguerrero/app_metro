@@ -17,18 +17,18 @@
             // Si el valor es "registrar", se llama al método registrarUserControlador de la instancia $insOt y se muestra el resultado
             echo $insOt->registrarOtControlador();
         }
+        if ($_POST['modulo_ot'] == "modificar_ot") {
+            // Si el valor es "eliminar", se llama al método eliminarUserControlador de la instancia $insOt y se muestra el resultado
+            echo $insOt->modificarOtControlador();
+        } 
         if ($_POST['modulo_ot'] == "registrar_detalle") {
             // Si el valor es "registrar", se llama al método registrarUserControlador de la instancia $insOt y se muestra el resultado
             echo $insOt->registrarDetalleOtControlador();
         }
-        if ($_POST['modulo_ot'] == "eliminar") {
+        if ($_POST['modulo_ot'] == "modificar_detalle") {
             // Si el valor es "eliminar", se llama al método eliminarUserControlador de la instancia $insOt y se muestra el resultado
-            echo $insOt->eliminarUserControlador();
-        }
-        if ($_POST['modulo_ot'] == "modificar") {
-            // Si el valor es "eliminar", se llama al método eliminarUserControlador de la instancia $insOt y se muestra el resultado
-            echo $insOt->actualizarDatosUser();
-        } 
+            echo $insOt->modificarDetalleOtControlador();
+        }       
                        
     } else {
         // Si no se ha enviado el parámetro 'modulo_ot' a través del método POST, se destruye la sesión y se redirige al usuario a la página de inicio de sesión

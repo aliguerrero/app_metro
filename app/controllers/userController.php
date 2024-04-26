@@ -40,7 +40,7 @@
             }
         
             # Verificar el Cedula #
-            $check_cedula = $this->ejecutarConsulta("SELECT id_user FROM user_system WHERE id_user='$cedula'");
+            $check_cedula = $this->ejecutarConsulta("SELECT id_user FROM user_system WHERE id_user='$cedula' AND std_reg=1");
             if ($check_cedula->rowCount() > 0) {
                 // Si la Cédula ya existe en la base de datos, se devuelve una alerta de error
                 $alerta = [
@@ -80,7 +80,7 @@
             }
         
             # Verificar el username #
-            $check_username = $this->ejecutarConsulta("SELECT username FROM user_system WHERE username='$username'");
+            $check_username = $this->ejecutarConsulta("SELECT username FROM user_system WHERE username='$username' and std_reg=1");
             if ($check_username->rowCount() > 0) {
                 // Si el username ya existe en la base de datos, se devuelve una alerta de error
                 $alerta = [

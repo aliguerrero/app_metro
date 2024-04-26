@@ -10,37 +10,24 @@
             <div class="modal-body">
                 <form class='row g-3 FormularioAjax' action='<?php echo APP_URL; ?>app/ajax/herramientaAjax.php'
                     method='POST'>
-                    <input type="hidden" name="modulo_herramienta" value="modificar">
-                    <div class='row'>
-                        <div class='col-md-4'><br>
-                            <input type="hidden" name="id" id="id">
-                            <label class='form-label'>CODIGO:</label>
-                            <input class='form-control ' name='codigo' id='codigo' type='text' value=''
-                                placeholder='Ingrese codigo'>
-                        </div>
-                    </div>
-                    <div class='row'>
-                        <div class='col-md-12'>
-                            <label class='form-label'>NOMBRE DE LA HERRAMIENTA:</label>
-                            <input class='form-control ' name='nombre' id='nombre' type='text' value=''
-                                placeholder='Ingrese Nombre de la herramienta'>
-                        </div>
-                    </div>
-                    <div class='row'>
-                        <div class='col-md-4'>
-                            <label class='form-label'>CANTIDAD:</label>
-                            <input class='form-control' name='cant' id='cant' type='number' min="0"
-                                placeholder='Ingrese cantidad'>
-                        </div>
-                        <div class='col-md-8'>
-                            <label class='form-label'>ESTADO:</label>
-
-                            <select class='form-select' name='estado' id="estado" aria-label='Default select example'>
-                                <option selected>Seleccionar</option>
-                                <option value='1'>Buen Estado</option>
-                                <option value='2'>Regular</option>
-                                <option value='3'>Mal Estado</option>
+                    <div class="col-md-9">
+                        <label class="form-label"><b>SELECCIONAR HERRAMIENTA:</b></label>
+                        <div class="input-group">
+                            <select class="form-select" id="herramienta" name="herramienta" aria-label="Seleccionar herramienta">
+                                <option value="1">SEÑALIZACIÓN</option>
+                                <option value="2">INFRAESTRUCTURA</option>
+                                <option value="3">APARATO DE VIA</option>
+                                <option value="4">NO PROGRAMADA</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label"><b>CANTIDAD:</b></label>
+                        <div class="input-group">
+                            <input class="form-control form-control-sm" id="cant" name="cant" type="number" placeholder="Cantidad">
+                            <button class="btn btn-primary" type="submit" id="" title="Agregar">
+                                <img src="<?php echo APP_URL; ?>app/views/icons/add.png" width="20" height="20">
+                            </button>
                         </div>
                     </div>
                     <hr>

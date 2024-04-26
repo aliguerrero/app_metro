@@ -453,7 +453,309 @@
 
             return $tabla;
         }
+        public function listarHerramienta ($pagina, $registros, $url, $busqueda){
+            
+            $pagina = $this->limpiarCadena($pagina);
+            $registros = $this->limpiarCadena($registros);
 
+            $url = $this->limpiarCadena($url);
+            $url= APP_URL.$url."/";
+
+            $busqueda = $this->limpiarCadena($busqueda);
+
+            $tabla="";
+
+            $pagina = (isset($pagina) && $pagina>0) ? (int) $pagina : 1;
+            $inicio = ($pagina>0) ? (($pagina*$registros)-$registros) : 0;
+            
+            if (isset($busqueda) && $busqueda!= "") {
+
+                $consulta_datos="SELECT h.*,(h.cantidad - COALESCE(SUM(hot.cantidadot), 0)) AS cantidad_disponible,
+                COALESCE(SUM(hot.cantidadot), 0) AS herramienta_ocupada
+                FROM 
+                herramienta h
+                LEFT JOIN 
+                herramientaot hot ON h.id_herramienta = hot.id_herramienta
+                WHERE 
+                ((h.id_herramienta   LIKE '%$busqueda%' OR h.nombre_herramienta LIKE '%$busqueda%' AND std_reg='1')) ORDER BY h.id_herramienta  ASC LIMIT $inicio, $registros";
+
+                $consulta_total="SELECT COUNT(h.id_herramienta) 
+                FROM 
+                herramienta h
+                LEFT JOIN 
+                herramientaot hot ON h.id_herramienta = hot.id_herramienta 
+                WHERE 
+                ((h.id_herramienta  LIKE '%$busqueda%' OR h.nombre_herramienta LIKE '%$busqueda%' AND std_reg='1'))";
+         
+            } else {
+                $consulta_datos="SELECT h.*,(h.cantidad - COALESCE(SUM(hot.cantidadot), 0)) AS cantidad_disponible,
+                COALESCE(SUM(hot.cantidadot), 0) AS herramienta_ocupada
+                FROM 
+                herramienta h
+                LEFT JOIN 
+                herramientaot hot ON h.id_herramienta = hot.id_herramienta WHERE std_reg='1'
+                GROUP BY 
+                h.id_herramienta ASC LIMIT $inicio, $registros";
+
+                $consulta_total="SELECT COUNT(h.id_herramienta ) 
+                FROM 
+                herramienta h
+                LEFT JOIN 
+                herramientaot hot ON h.id_herramienta = hot.id_herramienta WHERE std_reg='1'";
+            }
+            
+            $datos = $this->ejecutarConsulta($consulta_datos);
+            $datos = $datos->fetchAll();
+
+            $total = $this->ejecutarConsulta($consulta_total);
+            $total = (int) $total->fetchColumn();
+
+            $numeroPaginas = ceil($total/$registros);
+
+            $tabla .='
+                <div class="table-responsive">
+                    <table class="table border mb-0 table-info table-hover table-striped">
+                        <thead class="table-light fw-semibold">
+                            <tr class="align-middle">
+                                <th class="clearfix">#</th>
+                                <th class="text-center">
+                                    <svg class="icon">
+                                        <use xlink:href="'.APP_URL.'app/views/icons/svg/free.svg#cil-settings"></use>
+                                    </svg>
+                                </th>
+                                <th class="clearfix">Codigo</th>
+                                <th class="clearfix">Nombre</th>
+                                <th class="text-center">Cant. Disp.</th>
+                                <th class="text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            ';
+            if ($total >= 1 && $pagina <= $numeroPaginas) {
+                $contador = $inicio + 1;
+                $pag_inicio= $inicio + 1;
+                foreach ($datos as $rows) {               
+                    $tabla.='
+                        <tr class="align-middle">
+                            <td class="clearfix col-p">
+                                <div class=""><b>'.$contador.'</b></div>
+                            </td>
+                            <td class="text-center col-p">
+                                <div class="avatar avatar-md"><img class="avatar-img"
+                                        src="'.APP_URL.'app/views/img/tools.png" alt="user@email.com"><span
+                                        class="avatar-status bg-success"></span></div>
+                            </td>                            
+                            <td class="col-p">
+                                <div class="clearfix">
+                                    <div class=""><b>'.$rows['id_herramienta'].'</b></div>
+                                </div>
+                            </td>
+                            <td class="">
+                                <div class="clearfix">
+                                    <div class=""><b>'.$rows['nombre_herramienta'].'</b></div>
+                                </div>
+                            </td>                          
+                            <td class="col-2">
+                                <div class="text-center">
+                                    <div class=""><b>'.$rows['cantidad_disponible'].'</b></div>
+                                </div>
+                            </td>                            
+                            <td class="col-p">
+                                <button type="button" title="Ver" class="btn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style="background-color: #EBEDEF; color:white ;">
+                                    <img src="'.APP_URL.'app/views/icons/add.png" alt="icono" width="28" height="28">
+                                </button>                       
+                            </td>                            
+                        </tr>
+                    ';
+                    $contador++;
+                }
+                $pag_final = $contador-1;
+            } else {
+                if ($total >= 1) {
+                    $tabla.='
+                        <tr class="align-middle">
+                            <td class="text-center">
+                                <a style="background-color: #EBEDEF; color:white ;" href="'.$url.'1/" role="button">Haga clic para recargar la tabla</a>
+                            </td>
+                        </tr>
+                    ';
+                } else {
+                    $tabla.='
+                        <tr class="align-middle">
+                            <td class="text-center">
+                                No hay registros en el sistema
+                            </td>
+                        </tr>
+                    ';
+                }
+                
+            }
+            
+            $tabla .='</tbody> </table> </div> ';
+
+            if ($total > 0 && $pagina <= $numeroPaginas) {
+                $tabla .='
+                    <p>Mostrando Herramientas <strong>'.$pag_inicio.'</strong> al <strong>'.$pag_final.'</strong> de un 
+                    <strong>total de '.$total.'</strong></p>
+                ';
+
+                $tabla .= $this->paginadorTablas($pagina, $numeroPaginas, $url, 5);
+            }
+
+            return $tabla;
+        }
+
+        public function listarHerramientaOT ($pagina, $registros, $url, $busqueda){
+            
+            $pagina = $this->limpiarCadena($pagina);
+            $registros = $this->limpiarCadena($registros);
+
+            $url = $this->limpiarCadena($url);
+            $url= APP_URL.$url."/";
+
+            $busqueda = $this->limpiarCadena($busqueda);
+
+            $tabla="";
+
+            $pagina = (isset($pagina) && $pagina>0) ? (int) $pagina : 1;
+            $inicio = ($pagina>0) ? (($pagina*$registros)-$registros) : 0;
+            
+            if (isset($busqueda) && $busqueda!= "") {
+
+                $consulta_datos="SELECT
+                hot.id_herramientaOT,
+                hot.n_ot,
+                h.nombre_herramienta,
+                hot.cantidadot
+                FROM
+                    herramientaot hot
+                LEFT JOIN
+                    herramienta h ON hot.id_herramienta = h.id_herramienta
+                WHERE 
+                ((hot.id_herramientaOT   LIKE '%$busqueda%' OR h.nombre_herramienta LIKE '%$busqueda%')) ORDER BY hot.id_herramientaOT  ASC LIMIT $inicio, $registros";
+
+                $consulta_total="SELECT COUNT(hot.n_ot) 
+                FROM
+                    herramientaot hot
+                LEFT JOIN
+                    herramienta h ON hot.id_herramienta = h.id_herramienta
+                WHERE 
+                ((hot.id_herramientaOT   LIKE '%$busqueda%' OR h.nombre_herramienta LIKE '%$busqueda%'))";
+         
+            } else {
+                $consulta_datos="SELECT
+                hot.id_herramientaOT,
+                hot.n_ot,
+                h.nombre_herramienta,
+                hot.cantidadot
+                FROM
+                    herramientaot hot
+                LEFT JOIN
+                    herramienta h ON hot.id_herramienta = h.id_herramienta
+                ORDER BY 
+                hot.id_herramientaOT  ASC LIMIT $inicio, $registros";
+
+                $consulta_total="SELECT COUNT(hot.n_ot) 
+                FROM
+                    herramientaot hot
+                LEFT JOIN
+                herramienta h ON hot.id_herramienta = h.id_herramienta";
+            }
+            
+            $datos = $this->ejecutarConsulta($consulta_datos);
+            $datos = $datos->fetchAll();
+
+            $total = $this->ejecutarConsulta($consulta_total);
+            $total = (int) $total->fetchColumn();
+
+            $numeroPaginas = ceil($total/$registros);
+
+            $tabla .='
+                <div class="table-responsive">
+                    <table class="table border mb-0 table-info table-hover table-striped">
+                        <thead class="table-light fw-semibold">
+                            <tr class="align-middle">
+                                <th class="clearfix">#</th>
+                                <th class="text-center">
+                                    <svg class="icon">
+                                        <use xlink:href="'.APP_URL.'app/views/icons/svg/free.svg#cil-people"></use>
+                                    </svg>
+                                </th>
+                                <th class="clearfix">N° O.T.</th>
+                                <th class="clearfix">Nombre</th>
+                                <th class="text-center">Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            ';
+            if ($total >= 1 && $pagina <= $numeroPaginas) {
+                $contador = $inicio + 1;
+                $pag_inicio= $inicio + 1;
+                foreach ($datos as $rows) {                 
+                    $tabla.='
+                        <tr class="align-middle">
+                            <td class="clearfix col-p">
+                                <div class=""><b>'.$contador.'</b></div>
+                            </td>
+                            <td class="text-center col-p">
+                                <div class="avatar avatar-md"><img class="avatar-img"
+                                        src="'.APP_URL.'app/views/img/tools.png" alt="user@email.com"><span
+                                        class="avatar-status bg-success"></span></div>
+                            </td>                            
+                            <td class="col-2">
+                                <div class="clearfix">
+                                    <div class=""><b>'.$rows['n_ot'].'</b></div>
+                                </div>
+                            </td>
+                            <td class="col-5">
+                                <div class="clearfix">
+                                    <div class=""><b>'.$rows['nombre_herramienta'].'</b></div>
+                                </div>
+                            </td>
+                            <td class="col-p">
+                                <div class="text-center">
+                                    <div class=""><b>'.$rows['cantidadot'].'</b></div>
+                                </div>
+                            </td>                               
+                        </tr>
+                    ';
+                    $contador++;
+                }
+                $pag_final = $contador-1;
+            } else {
+                if ($total >= 1) {
+                    $tabla.='
+                        <tr class="align-middle">
+                            <td class="text-center">
+                                <a style="background-color: #EBEDEF; color:white ;" href="'.$url.'1/" role="button">Haga clic para recargar la tabla</a>
+                            </td>
+                        </tr>
+                    ';
+                } else {
+                    $tabla.='
+                        <tr class="align-middle">
+                            <td class="text-center">
+                                No hay registros en el sistema
+                            </td>
+                        </tr>
+                    ';
+                }
+                
+            }
+            
+            $tabla .='</tbody> </table> </div> ';
+
+            if ($total > 0 && $pagina <= $numeroPaginas) {
+                $tabla .='
+                    <p>Mostrando Herramientas en uso <strong>'.$pag_inicio.'</strong> al <strong>'.$pag_final.'</strong> de un 
+                    <strong>total de '.$total.'</strong></p>
+                ';
+
+                $tabla .= $this->paginadorTablas($pagina, $numeroPaginas, $url, 5);
+            }
+
+            return $tabla;
+        }
         public function eliminarHerramientaControlador(){
             
             $id = $this->limpiarCadena($_POST['herramienta_id']);   

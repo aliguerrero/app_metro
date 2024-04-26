@@ -1,13 +1,13 @@
 <div class="row">
     <div class="row pb-3">
-        <div class="header-divider"></div>
         <div class="container-fluid">
+        <h3>Gestion de Ordenes de trabajo</h3> 
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb my-0 ms-2">
-                    <li class="breadcrumb-item">
-                        <!-- if breadcrumb is single--><span>Home</span>
-                    </li>
-                    <li class="breadcrumb-item active"><span>Panel</span></li>
+                <li class='breadcrumb-item active'>
+                    <!-- if breadcrumb is single--><span>Panel</span>
+                </li>
+                <li class='breadcrumb-item active'><span>Orden de trabajo</span></li>
                 </ol>
             </nav>
         </div>
@@ -119,7 +119,7 @@
             </label>
             <?php          
                 // Listar ot
-                echo $insOt->listarOtControlador ($url[1],8,$url[0],"");
+                echo $insOt->listarOtControlador ($url[1],6,$url[0],"");
             ?>
         </div>
     </div>
@@ -128,6 +128,6 @@
 <?php include 'modals/modalRegistroOt.php' ?>
 <?php include 'modals/modalDetallesOt.php' ?>
 <?php include 'modals/modalModificarOt.php' ?>
-<?php include 'modals/modalHerramientaOt.php' ?>
+<?php include 'modals/modalModificarHerramienta.php' ?>
 
 <?php require_once "./app/views/scripts/script-detalle.php"; ?>

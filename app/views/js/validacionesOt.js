@@ -82,7 +82,23 @@ document.getElementById('tipo_busqueda').addEventListener('change', function() {
         document.getElementById("semana").value = semana;
         document.getElementById("mes").value = mes;
     }
-
+    function calcularSemanaYMes1() {
+        // Obtener el valor seleccionado del campo de fecha
+        var fechaSeleccionada = document.getElementById("fecha1").value;
+        
+        // Convertir la fecha seleccionada en un objeto de fecha
+        var fecha = new Date(fechaSeleccionada);
+        
+        // Calcular la semana del año (de lunes a domingo)
+        var semana = getWeekNumber(fecha);
+        
+        // Obtener el mes de la fecha seleccionada
+        var mes = fecha.getMonth() + 1; // Sumar 1 porque getMonth() devuelve un número de 0 a 11
+        
+        // Actualizar los campos de semana y mes con los valores calculados
+        document.getElementById("semana1").value = semana;
+        document.getElementById("mes1").value = mes;
+    }
     // Función para obtener el número de semana del año (de lunes a domingo)
     function getWeekNumber(date) {
         // Obtener el día de la semana (0 para domingo, 1 para lunes, ..., 6 para sábado)

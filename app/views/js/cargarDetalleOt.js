@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let inputEjec_fin = modificarModalDetalle.querySelector('.modal-body #ejec_fin');
         let inputObserv = modificarModalDetalle.querySelector('.modal-body #observacion');
         // Construir la URL del script PHP que carga los datos del usuario
-        let url = "../app/controllers/cargarDatosDetalle.php";
+        let url = "http://localhost/app_metro/app/controllers/cargarDatosDetalle.php";
         // Crear un objeto FormData y agregar el ID del usuario como parámetro
         let formData = new FormData();
         formData.append('id', id);

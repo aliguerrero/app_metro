@@ -8,7 +8,7 @@
     <ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
         <li class="nav-item">
 
-            <a class=" nav-link" href="<?php ECHO APP_URL; ?>dashboard/">
+            <a class="nav-link" href="<?php ECHO APP_URL; ?>dashboard/">
                 <svg class=" nav-icon">
                     <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-chart"></use>
                 </svg> Panel
@@ -39,14 +39,14 @@
                 <svg class="icon icon-lg">
                     <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-menu"></use>
                 </svg>
-            </button><a class="header-brand d-md-none" href="<?php ECHO APP_URL; ?>dashboard/">
-                <svg width="118" height="46" alt="CoreUI Logo">
-                    <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/coreui.svg#full"></use>
-                </svg></a>
+            </button>
+            <a class="header-brand d-md-none" href="<?php ECHO APP_URL; ?>dashboard/">                
+                <img src="<?php echo APP_URL; ?>app/views/icons/metro_android.png" width="118" height="46">
+            </a>
             <ul class="header-nav d-none d-md-flex">
                 <li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
                 <li class="nav-item"><a class="nav-link" href="<?php ECHO APP_URL; ?>usuario/">Usuarios</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Configuración</a></li>
+                <li class="nav-item"><a class="nav-link" href="<?php ECHO APP_URL; ?>config/">Configuración</a></li>
             </ul>
 
             <ul class="header-nav ms-3">

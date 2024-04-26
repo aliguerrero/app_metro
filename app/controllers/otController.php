@@ -156,6 +156,98 @@
             return json_encode($alerta);
 
         }
+        public function modificarOtControlador(){
+            #Se obtienen y limpian los datos del formulario
+            $id = $this->limpiarCadena($_POST['id']);
+
+            $fecha   = $this->limpiarCadena($_POST['fecha1']);
+            $nombre = $this->limpiarCadena($_POST['nombre']);
+            $semana = $this->limpiarCadena($_POST['semana1']);
+            $mes   = $this->limpiarCadena($_POST['mes1']);
+            $sitio = $this->limpiarCadena($_POST['sitio']);
+
+            #variable codigof
+            $codigof="";
+            
+            # Verificación de campos obligatorios #
+            if ($fecha == ""|| $nombre == ""|| $semana == ""|| $mes == "Seleccionar"|| $sitio == "Seleccionar") {
+                // Si algún campo obligatorio está vacío, se devuelve una alerta de error
+                $alerta = [
+                    "tipo" => "simple",
+                    "titulo" => "Ocurrió un error inesperado",
+                    "texto" => "No has llenado todos los campos que son obligatorios",
+                    "icono" => "error"
+                ];
+                return json_encode($alerta);
+                exit();
+            }        
+
+            # Verificar la integridad de los datos de nombre #
+            if ($this->verificarDatos('[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{3,60}', $nombre)) {
+                #Si el formato del nombre no es válido, se devuelve una alerta de error
+                $alerta = [
+                    "tipo" => "simple",
+                    "titulo" => "Ocurrió un error inesperado",
+                    "texto" => "El nombre de trabajo no cumple con el formato solicitado",
+                    "icono" => "error"
+                ];
+                return json_encode($alerta);
+                exit();
+            }           
+
+           # Definición de un array asociativo $miembro_datos_reg que contiene los datos del miembro a registrar
+            $ot_datos_reg = [                
+                [
+                    "campo_nombre" => "nombre_trab",
+                    "campo_marcador" => ":trabajo",
+                    "campo_valor" => $nombre =  mb_strtoupper($nombre, 'UTF-8')
+                ],
+                [
+                    "campo_nombre" => "sitio_trab",
+                    "campo_marcador" => ":sitio",
+                    "campo_valor" => $sitio
+                ],
+                [
+                    "campo_nombre" => "fecha",
+                    "campo_marcador" => ":fecha",
+                    "campo_valor" => $fecha
+                ],
+                [
+                    "campo_nombre" => "semana",
+                    "campo_marcador" => ":semana",
+                    "campo_valor" => $semana
+                ], 
+                [
+                    "campo_nombre" => "mes",
+                    "campo_marcador" => ":mes",
+                    "campo_valor" => $mes
+                ]
+            ];
+            $condicion=[
+				"condicion_campo"=>"n_ot",
+				"condicion_marcador"=>":ID",
+				"condicion_valor"=>$id
+			];
+
+            if($this->actualizarDatos("orden_trabajo",$ot_datos_reg,$condicion)){
+                $this->registrarLog($_SESSION['id'],"MODIFICAR OT","MODIFICACION EXITOSA DE PARA LA OT ".$id);
+				$alerta=[
+					"tipo"=>"limpiar",
+					"titulo"=>"Datos Actualizados",
+					"texto"=>"Se actualizo correctamente",
+					"icono"=>"success"
+				];
+			}else{
+                $this->registrarLog($_SESSION['id'],"MODIFICAR OT","MODIFICACION FALLIDA DE PARA LA OT ".$id);
+				$alerta = [
+                    "tipo" => "simple",
+                    "titulo" => "Ocurrió un error inesperado",
+                    "texto" => "¡Ha ocurrido un error durante el registro!",
+                    "icono" => "error"
+                ];
+			}
+			return json_encode($alerta); 
+        }
         public function registrarDetalleOtControlador(){
             #Se obtienen y limpian los datos del formulario
             $id = $this->limpiarCadena($_POST['id']);
@@ -285,7 +377,128 @@
             return json_encode($alerta);
 
         }
-        
+        public function modificarDetalleOtControlador(){
+            #Se obtienen y limpian los datos del formulario
+            $id = $this->limpiarCadena($_POST['id']);
+            $cant = $this->limpiarCadena($_POST['cant']);
+            $turno   = $this->limpiarCadena($_POST['turno']);
+            $status = $this->limpiarCadena($_POST['status']);
+            $cco = $this->limpiarCadena($_POST['cco']);
+            $ccf   = $this->limpiarCadena($_POST['ccf']);
+            $tecnico = $this->limpiarCadena($_POST['tec']);
+            $prep_ini = $this->limpiarCadena($_POST['prep_ini']);
+            $prep_fin = $this->limpiarCadena($_POST['prep_fin']);
+            $tras_ini = $this->limpiarCadena($_POST['tras_ini']);
+            $tras_fin = $this->limpiarCadena($_POST['tras_fin']);
+            $ejec_ini = $this->limpiarCadena($_POST['ejec_ini']);
+            $ejec_fin = $this->limpiarCadena($_POST['ejec_fin']);
+            $observacion = $this->limpiarCadena($_POST['observacion']);
+            
+            # Verificación de campos obligatorios #
+            if ($id == "" || $cant <= 0 || $turno == "Seleccionar"|| $status == "Seleccionar"|| $cco == "Seleccionar"|| $ccf == "Seleccionar"|| $tecnico == "Seleccionar"|| $prep_ini == ""|| $prep_fin == ""|| $tras_ini == ""|| $tras_fin == ""|| $ejec_ini == ""|| $ejec_fin == "") {
+                // Si algún campo obligatorio está vacío, se devuelve una alerta de error
+                $alerta = [
+                    "tipo" => "simple",
+                    "titulo" => "Ocurrió un error inesperado",
+                    "texto" => "No has llenado todos los campos que son obligatorios",
+                    "icono" => "error"
+                ];
+                return json_encode($alerta);
+                exit();
+            }
+                      
+            
+           # Definición de un array asociativo $miembro_datos_reg que contiene los datos del miembro a registrar
+            $ot_datos_reg = [          
+                [
+                    "campo_nombre" => "cant_tec",
+                    "campo_marcador" => ":cant",
+                    "campo_valor" => $cant                    
+                ],
+                [
+                    "campo_nombre" => "turno",
+                    "campo_marcador" => ":turno",
+                    "campo_valor" => $turno
+                ],
+                [
+                    "campo_nombre" => "responsable_cco ",
+                    "campo_marcador" => ":cco",
+                    "campo_valor" => $cco
+                ],
+                [
+                    "campo_nombre" => "responsable_act",
+                    "campo_marcador" => ":responsable",
+                    "campo_valor" => $tecnico
+                ],
+                [
+                    "campo_nombre" => "responsable_ccf ",
+                    "campo_marcador" => ":ccf",
+                    "campo_valor" => $ccf
+                ], 
+                [
+                    "campo_nombre" => "	hora_ini_pre",
+                    "campo_marcador" => ":horapreini",
+                    "campo_valor" => $prep_ini
+                ], [
+                    "campo_nombre" => "	hora_fin_pre",
+                    "campo_marcador" => ":horaprefin",
+                    "campo_valor" => $prep_fin
+                ],
+                [
+                    "campo_nombre" => "hora_ini_tra",
+                    "campo_marcador" => ":horatraini",
+                    "campo_valor" => $tras_ini
+                ],
+                [
+                    "campo_nombre" => "hora_fin_tra",
+                    "campo_marcador" => ":horatrafin",
+                    "campo_valor" => $tras_fin
+                ], 
+                [
+                    "campo_nombre" => "hora_ini_eje",
+                    "campo_marcador" => ":horainieje",
+                    "campo_valor" => $ejec_ini
+                ], [
+                    "campo_nombre" => "hora_fin_eje",
+                    "campo_marcador" => ":horafineje",
+                    "campo_valor" => $ejec_fin
+                ], [
+                    "campo_nombre" => "status",
+                    "campo_marcador" => ":status",
+                    "campo_valor" => $status
+                ], [
+                    "campo_nombre" => "observacion",
+                    "campo_marcador" => ":observacion",
+                    "campo_valor" => $observacion
+                ]
+            ];
+
+            $condicion=[
+				"condicion_campo"=>"n_ot",
+				"condicion_marcador"=>":ID",
+				"condicion_valor"=>$id
+			];
+
+            if($this->actualizarDatos("detalle_orden",$ot_datos_reg,$condicion)){
+                $this->registrarLog($_SESSION['id'],"MODIFICAR DETALLES OT","MODIFICACION EXITOSA DE PARA LA OT ".$id);
+				$alerta=[
+					"tipo"=>"limpiar",
+					"titulo"=>"Datos Actualizados",
+					"texto"=>"Se actualizo correctamente",
+					"icono"=>"success"
+				];
+			}else{
+                $this->registrarLog($_SESSION['id'],"MODIFICAR DETALLES OT","MODIFICACION FALLIDA DE PARA LA OT ".$id);
+				$alerta = [
+                    "tipo" => "simple",
+                    "titulo" => "Ocurrió un error inesperado",
+                    "texto" => "¡Ha ocurrido un error durante el registro!",
+                    "icono" => "error"
+                ];
+			}
+			return json_encode($alerta);  
+
+        }
         public function listarOtControlador ($pagina, $registros, $url, $busqueda){
             
             $pagina = $this->limpiarCadena($pagina);
@@ -333,9 +546,7 @@
                             <tr class="align-middle">
                                 <th class="clearfix">#</th>
                                 <th class="clearfix">
-                                    <svg class="icon">
-                                        <use xlink:href="'.APP_URL.'app/views/icons/svg/free.svg#cil-clipboard"></use>
-                                    </svg>
+                                    Estado O.T.                                   
                                 </th>
                                 <th class="clearfix">Codigo</th>
                                 <th class="clearfix">Nombre Trabajo</th>
@@ -353,27 +564,21 @@
                     switch ($rows['status']) {
                         case '1':
                             $titulo = "O.T. Ejecutada";
-                            $status="bg-success";
                         break;
                         case '2':
                             $titulo = "O.T. No Ejecutada";
-                            $status="bg-danger";
                         break;
                         case '3':
                             $titulo = "O.T. Extemporánea";
-                            $status="bg-warning";
                         break;
                         case '4':
                             $titulo = "O.T. Reprogramada";
-                            $status="bg-info";
                         break;
                         case '5':
                             $titulo = "O.T. Suspendida";
-                            $status="bg-dark";
                         break; 
                         default:
                             $titulo = "O.T. Sin Detalle";
-                            $status="";
                         break;              
                     }
                     
@@ -385,7 +590,9 @@
                             <td class="clearfix col-2">
                                 <div class="avatar avatar-md" title="'.$titulo.'"><img class="avatar-img"
                                     src="'.APP_URL.'app/views/icons/ot.png"><span
-                                    class="avatar-status '.$status.'"></span>
+                                    style="position: absolute; bottom: 0; display: block; border: 1px solid #fff;
+                                     border-radius: 50em; width: 0.7333333333rem; height: 0.7333333333rem; right: 0; 
+                                     background-color: #000000;" ></span>
                                 </div>
                                 <b>'.$titulo.'</b>
                             </td>                            
@@ -415,7 +622,7 @@
                                 </a> 
                             </td>
                             <td class="col-p">
-                                <a href="#" title="Herramienta" class="btn" data-bs-toggle="modal" data-bs-target="#ventanaModalModificarHerrOt" data-bs-id="'.$rows['n_ot'].'" style="background-color: #EBEDEF; color:white ;">
+                                <a href="'.APP_URL.'herramientaOt/?id='.$rows['n_ot'].'" title="Herramienta" data-bs-id="'.$rows['n_ot'].'" id="herramientaOt" class="btn" style="background-color: #EBEDEF; color:white ;">
                                     <img src="'.APP_URL.'app/views/icons/her.png" alt="icono" width="28" height="28" >
                                 </a> 
                             </td>
@@ -644,220 +851,5 @@
             }
             return json_encode($alerta);
         }
-        public function actualizarDatosDetalleOt(){
-            #Se obtienen y limpian los datos del formulario
-            $id = $this->limpiarCadena($_POST['id']);
-            $cant = $this->limpiarCadena($_POST['cant']);
-            $turno   = $this->limpiarCadena($_POST['turno']);
-            $status = $this->limpiarCadena($_POST['status']);
-            $cco = $this->limpiarCadena($_POST['cco']);
-            $ccf   = $this->limpiarCadena($_POST['ccf']);
-            $tecnico = $this->limpiarCadena($_POST['tecnico']);
-            $prep_ini = $this->limpiarCadena($_POST['prep_ini']);
-            $prep_fin = $this->limpiarCadena($_POST['prep_fin']);
-            $tras_ini = $this->limpiarCadena($_POST['tras_ini']);
-            $tras_fin = $this->limpiarCadena($_POST['tras_fin']);
-            $ejec_ini = $this->limpiarCadena($_POST['ejec_ini']);
-            $ejec_fin = $this->limpiarCadena($_POST['ejec_fin']);
-            $observacion = $this->limpiarCadena($_POST['observacion']);
-                      
-
-           # Definición de un array asociativo $miembro_datos_reg que contiene los datos del miembro a registrar
-            $ot_datos_reg = [
-                [
-                    "campo_nombre" => "n_ot",
-                    "campo_marcador" => ":nrot",
-                    "campo_valor" => $id
-                ],
-                [
-                    "campo_nombre" => "cant_tec",
-                    "campo_marcador" => ":cant",
-                    "campo_valor" => $cant                    
-                ],
-                [
-                    "campo_nombre" => "turno",
-                    "campo_marcador" => ":turno",
-                    "campo_valor" => $turno
-                ],
-                [
-                    "campo_nombre" => "responsable_cco ",
-                    "campo_marcador" => ":cco",
-                    "campo_valor" => $cco
-                ],
-                [
-                    "campo_nombre" => "responsable_act",
-                    "campo_marcador" => ":responsable",
-                    "campo_valor" => $_SESSION['id']
-                ],
-                [
-                    "campo_nombre" => "responsable_ccf ",
-                    "campo_marcador" => ":ccf",
-                    "campo_valor" => $ccf
-                ], 
-                [
-                    "campo_nombre" => "	hora_ini_pre",
-                    "campo_marcador" => ":horapreini",
-                    "campo_valor" => $prep_ini
-                ], [
-                    "campo_nombre" => "	hora_fin_pre",
-                    "campo_marcador" => ":horaprefin",
-                    "campo_valor" => $prep_fin
-                ],
-                [
-                    "campo_nombre" => "hora_ini_tra",
-                    "campo_marcador" => ":horatraini",
-                    "campo_valor" => $tras_ini
-                ],
-                [
-                    "campo_nombre" => "hora_fin_tra",
-                    "campo_marcador" => ":horatrafin",
-                    "campo_valor" => $tras_fin
-                ], 
-                [
-                    "campo_nombre" => "hora_ini_eje",
-                    "campo_marcador" => ":horainieje",
-                    "campo_valor" => $ejec_ini
-                ], [
-                    "campo_nombre" => "hora_fin_eje",
-                    "campo_marcador" => ":horafineje",
-                    "campo_valor" => $ejec_fin
-                ], [
-                    "campo_nombre" => "status",
-                    "campo_marcador" => ":status",
-                    "campo_valor" => $status
-                ], [
-                    "campo_nombre" => "observacion",
-                    "campo_marcador" => ":observacion",
-                    "campo_valor" => $observacion
-                ]
-            ];
-
-            #Llamada al método guardarDatos() para guardar los datos del miembro en la base de datos
-            $registrar_ot = $this->guardarDatos("detalle_orden", $ot_datos_reg);
-
-            #Verificar si se registró correctamente el miembro
-            if ($registrar_ot->rowCount() == 1) {
-                $this->registrarLog($_SESSION['id'],"REGISTRO DETALLES OT","REGISTRO EXITOSO DE PARA LA OT ".$id);
-                #Si se registró correctamente, se devuelve un mensaje de éxito
-                $alerta = [
-                    "tipo" => "limpiar",
-                    "titulo" => "Detalles Registrados",
-                    "texto" => "Los detalles de la orden de trabajo se ha registrado con éxito",
-                    "icono" => "success"
-                ];
-            } else {        
-                $this->registrarLog($_SESSION['id'],"REGISTRO DETALLES OT","REGISTRO FALLIDO DE PARA LA OT ".$id);       
-                #Se devuelve un mensaje de error
-                $alerta = [
-                    "tipo" => "simple",
-                    "titulo" => "Ocurrió un error inesperado",
-                    "texto" => "Los detalles de la orden de trabajo no han podido registrarse",
-                    "icono" => "error"
-                ];
-            }
-
-            #Se devuelve el mensaje de alerta en formato JSON
-            return json_encode($alerta);
-
-        }
-        public function actualizarDatosOt(){
-            $id = $this->limpiarCadena($_POST['id']);
-
-            $codigo = $this->limpiarCadena($_POST['codigo']);
-            $nombre = $this->limpiarCadena($_POST['nombre']);
-            $tipo   = $this->limpiarCadena($_POST['tipo']);
-
-            # Verificación de campos obligatorios #
-            if ($codigo == "" || $nombre == "" || $tipo == "Seleccionar") {
-                // Si algún campo obligatorio está vacío, se devuelve una alerta de error
-                $alerta = [
-                    "tipo" => "simple",
-                    "titulo" => "Ocurrió un error inesperado",
-                    "texto" => "No has llenado todos los campos que son obligatorios",
-                    "icono" => "error"
-                ];
-                return json_encode($alerta);
-                exit();
-            }
-
-            # Verificar la integridad de los datos de código #
-            if ($this->verificarDatos('^[a-zA-Z0-9-]{1,10}$', $codigo)) {
-                #Si el formato del código no es válido, se devuelve una alerta de error
-                $alerta = [
-                    "tipo" => "simple",
-                    "titulo" => "Ocurrió un error inesperado",
-                    "texto" => "El CÓDIGO no cumple con el formato solicitado",
-                    "icono" => "error"
-                ];
-                return json_encode($alerta);
-                exit();
-            }  
-            #VERIFICAR LA codigo NO EXISTA        
-            $check_codigo = $this->ejecutarConsulta("SELECT * FROM miembro WHERE n_ot ='$codigo' AND n_ot !='$id'");
-            if ($check_codigo->rowCount() > 0) {
-                // Si el username ya existe en la base de datos, se devuelve una alerta de error
-                $alerta = [
-                    "tipo" => "simple",
-                    "titulo" => "Ocurrió un error inesperado",
-                    "texto" => "La codigo ingresado ya existe en los registros",
-                    "icono" => "error"
-                ];
-                return json_encode($alerta);
-                exit();
-            }
-            # Verificar la integridad de los datos de nombre #
-            if ($this->verificarDatos('[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{3,40}', $nombre)) {
-                // Si el formato del nombre no es válido, se devuelve una alerta de error
-                $alerta = [
-                    "tipo" => "simple",
-                    "titulo" => "Ocurrió un error inesperado",
-                    "texto" => "El NOMBRE DEL USUARIO no cumple con el formato solicitado",
-                    "icono" => "error"
-                ];
-                return json_encode($alerta);
-                exit();
-            }                      
-
-            $user_datos=[
-                [
-                    "campo_nombre"=>"n_ot",
-                    "campo_marcador"=>":codigo",
-                    "campo_valor"=> $codigo
-                ],
-                [
-                    "campo_nombre"=>"nombre_trab",
-                    "campo_marcador"=>":Nombre",
-                    "campo_valor"=> $nombre
-                ],
-                [
-                    "campo_nombre"=>"tipo_miembro",
-                    "campo_marcador"=>":Tipo",
-                    "campo_valor"=> $tipo
-                ]
-            ];
-
-            $condicion=[
-				"condicion_campo"=>"n_ot",
-				"condicion_marcador"=>":ID",
-				"condicion_valor"=>$id
-			];
-
-            if($this->actualizarDatos("miembro",$user_datos,$condicion)){
-				$alerta=[
-					"tipo"=>"limpiar",
-					"titulo"=>"Datos Actualizados",
-					"texto"=>"Se actualizo correctamente",
-					"icono"=>"success"
-				];
-			}else{
-
-				$alerta = [
-                    "tipo" => "simple",
-                    "titulo" => "Ocurrió un error inesperado",
-                    "texto" => "¡Ha ocurrido un error durante el registro!",
-                    "icono" => "error"
-                ];
-			}
-			return json_encode($alerta);                  
-        }
+             
     }
