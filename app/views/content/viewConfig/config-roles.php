@@ -20,6 +20,7 @@
     </div>
 </div>
 <hr>
+
 <form class="FormularioAjax" action="<?php echo APP_URL; ?>app/ajax/configAjax.php" method="POST">
     <!-- Nombre del Rol -->
     <div class="form-group" id="listar">
@@ -32,10 +33,10 @@
                 // cargar roles
                 echo $insConfig->listarComboRolControlador ();
             ?>
-            <button class="btn btn-primary" type="submit" id="btnModificar" title="Modificar">
+            <button class="btn btn-primary" name="submit_button" type="submit" id="btnModificar" title="Modificar">
                 <i class="bi bi-pencil"></i> Modificar
             </button>
-            <button class="btn btn-danger" type="button" id="btnEliminar" title="Eliminar">
+            <button class="btn btn-danger" name="submit_button" type="submit" id="btnEliminar" title="Eliminar">
                 <i class="bi bi-trash"></i> Eliminar
             </button>
         </div>
@@ -45,7 +46,7 @@
         <div class="input-group">
             <input class="form-control " name="rol_name" id="rol_name" type="text" value=""
                 placeholder="Nombre del rol">
-            <button class="btn btn-primary" type="submit" id="btnGuardar" title="Guardar">
+            <button class="btn btn-primary" name="submit_button" type="submit" id="btnGuardar" title="Guardar">
                 <i class="bi bi-save"></i> Guardar
             </button>
         </div>
@@ -59,8 +60,7 @@
             <div class="col-md-4">
                 <h5>Usuarios</h5>
                 <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="permisoUsuarios0" name="permisoUsuarios0"
-                        checked>
+                    <input class="form-check-input" type="checkbox" id="permisoUsuarios0" name="permisoUsuarios0">
                     <label class="form-check-label" for="permisoUsuarios0">Permitir acceso</label>
                 </div>
                 <div class="form-check form-switch">
@@ -80,8 +80,7 @@
             <div class="col-md-4">
                 <h5>Herramienta</h5>
                 <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="permisoHerramienta0" name="permisoHerramienta0"
-                        checked>
+                    <input class="form-check-input" type="checkbox" id="permisoHerramienta0" name="permisoHerramienta0">
                     <label class="form-check-label" for="permisoHerramienta0">Permitir acceso</label>
                 </div>
                 <div class="form-check form-switch">
@@ -101,7 +100,7 @@
             <div class="col-md-4">
                 <h5>Miembro</h5>
                 <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="permisoMiembro0" name="permisoMiembro0" checked>
+                    <input class="form-check-input" type="checkbox" id="permisoMiembro0" name="permisoMiembro0">
                     <label class="form-check-label" for="permisoMiembro0">Permitir acceso</label>
                 </div>
                 <div class="form-check form-switch">
@@ -123,7 +122,7 @@
                 <div class="col-md-4">
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" id="permisoOrdenTrabajo0"
-                            name="permisoOrdenTrabajo0" checked>
+                            name="permisoOrdenTrabajo0">
                         <label class="form-check-label" for="permisoOrdenTrabajo0">Permitir
                             acceso</label>
                     </div>

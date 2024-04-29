@@ -213,7 +213,7 @@
             </div>
             <div class="col-md-6">
                 <div class="card mb-4">
-                    <div class="card-header">Trafico</div>
+                    <div class="card-header"><strong>Trafico</strong></div>
                     <div class="card-body">
                         <!-- /.row--><br>
                         <div class="table-responsive">

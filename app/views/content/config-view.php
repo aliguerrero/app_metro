@@ -74,7 +74,7 @@
                     <?php include "./app/views/content/viewConfig/config-turno.php"; ?>
                 </div>
                 <div class="tab-pane fade" id="v-pills-logs" role="tabpanel" aria-labelledby="v-pills-logs-tab">
-                    <?php include "./app/views/content/viewConfig/config-turno.php"; ?>
+
                 </div>
             </div>
         </div>
