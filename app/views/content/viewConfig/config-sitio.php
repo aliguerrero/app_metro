@@ -8,7 +8,7 @@
     </div>
     <hr>
     <form class="FormularioAjax" action="<?php echo APP_URL; ?>app/ajax/configAjax.php" method="POST">
-        <input type="hidden" name="modulo_rol" value="registrar_estado" id="accion">
+        <input type="hidden" name="modulo_rol" value="registrar_sitio" id="accion">
         <div class="form-group" id="nuevo">
             <label class="form-label">Agregar nuevo sitio de trabajo</label>
             <div class="input-group">
@@ -22,5 +22,5 @@
         <hr>
     </form>
     <?php        
-        echo $insConfig->listarSitioControlador ($url[1],8,$url[0],"");
+        echo $insConfig->listarSitioControlador ("");
     ?>

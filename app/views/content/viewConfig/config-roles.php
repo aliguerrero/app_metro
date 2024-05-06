@@ -65,7 +65,7 @@
                 </div>
                 <div class="form-check form-switch">
                     <input class="form-check-input" type="checkbox" id="permisoUsuarios1" name="permisoUsuarios1">
-                    <label class="form-check-label" for="permisoUsuarios1">Agregar</label>
+                    <label class="form-check-label" for="permisoUsuarios1">Registrar</label>
                 </div>
                 <div class="form-check form-switch">
                     <input class="form-check-input" type="checkbox" id="permisoUsuarios2" name="permisoUsuarios2">
@@ -85,7 +85,7 @@
                 </div>
                 <div class="form-check form-switch">
                     <input class="form-check-input" type="checkbox" id="permisoHerramienta1" name="permisoHerramienta1">
-                    <label class=" form-check-label" for="permisoHerramienta1">Agregar</label>
+                    <label class=" form-check-label" for="permisoHerramienta1">Registrar</label>
                 </div>
                 <div class="form-check form-switch">
                     <input class="form-check-input" type="checkbox" id="permisoHerramienta2" name="permisoHerramienta2">
@@ -105,7 +105,7 @@
                 </div>
                 <div class="form-check form-switch">
                     <input class="form-check-input" type="checkbox" id="permisoMiembro1" name="permisoMiembro1">
-                    <label class="form-check-label" for="permisoMiembro1">Agregar</label>
+                    <label class="form-check-label" for="permisoMiembro1">Registrar</label>
                 </div>
                 <div class="form-check form-switch">
                     <input class="form-check-input" type="checkbox" id="permisoMiembro2" name="permisoMiembro2">
@@ -129,7 +129,7 @@
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" id="permisoOrdenTrabajo1"
                             name="permisoOrdenTrabajo1">
-                        <label class="form-check-label" for="permisoOrdenTrabajo1">Agregar
+                        <label class="form-check-label" for="permisoOrdenTrabajo1">Registrar
                             O.T.</label>
                     </div>
                     <div class="form-check form-switch">

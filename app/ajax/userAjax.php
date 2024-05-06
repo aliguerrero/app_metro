@@ -24,6 +24,10 @@
         if ($_POST['modulo_user'] == "modificar") {
             // Si el valor es "eliminar", se llama al método eliminarUserControlador de la instancia $insUser y se muestra el resultado
             echo $insUser->actualizarDatosUser();
+        }
+        if ($_POST['modulo_user'] == "modificarUserSesion") {
+            // Si el valor es "eliminar", se llama al método eliminarUserControlador de la instancia $insUser y se muestra el resultado
+            echo $insUser->actualizarDatosUserSesion();
         } 
         if ($_POST['modulo_user'] == "clave") {
             // Si el valor es "eliminar", se llama al método eliminarUserControlador de la instancia $insUser y se muestra el resultado

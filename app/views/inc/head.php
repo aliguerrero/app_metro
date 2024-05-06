@@ -29,7 +29,8 @@
 
     <!-- We use those styles to show code examples, you should remove them in your application.-->
     <link href="<?php echo APP_URL; ?>app/views/css/examples.css" rel="stylesheet">
-    <link href="<?php echo APP_URL; ?>app/views/css/coreui-chartjs.css" rel="stylesheet">
+    <link href="<?php echo APP_URL; ?>app/views/css/coreui-chartjs.css" rel="stylesheet">0
 
+    <script src="<?php echo APP_URL; ?>app/views/js/chart.min.js"></script>
     <script src="<?php ECHO APP_URL; ?>app/views/js/sweetalert2.all.min.js"></script>
     <script src="<?php echo APP_URL; ?>app/views/js/jquery_3.7.0.js"></script>

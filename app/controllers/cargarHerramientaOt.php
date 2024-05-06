@@ -6,12 +6,18 @@ use app\models\mainModel;
 
 $mainModel = new mainModel();
 
-$id = $mainModel->limpiarCadena($_POST['id']);
 
-$consulta_datos = "SELECT detalle.*, usuario.user
-FROM detalle_orden detalle
-JOIN user_system usuario ON detalle.id_user_act = usuario.id_user
-WHERE detalle.n_ot = '$id' LIMIT 1";
+$consulta_datos = "SELECT
+hot.id_herramientaOT,
+hot.n_ot,
+h.nombre_herramienta,
+hot.cantidadot
+FROM
+    herramientaot hot
+LEFT JOIN
+    herramienta h ON hot.id_herramienta = h.id_herramienta
+ORDER BY 
+hot.id_herramientaOT";
 
 // Llamar al método ejecutarConsulta desde el contexto de mainModel
 $datos = $mainModel->ejecutarConsultaDesdeCargarUser($consulta_datos);

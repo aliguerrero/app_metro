@@ -69,11 +69,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 inputT.value = "modificar_detalle";
                 inputId.value = data.n_ot;
                 inputCant.value = data.cant_tec;
-                inputTurno.value = data.turno;
-                inputStatus.value = data.status;
-                inputCco.value = data.responsable_cco; 
-                inputCcf.value = data.responsable_ccf; 
-                inputTecnico.value = data.responsable_act;
+                inputTurno.value = data.id_turno;
+                inputStatus.value = data.id_estado;
+                inputCco.value = data.id_miembro_cco; 
+                inputCcf.value = data.id_miembro_ccf; 
+                inputTecnico.value = data.id_user_act ;
                 inputPrep_ini.value = data.hora_ini_pre;
                 inputPrep_fin.value = data.hora_fin_pre;
                 inputTras_ini.value = data.hora_ini_tra;

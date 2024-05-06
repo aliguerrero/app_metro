@@ -62,12 +62,10 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <label class="form-label">TIPO DE USUARIO</label>
-                            <select class="form-select" name="tipo" aria-label="Default select example" value="">
-                                <option selected>Seleccionar</option>
-                                <option value="1">Administrador</option>
-                                <option value="2">Operador</option>
-                            </select>
+                            <?php                                
+                                // Listar roles
+                                echo $insUsuario->listarComboRolesControlador ();
+                            ?>
                         </div>
                     </div>
                     <hr>

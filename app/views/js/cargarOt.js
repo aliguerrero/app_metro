@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
             inputNomb.value = data.nombre_trab;
             inputSemana.value = data.semana;
             inputMes.value = data.mes; 
-            inputSitio.value = data.sitio_trab;                    
+            inputSitio.value = data.id_sitio;                    
         });    
     });        
 });

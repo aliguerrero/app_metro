@@ -24,5 +24,5 @@
         <hr>
     </form>
     <?php        
-        echo $insConfig->listarAreaControlador ($url[1],8,$url[0],"");
+        echo $insConfig->listarAreaControlador ($url[1],5,$url[0],"");
     ?>

@@ -27,5 +27,5 @@
         use app\controllers\configController;
         $insConfig = new configController();
         
-        echo $insConfig->listarEstadoControlador ($url[1],8,$url[0],"");
+        echo $insConfig->listarEstadoControlador ("");
     ?>

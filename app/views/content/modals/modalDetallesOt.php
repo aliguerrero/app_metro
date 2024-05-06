@@ -19,27 +19,15 @@
 
                         </div>
                         <div class="col-md-4"><br>
-                            <label class="form-label" for="validationServer03">Turno:</label>
-                            <select class="form-select" id="turno" name="turno" aria-label="Default select example">
-                                <option selected>Seleccionar</option>
-                                <option value="1">Mañana (M1)</option>
-                                <option value="2">Mañana (M2)</option>
-                                <option value="3">Tarde (T1)</option>
-                                <option value="4">Tarde (T2)</option>
-                                <option value="5">Noche (N1)</option>
-                                <option value="6">Noche (N2)</option>
-                            </select>
-                        </div>
+                            <?php                            
+                               // cargar turno
+                                echo $insOt->listarComboTurnoControlador ();
+                            ?> </div>
                         <div class="col-md-4"><br>
-                            <label class="form-label" for="validationServer03">Status:</label>
-                            <select class="form-select" id="status" name="status" aria-label="Default select example">
-                                <option selected>Seleccionar</option>
-                                <option value="1">EJECUTADA</option>
-                                <option value="2">NO EJECUTADA</option>
-                                <option value="3">EXTEMPORANEA</option>
-                                <option value="4">REPROGRAMADA</option>
-                                <option value="5">SUSPENDIDA</option>
-                            </select>
+                            <?php                            
+                               // cargar estado
+                                echo $insOt->listarComboEstadoControlador ();
+                            ?>
                         </div>
                     </div>
                     <div class="row">

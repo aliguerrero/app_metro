@@ -12,13 +12,10 @@
                     <div class="row">
                         <div class="col-md-4">
                             <input type="hidden" name="modulo_ot" value="registrar_ot">
-                            <label class="form-label"><b>SELECCIONE AREA:</b></label>
-                            <select class="form-select" id="area" name="area" aria-label="Default select example">
-                                <option value="1">SEÑALIZACIÓN</option>
-                                <option value="2">INFRAESTRUCTURA</option>
-                                <option value="3">APARATO DE VIA</option>
-                                <option value="4">NO PROGRAMADA</option>
-                            </select>
+                            <?php          
+                                // Listar area
+                                echo $insOt->listarComboAreaControlador ();
+                            ?>
                         </div>
                         <div class="col-md-4">
                             <label class="form-label">NRO O.T.:</label>
@@ -66,12 +63,10 @@
                             </select>
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label">Sitio de Trabajo:</label>
-                            <select class="form-select" id="sitio" name="sitio" aria-label="Default select example">
-                                <option selected>Seleccionar</option>
-                                <option value="1">Linea</option>
-                                <option value="2">Patio</option>
-                            </select>
+                            <?php          
+                                // Listar area
+                                echo $insOt->listarComboSitioControlador ();
+                            ?>
                         </div>
                     </div>
                     <hr>

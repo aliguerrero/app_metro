@@ -48,13 +48,12 @@ class configController extends mainModel {
             return json_encode( $alerta );
             exit();
         }
-        if ( $this->verificarDatos( '[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9 ]{3,40}
-        ', $rol_name ) ) {
+        if ( $this->verificarDatos( '[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9 -]{3,40}', $rol_name ) ) {
             // Si el formato del nombre no es válido, se devuelve una alerta de error
             $alerta = [
                 'tipo' => 'simple',
                 'titulo' => 'Ocurrió un error inesperado',
-                'texto' => 'El nombre rol area no cumple con el formato solicitado',
+                'texto' => 'El nombre rol no cumple con el formato solicitado',
                 'icono' => 'error'
             ];
             return json_encode( $alerta );
@@ -81,6 +80,11 @@ class configController extends mainModel {
                 'campo_nombre' => 'perm_usuarios_edit',
                 'campo_marcador' => ':PermUsuariosEdit',
                 'campo_valor' => $this->respuestaCheck( $permisoUsuarios2 )
+            ],
+            [
+                'campo_nombre' => 'perm_usuarios_delete',
+                'campo_marcador' => ':PermUsuariosDelete',
+                'campo_valor' => $this->respuestaCheck( $permisoUsuarios3 )
             ],
             [
                 'campo_nombre' => 'perm_herramienta_view',
@@ -160,9 +164,9 @@ class configController extends mainModel {
         ];
 
         // Llamada al método guardarDatos() para guardar los datos del usuario en la base de datos
-        $registrar_user = $this->guardarDatos( 'roles_permisos', $rol_datos_reg );
+        $registrar_dts = $this->guardarDatos( 'roles_permisos', $rol_datos_reg );
 
-        if ( $registrar_user->rowCount() == 1 ) {
+        if ( $registrar_dts->rowCount() == 1 ) {
             $this->registrarLog( $_SESSION[ 'id' ], 'REGISTRO DE ROL', 'REGISTRO EXITOSO DEL ROL '.$rol_name );
             // Si se registró correctamente, se devuelve un mensaje de éxito
             $alerta = [
@@ -249,6 +253,11 @@ class configController extends mainModel {
                 'campo_nombre' => 'perm_usuarios_edit',
                 'campo_marcador' => ':PermUsuariosEdit',
                 'campo_valor' => $this->respuestaCheck( $permisoUsuarios2 )
+            ],
+            [
+                'campo_nombre' => 'perm_usuarios_delete',
+                'campo_marcador' => ':PermUsuariosDelete',
+                'campo_valor' => $this->respuestaCheck( $permisoUsuarios3 )
             ],
             [
                 'campo_nombre' => 'perm_herramienta_view',
@@ -361,6 +370,8 @@ class configController extends mainModel {
 
         $id = $this->limpiarCadena( $_POST[ 'opciones' ] );
 
+        $datosC = $this->ejecutarConsulta( "SELECT * FROM roles_permisos WHERE id='$id'" );
+        $datosC = $datosC->fetch();
         if ( $id == 'Seleccionar' ) {
             // Si algún campo obligatorio está vacío, se devuelve una alerta de error
             $alerta = [
@@ -388,9 +399,10 @@ class configController extends mainModel {
             $datos = $datos->fetch();
         }
 
-        $eliminarUsuario = $this->eliminarRegistro( 'roles_permisos', 'id', $id );
+        $eliminar_reg = $this->eliminarRegistro( 'roles_permisos', 'id', $id );
 
-        if ( $eliminarUsuario->rowCount() == 1 ) {
+        if ( $eliminar_reg->rowCount() == 1 ) {
+            $this->registrarLog( $_SESSION[ 'id' ], 'ELIMINACION DE ROL', 'ELIMINACIÓN EXITOSO DEL ROL '.$datosC[ 'nombre_rol' ] );
             $alerta = [
                 'tipo' => 'recargar',
                 'titulo' => 'Rol Eliminado',
@@ -399,6 +411,7 @@ class configController extends mainModel {
             ];
 
         } else {
+            $this->registrarLog( $_SESSION[ 'id' ], 'ELIMINACION DE ROL', 'ELIMINACIÓN FALLIDA DEL ROL '.$datosC[ 'nombre_rol' ] );
             $alerta = [
                 'tipo' => 'simple',
                 'titulo' => 'Ocurrió un error inesperado',
@@ -448,6 +461,7 @@ class configController extends mainModel {
     }
 
     public function registrarAreaControlador() {
+
         // Se obtienen y limpian los datos del formulario
 
         // Permisos para Usuarios
@@ -466,8 +480,7 @@ class configController extends mainModel {
             return json_encode( $alerta );
             exit();
         }
-        if ( $this->verificarDatos( '[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9 ]{3,40}
-        ', $nombre_area ) ) {
+        if ( $this->verificarDatos( '[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9 -]{3,40}', $nombre_area ) ) {
             // Si el formato del nombre no es válido, se devuelve una alerta de error
             $alerta = [
                 'tipo' => 'simple',
@@ -494,9 +507,9 @@ class configController extends mainModel {
         ];
 
         // Llamada al método guardarDatos() para guardar los datos del usuario en la base de datos
-        $registrar_user = $this->guardarDatos( 'area_trabajo', $area_datos_reg );
+        $registrar_dts = $this->guardarDatos( 'area_trabajo', $area_datos_reg );
 
-        if ( $registrar_user->rowCount() == 1 ) {
+        if ( $registrar_dts->rowCount() == 1 ) {
             $this->registrarLog( $_SESSION[ 'id' ], 'REGISTRO DE AREA', 'REGISTRO EXITOSO DEL AREA '.$nombre_area );
             // Si se registró correctamente, se devuelve un mensaje de éxito
             $alerta = [
@@ -520,26 +533,62 @@ class configController extends mainModel {
         }
         return json_encode( $alerta );
     }
-    public function listarAreaControlador ( $pagina, $registros, $url, $busqueda ) {
+    
+    public function eliminarAreaControlador() {
 
-        $pagina = $this->limpiarCadena( $pagina );
-        $registros = $this->limpiarCadena( $registros );
+        $id = $this->limpiarCadena( $_POST[ 'id_area' ] );
 
-        $url = $this->limpiarCadena( $url );
-        $url = APP_URL.$url.'/';
+        # verificar si el rol esta asignado algun usuario
+        $datosC = $this->ejecutarConsulta( "SELECT * FROM area_trabajo WHERE id_area='$id'" );
+        $datosC = $datosC->fetch();
+
+        $datos = $this->ejecutarConsulta( "SELECT * FROM orden_trabajo WHERE id_area='$id'" );
+        if ( $datos->rowCount() > 0 ) {
+            $alerta = [
+                'tipo' => 'simple',
+                'titulo' => '¡Ups! No podemos realizar esta acción.',
+                'texto' => 'Esta Area esta asignada a '.$datos->rowCount().' O.T.(s), primero debe reasignarle una nueva area a las O.T. asociadas al area que desea eliminar para poder realizar esta acción.',
+                'icono' => 'warning'
+            ];
+            return json_encode( $alerta );
+            exit();
+        } else {
+            $datos = $datos->fetch();
+        }
+
+        $eliminar_reg = $this->eliminarRegistro( 'area_trabajo', 'id_area', $id );
+
+        if ( $eliminar_reg->rowCount() == 1 ) {
+            $this->registrarLog( $_SESSION[ 'id' ], 'ELIMINACION DE AREA', 'ELIMINACIÓN EXITOSA DEL AREA '.$datosC[ 'nombre_area' ] );
+            $alerta = [
+                'tipo' => 'recargar',
+                'titulo' => 'Area Eliminado',
+                'texto' => 'El Area '.$datosC[ 'nombre_area' ].' ha sido eliminado con exito',
+                'icono' => 'success'
+            ];
+        } else {
+            $this->registrarLog( $_SESSION[ 'id' ], 'ELIMINACION DE AREA', 'ELIMINACIÓN FALLIDA DEL AREA '.$datosC[ 'nombre_area' ] );
+            $alerta = [
+                'tipo' => 'simple',
+                'titulo' => 'Ocurrió un error inesperado',
+                'texto' => 'No se pudo eliminar el Area, por favor intente nuevamente',
+                'icono' => 'error'
+            ];
+        }
+        return json_encode( $alerta );
+    }
+
+    public function listarAreaControlador ( $busqueda ) {
 
         $busqueda = $this->limpiarCadena( $busqueda );
 
         $tabla = '';
 
-        $pagina = ( isset( $pagina ) && $pagina>0 ) ? ( int ) $pagina : 1;
-        $inicio = ( $pagina>0 ) ? ( ( $pagina*$registros )-$registros ) : 0;
-
         if ( isset( $busqueda ) && $busqueda != '' ) {
 
         } else {
             $consulta_datos = "SELECT * FROM area_trabajo ORDER
-            BY id_area ASC LIMIT $inicio, $registros";
+            BY id_area";
 
             $consulta_total = 'SELECT COUNT(id_area) FROM area_trabajo';
         }
@@ -550,11 +599,9 @@ class configController extends mainModel {
         $total = $this->ejecutarConsulta( $consulta_total );
         $total = ( int ) $total->fetchColumn();
 
-        $numeroPaginas = ceil( $total/$registros );
-
         $tabla .= '
-            <div class="table-responsive">
-                <table class="table border mb-0 table-info table-hover table-striped">
+        <div class="table-responsive table-wrapper">
+                <table class="table border mb-0 table-info table-hover table-sm table-striped">
                     <thead class="table-light fw-semibold">
                         <tr class="align-middle">
                             <th class="clearfix">#</th>                            
@@ -565,9 +612,9 @@ class configController extends mainModel {
                     </thead>
                     <tbody>
         ';
-        if ( $total >= 1 && $pagina <= $numeroPaginas ) {
-            $contador = $inicio + 1;
-            $pag_inicio = $inicio + 1;
+        $contador = 0;
+        if ( $total >= 1 ) {
+            $contador = $contador + 1;
             foreach ( $datos as $rows ) {
 
                 $tabla .= '
@@ -594,9 +641,9 @@ class configController extends mainModel {
                     
                         </td>
                         <td class="col-p">
-                            <form class="FormularioAjax" action="'.APP_URL.'app/ajax/miembroAjax.php" method="POST">
-                                <input type="hidden" name="modulo_miembro" value="eliminar">
-                                <input type="hidden" name="miembro_id" value="'.$rows[ 'id_area' ].'">
+                            <form class="FormularioAjax" action="'.APP_URL.'app/ajax/configAjax.php" method="POST">
+                                <input type="hidden" name="modulo_rol" value="eliminar_area">
+                                <input type="hidden" name="id_area" value="'.$rows[ 'id_area' ].'">
                                 <button type="submit" class="btn btn-primary" title="Eliminar">
                                     <span class="bi bi-trash"></span>
                                 </button>
@@ -607,16 +654,9 @@ class configController extends mainModel {
                 ';
                 $contador++;
             }
-            $pag_final = $contador-1;
         } else {
             if ( $total >= 1 ) {
-                $tabla .= '
-                    <tr class="align-middle">
-                        <td class="text-center">
-                            <a style="background-color: #EBEDEF; color:white ;" href="'.$url.'1/" role="button">Haga clic para recargar la tabla</a>
-                        </td>
-                    </tr>
-                ';
+
             } else {
                 $tabla .= '
                     <tr class="align-middle">
@@ -629,19 +669,11 @@ class configController extends mainModel {
 
         }
 
-        $tabla .= '</tbody> </table> </div> ';
-
-        if ( $total > 0 && $pagina <= $numeroPaginas ) {
-            $tabla .= '
-                <p>Mostrando Area <strong>'.$pag_inicio.'</strong> al <strong>'.$pag_final.'</strong> de un 
-                <strong>total de '.$total.'</strong></p>
-            ';
-
-            $tabla .= $this->paginadorTablas( $pagina, $numeroPaginas, $url, 5 );
-        }
+        $tabla .= '</tbody> </table> </div> <label class="form-label">Total registros: <strong>'.$total.'</strong></label>';
 
         return $tabla;
     }
+
     public function registrarEstadoControlador() {
         // Se obtienen y limpian los datos del formulario
 
@@ -661,13 +693,12 @@ class configController extends mainModel {
             return json_encode( $alerta );
             exit();
         }
-        if ( $this->verificarDatos( '[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9 ]{3,40}
-        ', $nombre_estado ) ) {
+        if ( $this->verificarDatos( '[a-zA-ZáéíóúÁÉÍÓÚñÑ -]{3,40}', $nombre_estado ) ) {
             // Si el formato del nombre no es válido, se devuelve una alerta de error
             $alerta = [
                 'tipo' => 'simple',
                 'titulo' => 'Ocurrió un error inesperado',
-                'texto' => 'El nombre del estado no cumple con el formato solicitado',
+                'texto' => 'El nombre no cumple con el formato solicitado',
                 'icono' => 'error'
             ];
             return json_encode( $alerta );
@@ -689,9 +720,9 @@ class configController extends mainModel {
         ];
 
         // Llamada al método guardarDatos() para guardar los datos del usuario en la base de datos
-        $registrar_user = $this->guardarDatos( 'estado_ot', $estado_datos_reg );
+        $registrar_dts = $this->guardarDatos( 'estado_ot', $estado_datos_reg );
 
-        if ( $registrar_user->rowCount() == 1 ) {
+        if ( $registrar_dts->rowCount() == 1 ) {
             $this->registrarLog( $_SESSION[ 'id' ], 'REGISTRO DE ESTADO', 'REGISTRO EXITOSO DEL ESTADO '.$nombre_estado );
             // Si se registró correctamente, se devuelve un mensaje de éxito
             $alerta = [
@@ -716,26 +747,63 @@ class configController extends mainModel {
         return json_encode( $alerta );
     }
 
-    public function listarEstadoControlador ( $pagina, $registros, $url, $busqueda ) {
+    public function eliminarEstadoControlador() {
 
-        $pagina = $this->limpiarCadena( $pagina );
-        $registros = $this->limpiarCadena( $registros );
+        $id = $this->limpiarCadena( $_POST[ 'id_estado' ] );
 
-        $url = $this->limpiarCadena( $url );
-        $url = APP_URL.$url.'/';
+        # verificar si el rol esta asignado algun usuario
+        $datosC = $this->ejecutarConsulta( "SELECT * FROM estado_ot WHERE id_estado='$id'" );
+        $datosC = $datosC->fetch();
+
+        $datos = $this->ejecutarConsulta( "SELECT * FROM detalle_orden WHERE status='$id'" );
+        if ( $datos->rowCount() > 0 ) {
+            $alerta = [
+                'tipo' => 'simple',
+                'titulo' => '¡Ups! No podemos realizar esta acción.',
+                'texto' => 'Este Estado esta asignado a '.$datos->rowCount().' O.T.(s), primero debe reasignarle un nuevo estado a las O.T. asociadas al estado que desea eliminar para poder realizar esta acción.',
+                'icono' => 'warning'
+            ];
+            return json_encode( $alerta );
+            exit();
+        } else {
+            $datos = $datos->fetch();
+        }
+
+        $eliminar_reg = $this->eliminarRegistro( 'estado_ot', 'id_estado', $id );
+
+        if ( $eliminar_reg->rowCount() == 1 ) {
+            $this->registrarLog( $_SESSION[ 'id' ], 'ELIMINACION DE ESTADO', 'ELIMINACIÓN EXITOSO DEL ESTADO '.$datosC[ 'nombre_estado' ] );
+            $alerta = [
+                'tipo' => 'recargar',
+                'titulo' => 'Estado Eliminado',
+                'texto' => 'El Estado '.$datosC[ 'nombre_estado' ].' ha sido eliminado con exito',
+                'icono' => 'success'
+            ];
+
+        } else {
+            $this->registrarLog( $_SESSION[ 'id' ], 'ELIMINACION DE ESTADO', 'ELIMINACIÓN FALLIDA DEL ESTADO '.$datosC[ 'nombre_estado' ] );
+            $alerta = [
+                'tipo' => 'simple',
+                'titulo' => 'Ocurrió un error inesperado',
+                'texto' => 'No se pudo eliminar el Estado, por favor intente nuevamente',
+                'icono' => 'error'
+            ];
+
+        }
+        return json_encode( $alerta );
+    }
+
+    public function listarEstadoControlador ( $busqueda ) {
 
         $busqueda = $this->limpiarCadena( $busqueda );
 
         $tabla = '';
 
-        $pagina = ( isset( $pagina ) && $pagina>0 ) ? ( int ) $pagina : 1;
-        $inicio = ( $pagina>0 ) ? ( ( $pagina*$registros )-$registros ) : 0;
-
         if ( isset( $busqueda ) && $busqueda != '' ) {
 
         } else {
             $consulta_datos = "SELECT * FROM estado_ot ORDER
-            BY id_estado ASC LIMIT $inicio, $registros";
+            BY id_estado";
 
             $consulta_total = 'SELECT COUNT(id_estado) FROM estado_ot';
         }
@@ -746,24 +814,23 @@ class configController extends mainModel {
         $total = $this->ejecutarConsulta( $consulta_total );
         $total = ( int ) $total->fetchColumn();
 
-        $numeroPaginas = ceil( $total/$registros );
-
         $tabla .= '
-            <div class="table-responsive">
-                <table class="table border mb-0 table-info table-hover table-striped">
+            <div class="table-responsive table-wrapper">
+                <table class="table border mb-0 table-info table-hover table-striped table-sm">                
                     <thead class="table-light fw-semibold">
                         <tr class="align-middle">
                             <th class="clearfix">#</th>                            
                             <th class="clearfix">Nombre</th>
-                            <th class="">color</th>
+                            <th class="">Indicador</th>
                             <th class="text-center" colspan="2">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
         ';
-        if ( $total >= 1 && $pagina <= $numeroPaginas ) {
-            $contador = $inicio + 1;
-            $pag_inicio = $inicio + 1;
+        $contador = 0;
+        if ( $total >= 1 ) {
+            $contador = $contador + 1;
+
             foreach ( $datos as $rows ) {
 
                 $tabla .= '
@@ -794,9 +861,9 @@ class configController extends mainModel {
                     
                         </td>
                         <td class="col-p">
-                            <form class="FormularioAjax" action="'.APP_URL.'app/ajax/miembroAjax.php" method="POST">
-                                <input type="hidden" name="modulo_miembro" value="eliminar">
-                                <input type="hidden" name="miembro_id" value="'.$rows[ 'id_estado' ].'">
+                            <form class="FormularioAjax" action="'.APP_URL.'app/ajax/configAjax.php" method="POST">
+                                <input type="hidden" name="modulo_rol" value="eliminar_estado">
+                                <input type="hidden" name="id_estado" value="'.$rows[ 'id_estado' ].'">
                                 <button type="submit" class="btn btn-primary" title="Eliminar">
                                     <span class="bi bi-trash"></span>
                                 </button>
@@ -807,16 +874,10 @@ class configController extends mainModel {
                 ';
                 $contador++;
             }
-            $pag_final = $contador-1;
+
         } else {
             if ( $total >= 1 ) {
-                $tabla .= '
-                    <tr class="align-middle">
-                        <td class="text-center">
-                            <a style="background-color: #EBEDEF; color:white ;" href="'.$url.'1/" role="button">Haga clic para recargar la tabla</a>
-                        </td>
-                    </tr>
-                ';
+
             } else {
                 $tabla .= '
                     <tr class="align-middle">
@@ -826,23 +887,11 @@ class configController extends mainModel {
                     </tr>
                 ';
             }
-
         }
-
-        $tabla .= '</tbody> </table> </div> ';
-
-        if ( $total > 0 && $pagina <= $numeroPaginas ) {
-            $tabla .= '
-                <p>Mostrando Estado <strong>'.$pag_inicio.'</strong> al <strong>'.$pag_final.'</strong> de un 
-                <strong>total de '.$total.'</strong></p>
-            ';
-
-            $tabla .= $this->paginadorTablas( $pagina, $numeroPaginas, $url, 5 );
-        }
-
+        $tabla .= '</tbody> </table> </div> <label class="form-label">Total registros: <strong>'.$total.'</strong></label>';
         return $tabla;
     }
-    
+
     public function registrarSitioControlador() {
         // Se obtienen y limpian los datos del formulario
 
@@ -861,7 +910,7 @@ class configController extends mainModel {
             return json_encode( $alerta );
             exit();
         }
-        if ( $this->verificarDatos( '[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{3,40}', $nombre_sitio ) ) {
+        if ( $this->verificarDatos( '[a-zA-ZáéíóúÁÉÍÓÚñÑ -]{3,40}', $nombre_sitio ) ) {
             // Si el formato del nombre no es válido, se devuelve una alerta de error
             $alerta = [
                 'tipo' => 'simple',
@@ -883,9 +932,9 @@ class configController extends mainModel {
         ];
 
         // Llamada al método guardarDatos() para guardar los datos del usuario en la base de datos
-        $registrar_user = $this->guardarDatos( 'sitio_trabajo', $datos_reg );
+        $registrar_dts = $this->guardarDatos( 'sitio_trabajo', $datos_reg );
 
-        if ( $registrar_user->rowCount() == 1 ) {
+        if ( $registrar_dts->rowCount() == 1 ) {
             $this->registrarLog( $_SESSION[ 'id' ], 'REGISTRO DE SITIO', 'REGISTRO EXITOSO DEL SITIO '.$nombre_sitio );
             // Si se registró correctamente, se devuelve un mensaje de éxito
             $alerta = [
@@ -907,26 +956,64 @@ class configController extends mainModel {
         }
         return json_encode( $alerta );
     }
-    public function listarSitioControlador ( $pagina, $registros, $url, $busqueda ) {
 
-        $pagina = $this->limpiarCadena( $pagina );
-        $registros = $this->limpiarCadena( $registros );
+    public function eliminarSitioControlador() {
 
-        $url = $this->limpiarCadena( $url );
-        $url = APP_URL.$url.'/';
+        $id = $this->limpiarCadena( $_POST[ 'id_sitio' ] );
+
+        # verificar si el rol esta asignado algun usuario
+        $datosC = $this->ejecutarConsulta( "SELECT * FROM sitio_trabajo WHERE id_sitio='$id'" );
+        $datosC = $datosC->fetch();
+
+        $datos = $this->ejecutarConsulta( "SELECT * FROM orden_trabajo WHERE sitio_trab='$id'" );
+        if ( $datos->rowCount() > 0 ) {
+            $alerta = [
+                'tipo' => 'simple',
+                'titulo' => '¡Ups! No podemos realizar esta acción.',
+                'texto' => 'Este Sitio esta asignado a '.$datos->rowCount().' O.T.(s), primero debe reasignarle un nuevo sitio a las O.T. asociadas al sitio que desea eliminar para poder realizar esta acción.',
+                'icono' => 'warning'
+            ];
+            return json_encode( $alerta );
+            exit();
+        } else {
+            $datos = $datos->fetch();
+        }
+
+        $eliminar_reg = $this->eliminarRegistro( 'sitio_trabajo', 'id_sitio', $id );
+
+        if ( $eliminar_reg->rowCount() == 1 ) {
+            $this->registrarLog( $_SESSION[ 'id' ], 'ELIMINACION DE SITIO', 'ELIMINACIÓN EXITOSO DEL SITIO '.$datosC[ 'nombre_sitio' ] );
+            $alerta = [
+                'tipo' => 'recargar',
+                'titulo' => 'Sitio Eliminado',
+                'texto' => 'El sitio '.$datosC[ 'nombre_sitio' ].' ha sido eliminado con exito',
+                'icono' => 'success'
+            ];
+
+        } else {
+            $this->registrarLog( $_SESSION[ 'id' ], 'ELIMINACION DE SITIO', 'ELIMINACIÓN FALLIDA DEL SITIO '.$datosC[ 'nombre_sitio' ] );
+            $alerta = [
+                'tipo' => 'simple',
+                'titulo' => 'Ocurrió un error inesperado',
+                'texto' => 'No se pudo eliminar el Sitio, por favor intente nuevamente',
+                'icono' => 'error'
+            ];
+
+        }
+        return json_encode( $alerta );
+    }
+
+    public function listarSitioControlador ( $busqueda ) {
 
         $busqueda = $this->limpiarCadena( $busqueda );
 
         $tabla = '';
 
-        $pagina = ( isset( $pagina ) && $pagina>0 ) ? ( int ) $pagina : 1;
-        $inicio = ( $pagina>0 ) ? ( ( $pagina*$registros )-$registros ) : 0;
-
         if ( isset( $busqueda ) && $busqueda != '' ) {
 
         } else {
             $consulta_datos = "SELECT * FROM sitio_trabajo ORDER
-            BY id_sitio ASC LIMIT $inicio, $registros";
+            BY id_sitio";
 
             $consulta_total = 'SELECT COUNT(id_sitio) FROM sitio_trabajo';
         }
@@ -937,11 +1024,9 @@ class configController extends mainModel {
         $total = $this->ejecutarConsulta( $consulta_total );
         $total = ( int ) $total->fetchColumn();
 
-        $numeroPaginas = ceil( $total/$registros );
-
         $tabla .= '
-            <div class="table-responsive">
-                <table class="table border mb-0 table-info table-hover table-striped">
+        <div class="table-responsive table-wrapper">
+                <table class="table border mb-0 table-info table-hover table-sm table-striped">
                     <thead class="table-light fw-semibold">
                         <tr class="align-middle">
                             <th class="clearfix">#</th>                            
@@ -951,9 +1036,9 @@ class configController extends mainModel {
                     </thead>
                     <tbody>
         ';
-        if ( $total >= 1 && $pagina <= $numeroPaginas ) {
-            $contador = $inicio + 1;
-            $pag_inicio = $inicio + 1;
+        $contador = 0;
+        if ( $total >= 1 ) {
+            $contador = $contador + 1;
             foreach ( $datos as $rows ) {
 
                 $tabla .= '
@@ -975,29 +1060,21 @@ class configController extends mainModel {
                     
                         </td>
                         <td class="col-p">
-                            <form class="FormularioAjax" action="'.APP_URL.'app/ajax/miembroAjax.php" method="POST">
-                                <input type="hidden" name="modulo_miembro" value="eliminar">
-                                <input type="hidden" name="miembro_id" value="'.$rows[ 'id_sitio' ].'">
+                            <form class="FormularioAjax" action="'.APP_URL.'app/ajax/configAjax.php" method="POST">
+                                <input type="hidden" name="modulo_rol" value="eliminar_sitio">
+                                <input type="hidden" name="id_sitio" value="'.$rows[ 'id_sitio' ].'">
                                 <button type="submit" class="btn btn-primary" title="Eliminar">
                                     <span class="bi bi-trash"></span>
                                 </button>
-
                             </form>
                         </td>    
                     </tr>
                 ';
                 $contador++;
             }
-            $pag_final = $contador-1;
         } else {
             if ( $total >= 1 ) {
-                $tabla .= '
-                    <tr class="align-middle">
-                        <td class="text-center">
-                            <a style="background-color: #EBEDEF; color:white ;" href="'.$url.'1/" role="button">Haga clic para recargar la tabla</a>
-                        </td>
-                    </tr>
-                ';
+
             } else {
                 $tabla .= '
                     <tr class="align-middle">
@@ -1010,20 +1087,169 @@ class configController extends mainModel {
 
         }
 
-        $tabla .= '</tbody> </table> </div> ';
-
-        if ( $total > 0 && $pagina <= $numeroPaginas ) {
-            $tabla .= '
-                <p>Mostrando Sitio <strong>'.$pag_inicio.'</strong> al <strong>'.$pag_final.'</strong> de un 
-                <strong>total de '.$total.'</strong></p>
-            ';
-
-            $tabla .= $this->paginadorTablas( $pagina, $numeroPaginas, $url, 5 );
-        }
+        $tabla .= '</tbody> </table> </div> <label class="form-label">Total registros: <strong>'.$total.'</strong></label>';
 
         return $tabla;
     }
-    
+
+    public function registrarTurnoControlador() {
+
+        // Se obtienen y limpian los datos del formulario
+
+        // Permisos para Usuarios
+        $nombre_turno = $this->limpiarCadena( $_POST[ 'turno' ] );
+
+        # Verificación de campos obligatorios #
+        if ( $nombre_turno == '' ) {
+            // Si algún campo obligatorio está vacío, se devuelve una alerta de error
+            $alerta = [
+                'tipo' => 'simple',
+                'titulo' => 'Ocurrió un error inesperado',
+                'texto' => 'No has llenado todos los campos que son obligatorios',
+                'icono' => 'error'
+            ];
+            return json_encode( $alerta );
+            exit();
+        }
+        if ( $this->verificarDatos( '[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9 -]{3,40}', $nombre_turno ) ) {
+            // Si el formato del nombre no es válido, se devuelve una alerta de error
+            $alerta = [
+                'tipo' => 'simple',
+                'titulo' => 'Ocurrió un error inesperado',
+                'texto' => 'El nombre del turno no cumple con el formato solicitado',
+                'icono' => 'error'
+            ];
+            return json_encode( $alerta );
+            exit();
+        }
+        // Definición de un array asociativo $user_datos_reg que contiene los datos del rol a registrar
+        // Array para almacenar los permisos
+        $datos_reg = [
+            [
+                'campo_nombre' => 'nombre_turno',
+                'campo_marcador' => ':nombre_turno',
+                'campo_valor' => $nombre_turno =  mb_strtoupper( $nombre_turno, 'UTF-8' )
+            ]
+        ];
+
+        // Llamada al método guardarDatos() para guardar los datos del usuario en la base de datos
+        $registrar_dts = $this->guardarDatos( 'turno_trabajo', $datos_reg );
+
+        if ( $registrar_dts->rowCount() == 1 ) {
+            $this->registrarLog( $_SESSION[ 'id' ], 'REGISTRO DE TURNO', 'REGISTRO EXITOSO DEL TURNO '.$nombre_turno );
+            // Si se registró correctamente, se devuelve un mensaje de éxito
+            $alerta = [
+                'tipo' => 'limpiar',
+                'titulo' => 'Turno Registrado',
+                'texto' => 'El Turno '.$nombre_turno.' se ha registrado con éxito',
+                'icono' => 'success'
+            ];
+
+        } else {
+
+            $this->registrarLog( $_SESSION[ 'id' ], 'REGISTRO DE TURNO', 'REGISTRO FALLIDO DEL TURNO '.$nombre_turno );
+
+            // Si no se pudo registrar, se devuelve un mensaje de error
+            $alerta = [
+                'tipo' => 'simple',
+                'titulo' => 'Ocurrió un error inesperado',
+                'texto' => 'El Turno no se pudo registrar correctamente',
+                'icono' => 'error'
+            ];
+        }
+        return json_encode( $alerta );
+    }
+
+    public function listarTurnoControlador ( $busqueda ) {
+
+        $busqueda = $this->limpiarCadena( $busqueda );
+
+        $tabla = '';
+
+        if ( isset( $busqueda ) && $busqueda != '' ) {
+
+        } else {
+            $consulta_datos = "SELECT * FROM turno_trabajo ORDER
+            BY id_turno";
+
+            $consulta_total = 'SELECT COUNT(id_turno) FROM turno_trabajo';
+        }
+
+        $datos = $this->ejecutarConsulta( $consulta_datos );
+        $datos = $datos->fetchAll();
+
+        $total = $this->ejecutarConsulta( $consulta_total );
+        $total = ( int ) $total->fetchColumn();
+
+        $tabla .= '
+        <div class="table-responsive table-wrapper" id="contenidoCargado">
+                <table class="table border mb-0 table-info table-hover table-sm table-striped">
+                    <thead class="table-light fw-semibold">
+                        <tr class="align-middle">
+                            <th class="clearfix">#</th>                            
+                            <th class="clearfix">Nombre</th>
+                            <th class="text-center" colspan="2">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        ';
+        $contador = 0;
+        if ( $total >= 1 ) {
+            $contador = $contador + 1;
+            foreach ( $datos as $rows ) {
+
+                $tabla .= '
+                    <tr class="align-middle">
+                        <td class="clearfix col-p">
+                            <div class=""><b>'.$contador.'</b></div>
+                        </td>                                               
+                       
+                        <td class="">
+                            <div class="clearfix">
+                                <div class=""><b>'.$rows[ 'nombre_turno' ].'</b></div>
+                            </div>
+                        </td>                       
+                        
+                        <td class="col-p">
+                        <a href="#" title="Modificar" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ventanaModalModificarMiem" data-bs-id="'.$rows[ 'id_turno' ].'">
+                        <span class="bi bi-pencil"></span>
+                    </a>
+                    
+                        </td>
+                        <td class="col-p">
+                            <form class="FormularioAjax" action="'.APP_URL.'app/ajax/miembroAjax.php" method="POST">
+                                <input type="hidden" name="modulo_miembro" value="eliminar">
+                                <input type="hidden" name="miembro_id" value="'.$rows[ 'id_turno' ].'">
+                                <button type="submit" class="btn btn-primary" title="Eliminar">
+                                    <span class="bi bi-trash"></span>
+                                </button>
+
+                            </form>
+                        </td>    
+                    </tr>
+                ';
+                $contador++;
+            }
+        } else {
+            if ( $total >= 1 ) {
+
+            } else {
+                $tabla .= '
+                    <tr class="align-middle">
+                        <td class="text-center">
+                            No hay registros en el sistema
+                        </td>
+                    </tr>
+                ';
+            }
+
+        }
+
+        $tabla .= '</tbody> </table> </div> <label class="form-label">Total registros: <strong>'.$total.'</strong></label>';
+
+        return $tabla;
+    }
+
     private function respuestaCheck( $check ) {
         $resp = '1';
         if ( $check != 'on' ) {

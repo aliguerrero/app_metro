@@ -7,28 +7,31 @@
     </div>
     <ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
         <li class="nav-item">
-
             <a class="nav-link" href="<?php ECHO APP_URL; ?>dashboard/">
-                <svg class=" nav-icon">
-                    <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-chart"></use>
-                </svg> Panel
+                <i class="bi bi-speedometer2 nav-icon"></i> Panel
             </a>
         </li>
-        <li class="nav-item"><a class="nav-link" href="<?php ECHO APP_URL; ?>gestionOT/">
-                <svg class="nav-icon">
-                    <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-clipboard"></use>
-                </svg> Ordenes de Trabajo</a>
+        <li class="nav-item">
+            <a class="nav-link" href="<?php ECHO APP_URL; ?>gestionOT/">
+                <i class="bi bi-clipboard nav-icon"></i> Ordenes de Trabajo
+            </a>
         </li>
-        <li class="nav-item"><a class="nav-link" href="<?php ECHO APP_URL; ?>gestionMiembro/">
-                <svg class="nav-icon">
-                    <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-group"></use>
-                </svg> Miembro</a>
+        <li class="nav-item">
+            <a class="nav-link" href="<?php ECHO APP_URL; ?>gestionMiembro/">
+                <i class="bi bi-people nav-icon"></i> Miembro
+            </a>
         </li>
-        <li class="nav-item"><a class="nav-link" href="<?php ECHO APP_URL; ?>gestionHerramienta/">
-                <svg class="nav-icon">
-                    <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-settings"></use>
-                </svg> Herramienta</a>
+        <li class="nav-item">
+            <a class="nav-link" href="<?php ECHO APP_URL; ?>gestionHerramienta/">
+                <i class="bi bi-gear nav-icon"></i> Herramienta
+            </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="<?php ECHO APP_URL; ?>reporte/">
+                <i class="bi bi-file-earmark nav-icon"></i> Reportes
+            </a>
+        </li>
+    </ul>
 
 </div>
 <div class="wrapper d-flex flex-column min-vh-100 bg-light">
@@ -40,7 +43,7 @@
                     <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-menu"></use>
                 </svg>
             </button>
-            <a class="header-brand d-md-none" href="<?php ECHO APP_URL; ?>dashboard/">                
+            <a class="header-brand d-md-none" href="<?php ECHO APP_URL; ?>dashboard/">
                 <img src="<?php echo APP_URL; ?>app/views/icons/metro_android.png" width="118" height="46">
             </a>
             <ul class="header-nav d-none d-md-flex">
@@ -68,7 +71,10 @@
                                 <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-user"></use>
                             </svg> Usuarios
                         </a>
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="<?php ECHO APP_URL; ?>usuario/">
+                            <i class="bi bi-journal me-2"></i>Logs Sistema
+                        </a>
+                        <a class="dropdown-item" href="<?php ECHO APP_URL; ?>config/">
                             <svg class="icon me-2">
                                 <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-settings"></use>
                             </svg> Configuración
@@ -91,4 +97,13 @@
     <main id="main" class="body flex-grow-1 px-3">
         <?php require_once $vista; ?>
     </main>
+    <footer class="footer">
+        <div class="container text-center">            
+            <div class="row">
+                <div class="col-lg-12">                    
+                    <p class="small mb-0"><i class="bi bi-building"></i> © 2024 C.A, Metro Valencia. Todos los derechos reservados.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
 </div>

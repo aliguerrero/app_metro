@@ -210,12 +210,15 @@
                 OR id_user LIKE '%$busqueda%' OR username LIKE '%$busqueda%'))";
          
             } else {
-                $consulta_datos="SELECT * FROM user_system WHERE
-                id_user!='".$_SESSION['id']."' AND 	std_reg='1' ORDER
+                $consulta_datos="SELECT u.*, r.nombre_rol 
+                FROM user_system u 
+                JOIN roles_permisos r ON u.tipo = r.id 
+                WHERE u.id_user != '".$_SESSION['id']."' AND std_reg='1' ORDER
                 BY user ASC LIMIT $inicio, $registros";
 
-                $consulta_total="SELECT COUNT(id_user) FROM user_system WHERE
-                id_user!='".$_SESSION['id']."' AND 	std_reg='1'";
+                $consulta_total="SELECT COUNT(id_user) FROM user_system u 
+                JOIN roles_permisos r ON u.tipo = r.id 
+                WHERE u.id_user != '".$_SESSION['id']."' AND 	std_reg='1'";
             }
             
             $datos = $this->ejecutarConsulta($consulta_datos);
@@ -228,7 +231,7 @@
 
             $tabla .='
                 <div class="table-responsive">
-                    <table class="table border mb-0 table-info table-hover table-striped">
+                    <table class="table border mb-0 table-info table-hover table-sm table-striped">
                         <thead class="table-light fw-semibold">
                             <tr class="align-middle">
                                 <th class="clearfix">#</th>
@@ -250,11 +253,7 @@
                 $pag_inicio= $inicio + 1;
                 $tipo_user="";
                 foreach ($datos as $rows) {
-                    if($rows['tipo']=='1'){
-                        $tipo_user="Administrador";
-                    }else{
-                        $tipo_user="Operador";
-                    }
+                    
                     $tabla.='
                         <tr class="align-middle">
                             <td class="clearfix col-p">
@@ -275,32 +274,32 @@
                                     <div class=""><b>'.$rows['user'].'</b></div>
                                 </div>
                             </td>
-                            <td class="col-p">
+                            <td class="col-2">
                                 <div class="text-center">
-                                    <div class=""><b>'.$tipo_user.'</b></div>
+                                    <div class=""><b>'.$rows['nombre_rol'].'</b></div>
                                 </div>
                             </td>
                             <td class="col-p">
-                                <button type="button" title="Ver" class="btn" style="background-color: #EBEDEF; color:white ;">
-                                    <img src="'.APP_URL.'app/views/icons/view.png" alt="icono" width="28" height="28">
+                                <button type="button" title="Ver" class="btn btn-primary">
+                                    <i class="bi bi-eye"></i>
                                 </button>                       
                             </td>
                             <td class="col-p">                              
-                                <a href="#" title="Cambiar Clave" class="btn" data-bs-toggle="modal" data-bs-target="#ventanaModalModificarPass" data-bs-id="'.$rows['id_user'].'" style="background-color: #EBEDEF; color:white ;">
-                                    <img src="'.APP_URL.'app/views/icons/password.png" alt="icono" width="28" height="28" >
+                                <a href="#" title="Cambiar Clave" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ventanaModalModificarPass" data-bs-id="'.$rows['id_user'].'">
+                                    <i class="bi bi-lock"></i>
                                 </a> 
                             </td>
                             <td class="col-p">                              
-                                <a href="#" title="Modificar" class="btn" data-bs-toggle="modal" data-bs-target="#ventanaModalModificar" data-bs-id="'.$rows['id_user'].'" style="background-color: #EBEDEF; color:white ;">
-                                    <img src="'.APP_URL.'app/views/icons/edit.png" alt="icono" width="28" height="28" >
+                                <a href="#" title="Modificar" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ventanaModalModificar" data-bs-id="'.$rows['id_user'].'">
+                                    <i class="bi bi-pencil"></i>
                                 </a> 
                             </td>
                             <td class="col-p">
                                 <form class="FormularioAjax" action="'.APP_URL.'app/ajax/userAjax.php" method="POST">
                                     <input type="hidden" name="modulo_user" value="eliminar">
                                     <input type="hidden" name="id_user" value="'.$rows['id_user'].'">
-                                    <button type="submit" class="btn" title="Eliminar" style="background-color: #EBEDEF; color:white ;">
-                                        <img src="'.APP_URL.'app/views/icons/delete.png" alt="icono" width="28" height="28">
+                                    <button type="submit" class="btn btn-primary" title="Eliminar">
+                                        <i class="bi bi-trash"></i>
                                     </button> 
                                 </form>
                             </td>    
@@ -343,7 +342,43 @@
 
             return $tabla;
         }
+        public function listarComboRolesControlador () {
 
+            // Variable para almacenar el HTML del combo
+            $combo = '';
+    
+            // Consulta para obtener los datos de los miembros según el tipo especificado
+            $consulta_datos = 'SELECT * FROM roles_permisos';
+    
+            // Ejecutar la consulta para obtener los datos de los miembros
+            $datos = $this->ejecutarConsulta( $consulta_datos );
+            $datos = $datos->fetchAll();
+    
+            // Comprobar el tipo de miembro para determinar la etiqueta del combo
+    
+            // Si el tipo no es 1, el combo es para el responsable de control de operaciones
+            $combo .= '
+                <label class="form-label">TIPO DE USUARIO</label>
+                <select class="form-select" name="tipo" id="tipo" aria-label="Default select example" value="">
+                    <option selected>Seleccionar</option>
+                ';
+    
+            // Comprobar si hay miembros disponibles para mostrar en el combo
+            if ( count( $datos ) > 0 ) {
+    
+                // Si hay miembros disponibles, iterar sobre ellos y agregar opciones al combo
+                foreach ( $datos as $rows ) {
+                    $combo .= '
+                            <option value="'.$rows[ 'id' ].'">'.$rows[ 'nombre_rol' ].'</option>
+                        ';
+                }
+            }
+    
+            // Cerrar el combo y devolver el HTML generado
+            $combo .= '</select>';
+    
+            return $combo;
+        }
         # eliminar usuario 
         public function eliminarUserControlador(){
             
@@ -415,8 +450,8 @@
             return json_encode($alerta);
         }
 
-        # cargar datis de la tabla 
-        public function cargarUserControlador() {
+        # cargar datos de la tabla 
+        /*public function cargarUserControlador() {
             $id = $this->limpiarCadena($_POST['id_user']);
             
             # Verificar el usuario
@@ -439,7 +474,7 @@
                 $datosUsuario = $datos->fetch(PDO::FETCH_ASSOC);
                 return $datosUsuario;
             }
-        }
+        }*/
 
         public function actualizarDatosUser(){
             $id = $this->limpiarCadena($_POST['id']);
@@ -573,7 +608,209 @@
 			}
 			return json_encode($alerta);                  
         }
-        
+        public function actualizarDatosUserSesion(){
+            $claveD= "0";
+            
+            $id = $this->limpiarCadena($_POST['id']);
+
+            $cedula = $this->limpiarCadena($_POST['cedula']);
+            $nombre = $this->limpiarCadena($_POST['nombre']);
+            $username = $this->limpiarCadena($_POST['username']);
+            $clave1 = $this->limpiarCadena($_POST['clave1']);
+            $clave2 = $this->limpiarCadena($_POST['clave2']);
+
+            # Verificación de campos obligatorios #
+            if ($cedula == "" || $nombre == "" || $username == "") {
+                // Si algún campo obligatorio está vacío, se devuelve una alerta de error
+                $alerta = [
+                    "tipo" => "simple",
+                    "titulo" => "Ocurrió un error inesperado",
+                    "texto" => "No has llenado todos los campos que son obligatorios",
+                    "icono" => "error"
+                ];
+                return json_encode($alerta);
+                exit();
+            }
+            # Verificación de campos obligatorios #
+            if ($clave1 != "") {
+                if ($clave2 != "") {
+                   # Verificar las claves #
+                    if ($clave1 != $clave2) {
+                        // Si las claves no coinciden, se devuelve una alerta de error
+                        $alerta = [
+                            "tipo" => "simple",
+                            "titulo" => "Ocurrió un error inesperado",
+                            "texto" => "Las claves no coinciden",
+                            "icono" => "error"
+                        ];
+                        return json_encode($alerta);
+                        exit();
+                    } else {
+                        // Si coinciden, se crea un hash de la clave
+                        # Verificar la integridad de los datos de clave #
+                        if ($this->verificarDatos('[a-zA-Z0-9$@.-]{8,15}', $clave1)) {
+                            // Si el formato del nombre no es válido, se devuelve una alerta de error
+                            $alerta = [
+                                "tipo" => "simple",
+                                "titulo" => "Ocurrió un error inesperado",
+                                "texto" => "La clave no cumple con el formato solicitado",
+                                "icono" => "error"
+                            ];
+                            return json_encode($alerta);
+                            exit();
+                        }else{
+                            $claveD = "1";
+                            $clave = password_hash($clave1,PASSWORD_BCRYPT,["cost="=> 10]);
+                        }
+                        
+                    } 
+                }else{
+                    // Si la clave 2 está vacía, se devuelve una alerta de error
+                    $alerta = [
+                        "tipo" => "simple",
+                        "titulo" => "Ocurrió un error inesperado",
+                        "texto" => "No has ingresado la segunda clave",
+                        "icono" => "error"
+                    ];
+                    return json_encode($alerta);
+                    exit();
+                }
+                
+            }          
+
+            
+            
+            
+            # Verificar la integridad de los datos de código #
+            if ($this->verificarDatos('^[0-9]{6,8}$', $cedula)) {
+                // Si el formato del código no es válido, se devuelve una alerta de error
+                $alerta = [
+                    "tipo" => "simple",
+                    "titulo" => "Ocurrió un error inesperado",
+                    "texto" => "La CEDULA no cumple con el formato solicitado",
+                    "icono" => "error"
+                ];
+                return json_encode($alerta);
+                exit();
+            }  
+            #VERIFICAR LA CEDULA NO EXISTA        
+            $check_cedula = $this->ejecutarConsulta("SELECT * FROM user_system WHERE id_user='$cedula' AND id_user!='$id'" );
+            if ($check_cedula->rowCount() > 0) {
+                // Si el username ya existe en la base de datos, se devuelve una alerta de error
+                $alerta = [
+                    "tipo" => "simple",
+                    "titulo" => "Ocurrió un error inesperado",
+                    "texto" => "La CEDULA ingresado ya existe en los registros",
+                    "icono" => "error"
+                ];
+                return json_encode($alerta);
+                exit();
+            }
+            # Verificar la integridad de los datos de nombre #
+            if ($this->verificarDatos('[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{3,40}', $nombre)) {
+                // Si el formato del nombre no es válido, se devuelve una alerta de error
+                $alerta = [
+                    "tipo" => "simple",
+                    "titulo" => "Ocurrió un error inesperado",
+                    "texto" => "El NOMBRE DEL USUARIO no cumple con el formato solicitado",
+                    "icono" => "error"
+                ];
+                return json_encode($alerta);
+                exit();
+            }
+            # Verificar la integridad de los datos de nombre #
+            if ($this->verificarDatos('[a-zA-Z0-9]{4,20}', $username)) {
+                // Si el formato del nombre no es válido, se devuelve una alerta de error
+                $alerta = [
+                    "tipo" => "simple",
+                    "titulo" => "Ocurrió un error inesperado",
+                    "texto" => "El USERNAME no cumple con el formato solicitado",
+                    "icono" => "error"
+                ];
+                return json_encode($alerta);
+                exit();
+            }
+            # Verificar el username #
+            $check_username = $this->ejecutarConsulta("SELECT username FROM user_system WHERE username='$username' AND id_user!='$id'");
+            if ($check_username->rowCount() > 0) {
+                // Si el username ya existe en la base de datos, se devuelve una alerta de error
+                $alerta = [
+                    "tipo" => "simple",
+                    "titulo" => "Ocurrió un error inesperado",
+                    "texto" => "El USERNAME ingresado ya existe en los registros",
+                    "icono" => "error"
+                ];
+                return json_encode($alerta);
+                exit();
+            }            
+            if ($claveD == 1) {
+                 $user_datos=[
+                [
+                    "campo_nombre"=>"id_user",
+                    "campo_marcador"=>":Cedula",
+                    "campo_valor"=> $cedula
+                ],
+                [
+                    "campo_nombre"=>"user",
+                    "campo_marcador"=>":Nombre",
+                    "campo_valor"=> $nombre
+                ],
+                [
+                    "campo_nombre"=>"username",
+                    "campo_marcador"=>":Username",
+                    "campo_valor"=> $username
+                ],                
+                [
+                    "campo_nombre"=>"password",
+                    "campo_marcador"=>":Pass",
+                    "campo_valor"=> $clave
+                ]
+            ];
+            } else {
+                $user_datos=[
+                    [
+                        "campo_nombre"=>"id_user",
+                        "campo_marcador"=>":Cedula",
+                        "campo_valor"=> $cedula
+                    ],
+                    [
+                        "campo_nombre"=>"user",
+                        "campo_marcador"=>":Nombre",
+                        "campo_valor"=> $nombre
+                    ],
+                    [
+                        "campo_nombre"=>"username",
+                        "campo_marcador"=>":Username",
+                        "campo_valor"=> $username
+                    ]
+                ];
+            }        
+
+            $condicion=[
+				"condicion_campo"=>"id_user",
+				"condicion_marcador"=>":ID",
+				"condicion_valor"=>$id
+			];
+            if($this->actualizarDatos("user_system",$user_datos,$condicion)){
+                $this->registrarLog($cedula,"ACTUALIZACION DE DATOS SESION","ACTUALIZACION EXITOSA");
+				$alerta=[
+					"tipo"=>"cerrar",
+					"titulo"=>"Datos Actualizados",
+					"texto"=>"Datos actualizados correctamente, la sesion debe ser cerrada para que los cambios sean aplicados.",
+					"icono"=>"success"
+				];
+                         
+			}else{
+                $this->registrarLog($cedula,"ACTUALIZACION DE DATOS SESION","ERROR EN LA ACTUALIZACION");
+                $alerta = [
+                    "tipo" => "simple",
+                    "titulo" => "Ocurrió un error inesperado",
+                    "texto" => "¡Ha ocurrido un error durante el registro!",
+                    "icono" => "error"
+                ];
+			} 
+			return json_encode($alerta);                      
+        }
     
         /**
          * Método para actualizar la clave de un usuario en la base de datos.
@@ -672,6 +909,24 @@
 
             // Devolver el mensaje resultante en formato JSON
             return json_encode($alerta);                  
-        }       
+        }
+        
+        public function cerrarSesionControlador(){
+            // Destruir todas las variables de sesión
+            session_destroy();
+            // Verificar si se han enviado encabezados HTTP al navegador
+            if (headers_sent()) {
+                // Si los encabezados ya se han enviado, redirigir mediante JavaScript
+                echo "
+                    <script>
+                        // Redirigir a la página de inicio de sesión
+                        window.location.href='".APP_URL."login/';
+                    </script> 
+                ";
+            } else {
+                // Si los encabezados no se han enviado, redirigir mediante encabezados de PHP
+                header("Location: ".APP_URL."login/");
+            }
+        }
 
     }

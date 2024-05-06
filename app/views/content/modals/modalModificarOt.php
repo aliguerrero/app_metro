@@ -10,15 +10,16 @@
             <div class="modal-body">
                 <div class="row">
                     <h3 id="codigo" name="codigo"></h3>
-                </div><hr>
+                </div>
+                <hr>
                 <form class="row g-3 FormularioAjax" action="<?php echo APP_URL; ?>app/ajax/otAjax.php" method="POST">
                     <input type="hidden" name="modulo_ot" value="modificar_ot">
-                    <div class="row">                        
+                    <div class="row">
                         <div class="col-md-4">
                             <input type="hidden" name="id" id="id">
                             <label for="exampleInputEmail1" class="form-label">Fecha O.T.:</label>
-                            <input type="date" class="form-control" id="fecha1" name="fecha1" aria-describedby="textHelp"
-                                onchange="calcularSemanaYMes1()">
+                            <input type="date" class="form-control" id="fecha1" name="fecha1"
+                                aria-describedby="textHelp" onchange="calcularSemanaYMes1()">
                         </div>
                     </div>
                     <div class="row">
@@ -56,12 +57,10 @@
                             </select>
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label">Sitio de Trabajo:</label>
-                            <select class="form-select" id="sitio" name="sitio" aria-label="Default select example">
-                                <option selected>Seleccionar</option>
-                                <option value="1">Linea</option>
-                                <option value="2">Patio</option>
-                            </select>
+                            <?php          
+                                // Listar area
+                                echo $insOt->listarComboSitioControlador ();
+                            ?>
                         </div>
                     </div>
                     <hr>

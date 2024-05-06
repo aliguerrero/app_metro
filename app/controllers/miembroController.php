@@ -142,7 +142,7 @@
 
             $tabla .='
                 <div class="table-responsive">
-                    <table class="table border mb-0 table-info table-hover table-striped">
+                    <table class="table border mb-0 table-info table-hover table-sm table-striped">
                         <thead class="table-light fw-semibold">
                             <tr class="align-middle">
                                 <th class="clearfix">#</th>
@@ -195,24 +195,24 @@
                                 </div>
                             </td>
                             <td class="col-p">
-                                <button type="button" title="Ver" class="btn" style="background-color: #EBEDEF; color:white ;">
-                                    <img src="'.APP_URL.'app/views/icons/view.png" alt="icono" width="28" height="28">
+                                <button type="button" title="Ver" class="btn btn-primary"">
+                                    <i class="bi bi-eye" style="color: white;"></i>
                                 </button>                       
                             </td>
                             <td class="col-p">
-                                <a href="#" title="Modificar" class="btn" data-bs-toggle="modal" data-bs-target="#ventanaModalModificarMiem" data-bs-id="'.$rows['id_miembro'].'" style="background-color: #EBEDEF; color:white ;">
-                                    <img src="'.APP_URL.'app/views/icons/edit.png" alt="icono" width="28" height="28" >
+                                <a href="#" title="Modificar" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ventanaModalModificarMiem" data-bs-id="'.$rows['id_miembro'].'">
+                                    <i class="bi bi-pencil" style="color: white;"></i>
                                 </a> 
                             </td>
                             <td class="col-p">
                                 <form class="FormularioAjax" action="'.APP_URL.'app/ajax/miembroAjax.php" method="POST">
                                     <input type="hidden" name="modulo_miembro" value="eliminar">
                                     <input type="hidden" name="miembro_id" value="'.$rows['id_miembro'].'">
-                                    <button type="submit" class="btn" title="Eliminar" style="background-color: #EBEDEF; color:white ;">
-                                        <img src="'.APP_URL.'app/views/icons/delete.png" alt="icono" width="28" height="28">
+                                    <button type="submit" class="btn btn-primary" title="Eliminar" >
+                                        <i class="bi bi-trash" style="color: white;"></i>
                                     </button> 
                                 </form>
-                            </td>    
+                            </td>   
                         </tr>
                     ';
                     $contador++;

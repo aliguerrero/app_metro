@@ -93,6 +93,22 @@ function alertas_ajax(alerta) {
         // Redirigir a una URL específica
         window.location.href = alerta.url; // Redireccionar
     }
+    else if (alerta.tipo == "cerrar") {
+        // Redirigir a una URL específica
+        Swal.fire({
+            title: alerta.titulo, // Título del cuadro de diálogo
+            text: alerta.texto,
+            icon: alerta.icono,
+            allowOutsideClick: false,
+            confirmButtonColor: "#3085d6", // Color del botón de confirmación
+            confirmButtonText: "Cerrar Sesión", // Texto del botón de confirmación
+        }).then((result) => { // Una vez que el usuario hace clic en el botón del cuadro de diálogo...
+            if (result.isConfirmed) { // Si el usuario confirma la acción...
+                let url = "http://localhost/app_metro/logOut/"; // Obtiene la URL del enlace especificada en el botón
+                window.location.href = url; // Redirige a la URL obtenida, lo que efectivamente cierra la sesión
+            }
+        });
+    }
 }
 
 //boton cerrar sesion

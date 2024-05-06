@@ -12,7 +12,7 @@
     </div>
 </div>
 <div class="container d-flex justify-content-center mt-5" style="height: 50vh;">
-    <div class="p-4 rounded-3" style="background-color: ; width: 90%; height: 100%;">
+    <div class="p-4 rounded-3" style=" width: 90%; height: 100%;">
         <div class="row d-flex align-items-start">
             <div class="col-md-3 nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist"
                 aria-orientation="vertical">
@@ -46,12 +46,6 @@
                     aria-controls="v-pills-turno" aria-selected="false">
                     <i class="bi bi-clock-fill me-2"></i>Turnos de Trabajo
                 </button>
-                <button class="nav-link text-start btn btn-sm btn-outline-secondary" id="v-pills-logs-tab"
-                    data-bs-toggle="pill" data-bs-target="#v-pills-logs" type="button" role="tab"
-                    aria-controls="v-pills-logs" aria-selected="false">
-                    <i class="bi bi-journal me-2"></i>Logs Sistema
-                </button>
-
             </div>
             <div class="col-md-8 p-5 tab-content rounded-3" id="v-pills-tabContent" style="background-color: #ffffff;">
                 <div class="tab-pane fade show active" id="v-pills-usuario" role="tabpanel"
@@ -72,9 +66,6 @@
                 </div>
                 <div class="tab-pane fade" id="v-pills-turno" role="tabpanel" aria-labelledby="v-pills-turno-tab">
                     <?php include "./app/views/content/viewConfig/config-turno.php"; ?>
-                </div>
-                <div class="tab-pane fade" id="v-pills-logs" role="tabpanel" aria-labelledby="v-pills-logs-tab">
-
                 </div>
             </div>
         </div>

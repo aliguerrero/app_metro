@@ -27,13 +27,29 @@
         if ($_POST['modulo_rol'] == "registrar_area") {
             echo $insConfig->registrarAreaControlador();
             // Si el valor es "eliminar", se llama al método eliminarUserControlador de la instancia $insUser y se muestra el resultado
+        }
+        if ($_POST['modulo_rol'] == "eliminar_area") {
+            // Si el valor es "eliminar", se llama al método eliminarUserControlador de la instancia $insUser y se muestra el resultado
+            echo $insConfig->eliminarAreaControlador();
         }  
         if ($_POST['modulo_rol'] == "registrar_estado") {
             echo $insConfig->registrarEstadoControlador();
             // Si el valor es "eliminar", se llama al método eliminarUserControlador de la instancia $insUser y se muestra el resultado
         }
+        if ($_POST['modulo_rol'] == "eliminar_estado") {
+            // Si el valor es "eliminar", se llama al método eliminarUserControlador de la instancia $insUser y se muestra el resultado
+            echo $insConfig->eliminarEstadoControlador();
+        }
         if ($_POST['modulo_rol'] == "registrar_sitio") {
             echo $insConfig->registrarSitioControlador();
+            // Si el valor es "eliminar", se llama al método eliminarUserControlador de la instancia $insUser y se muestra el resultado
+        }
+        if ($_POST['modulo_rol'] == "eliminar_sitio") {
+            // Si el valor es "eliminar", se llama al método eliminarUserControlador de la instancia $insUser y se muestra el resultado
+            echo $insConfig->eliminarSitioControlador();
+        }
+        if ($_POST['modulo_rol'] == "registrar_turno") {
+            echo $insConfig->registrarTurnoControlador();
             // Si el valor es "eliminar", se llama al método eliminarUserControlador de la instancia $insUser y se muestra el resultado
         }              
     } else {

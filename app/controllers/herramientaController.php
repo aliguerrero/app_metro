@@ -185,7 +185,7 @@
 
             $tabla .='
                 <div class="table-responsive">
-                    <table class="table border mb-0 table-info table-hover table-striped">
+                    <table class="table border mb-0 table-info table-hover table-sm table-striped">
                         <thead class="table-light fw-semibold">
                             <tr class="align-middle">
                                 <th class="clearfix">#</th>
@@ -228,40 +228,40 @@
                                     <div class=""><b>'.$rows['nombre_herramienta'].'</b></div>
                                 </div>
                             </td>
-                            <td class="col-p">
+                            <td class="col-1">
                                 <div class="text-center">
                                     <div class=""><b>'.$rows['cantidad'].'</b></div>
                                 </div>
                             </td>
-                            <td class="col-p">
+                            <td class="col-1">
                                 <div class="text-center">
                                     <div class=""><b>'.$rows['cantidad_disponible'].'</b></div>
                                 </div>
                             </td>
-                            <td class="col-p">
+                            <td class="col-1">
                                 <div class="text-center ">
                                     <div class=""><b>'.$rows['herramienta_ocupada'].'</b></div>
                                 </div>
                             </td>
                             <td class="col-p">
-                                <button type="button" title="Ver" class="btn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style="background-color: #EBEDEF; color:white ;">
-                                    <img src="'.APP_URL.'app/views/icons/view.png" alt="icono" width="28" height="28">
+                                <button type="button" title="Ver" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                                    <i class="bi bi-eye"></i>
                                 </button>                       
                             </td>
                             <td class="col-p">
-                                <a href="#" title="Modificar" class="btn" data-bs-toggle="modal" data-bs-target="#ventanaModalModificarHerr" data-bs-id="'.$rows['id_herramienta'].'" style="background-color: #EBEDEF; color:white ;">
-                                    <img src="'.APP_URL.'app/views/icons/edit.png" alt="icono" width="28" height="28" >
+                                <a href="#" title="Modificar" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ventanaModalModificarHerr" data-bs-id="'.$rows['id_herramienta'].'">
+                                    <i class="bi bi-pencil"></i>
                                 </a> 
                             </td>
                             <td class="col-p">
                                 <form class="FormularioAjax" action="'.APP_URL.'app/ajax/herramientaAjax.php" method="POST">
                                     <input type="hidden" name="modulo_herramienta" value="eliminar">
                                     <input type="hidden" name="herramienta_id" value="'.$rows['id_herramienta'].'">
-                                    <button type="submit" class="btn" title="Eliminar" style="background-color: #EBEDEF; color:white ;">
-                                        <img src="'.APP_URL.'app/views/icons/delete.png" alt="icono" width="28" height="28">
+                                    <button type="submit" class="btn btn-primary" title="Eliminar">
+                                        <i class="bi bi-trash"></i>
                                     </button> 
                                 </form>
-                            </td>    
+                            </td>  
                         </tr>
                     ';
                     $contador++;
@@ -369,7 +369,7 @@
 
             $tabla .='
                 <div class="table-responsive">
-                    <table class="table border mb-0 table-info table-hover table-striped">
+                    <table class="table border mb-0 table-info table-hover table-sm table-striped">
                         <thead class="table-light fw-semibold">
                             <tr class="align-middle">
                                 <th class="clearfix">#</th>
@@ -514,7 +514,7 @@
 
             $tabla .='
                 <div class="table-responsive">
-                    <table class="table border mb-0 table-info table-hover table-striped">
+                    <table class="table border mb-0 table-info table-hover table-sm table-striped">
                         <thead class="table-light fw-semibold">
                             <tr class="align-middle">
                                 <th class="clearfix">#</th>
@@ -561,7 +561,7 @@
                                 </div>
                             </td>                            
                             <td class="col-p">
-                                <button type="button" title="Ver" class="btn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style="background-color: #EBEDEF; color:white ;">
+                                <button type="button" id="btn-cargar-tabla" title="Ver" class="btn" style="background-color: #EBEDEF; color:white ;">
                                     <img src="'.APP_URL.'app/views/icons/add.png" alt="icono" width="28" height="28">
                                 </button>                       
                             </td>                            
@@ -672,15 +672,9 @@
 
             $tabla .='
                 <div class="table-responsive">
-                    <table class="table border mb-0 table-info table-hover table-striped">
+                    <table class="table border mb-0 table-info table-hover table-sm table-striped" id="tabla-datos">
                         <thead class="table-light fw-semibold">
                             <tr class="align-middle">
-                                <th class="clearfix">#</th>
-                                <th class="text-center">
-                                    <svg class="icon">
-                                        <use xlink:href="'.APP_URL.'app/views/icons/svg/free.svg#cil-people"></use>
-                                    </svg>
-                                </th>
                                 <th class="clearfix">N° O.T.</th>
                                 <th class="clearfix">Nombre</th>
                                 <th class="text-center">Cantidad</th>
@@ -694,14 +688,7 @@
                 foreach ($datos as $rows) {                 
                     $tabla.='
                         <tr class="align-middle">
-                            <td class="clearfix col-p">
-                                <div class=""><b>'.$contador.'</b></div>
-                            </td>
-                            <td class="text-center col-p">
-                                <div class="avatar avatar-md"><img class="avatar-img"
-                                        src="'.APP_URL.'app/views/img/tools.png" alt="user@email.com"><span
-                                        class="avatar-status bg-success"></span></div>
-                            </td>                            
+                                                      
                             <td class="col-2">
                                 <div class="clearfix">
                                     <div class=""><b>'.$rows['n_ot'].'</b></div>

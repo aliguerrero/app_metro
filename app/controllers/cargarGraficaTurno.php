@@ -6,12 +6,8 @@ use app\models\mainModel;
 
 $mainModel = new mainModel();
 
-$id = $mainModel->limpiarCadena($_POST['id']);
 
-$consulta_datos = "SELECT detalle.*, usuario.user
-FROM detalle_orden detalle
-JOIN user_system usuario ON detalle.id_user_act = usuario.id_user
-WHERE detalle.n_ot = '$id' LIMIT 1";
+$consulta_datos = "SELECT * FROM turno_trabajo";
 
 // Llamar al método ejecutarConsulta desde el contexto de mainModel
 $datos = $mainModel->ejecutarConsultaDesdeCargarUser($consulta_datos);
@@ -20,7 +16,10 @@ $total = $datos->rowCount();
 $tdatos = [];
 
 if ($total > 0) {
-    $tdatos = $datos->fetch(PDO::FETCH_ASSOC);
+    // Mientras haya filas en los resultados, agregarlas al array $tdatos
+    while ($fila = $datos->fetch(PDO::FETCH_ASSOC)) {
+        $tdatos[] = $fila;
+    }
 }
 
 echo json_encode($tdatos, JSON_UNESCAPED_UNICODE);
