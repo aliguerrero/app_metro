@@ -14,7 +14,7 @@
             <div class="input-group">
                 <input class="form-control" name="nombre_area" id="nombre_area" type="text" value=""
                     placeholder="Nombre del Area">
-                <input class="form-control" name="nome" id="nome" type="text" value="" placeholder="Nomeclatura"
+                <input class="form-control" name="nome" id="nome" type="text" value="" placeholder="Nomenclatura"
                     style="max-width: 150px;">
                 <button class="btn btn-primary" type="submit" title="Guardar">
                     <i class="bi bi-save"></i> Guardar

@@ -47,7 +47,7 @@
                 <img src="<?php echo APP_URL; ?>app/views/icons/metro_android.png" width="118" height="46">
             </a>
             <ul class="header-nav d-none d-md-flex">
-                <li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="<?php ECHO APP_URL; ?>registroRoot/">Dashboard</a></li>
                 <li class="nav-item"><a class="nav-link" href="<?php ECHO APP_URL; ?>usuario/">Usuarios</a></li>
                 <li class="nav-item"><a class="nav-link" href="<?php ECHO APP_URL; ?>config/">Configuración</a></li>
             </ul>
@@ -71,8 +71,8 @@
                                 <use xlink:href="<?php echo APP_URL; ?>app/views/icons/svg/free.svg#cil-user"></use>
                             </svg> Usuarios
                         </a>
-                        <a class="dropdown-item" href="<?php ECHO APP_URL; ?>usuario/">
-                            <i class="bi bi-journal me-2"></i>Logs Sistema
+                        <a class="dropdown-item" href="<?php ECHO APP_URL; ?>logsUser/">
+                            <i class="bi bi-journal me-2"></i>Entradas Logs
                         </a>
                         <a class="dropdown-item" href="<?php ECHO APP_URL; ?>config/">
                             <svg class="icon me-2">
@@ -101,7 +101,7 @@
         <div class="container text-center">            
             <div class="row">
                 <div class="col-lg-12">                    
-                    <p class="small mb-0"><i class="bi bi-building"></i> © 2024 C.A, Metro Valencia. Todos los derechos reservados.</p>
+                    <p class="small mb-0">Desarrollado por Grupo de Proyecto UPT Valencia <i class="bi bi-building"></i> © 2024 C.A, Metro Valencia. Todos los derechos reservados.</p>
                 </div>
             </div>
         </div>

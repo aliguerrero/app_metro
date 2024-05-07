@@ -670,7 +670,7 @@ class otController extends mainModel {
     */
 
     private function estado( $estado ) {
-        $std = 'Sin Detalles';
+        $std = 'SIN DETALLE';
         if ( $estado != '' ) {
             $std = $estado;
         }

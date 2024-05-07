@@ -23,25 +23,3 @@
     <?php        
         echo $insConfig->listarTurnoControlador ("");
     ?>
-    <script>
-// Espera a que el DOM esté completamente cargado
-$(document).ready(function() {
-    // Agrega un evento de clic al botón
-    $('#cargarContenido').click(function() {
-        // Realiza una solicitud AJAX
-        $.ajax({
-            url: 'http://localhost/app_metro/app/views/content/viewConfig/contenido.php', // Ruta al archivo que contiene el contenido que deseas cargar
-            type: 'GET', // Método de la solicitud (puede ser GET o POST)
-            dataType: 'html', // Tipo de datos que esperas recibir
-            success: function(data) {
-                // Cuando la solicitud es exitosa, agrega el contenido recibido al elemento con el ID "contenidoCargado"
-                $('#contenidoCargado').html(data);
-            },
-            error: function(xhr, status, error) {
-                // En caso de error, muestra un mensaje de error en la consola del navegador
-                console.error('Error al cargar el contenido:', error);
-            }
-        });
-    });
-});
-    </script>

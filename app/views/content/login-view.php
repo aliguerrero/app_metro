@@ -60,16 +60,11 @@
                 </div>
                 <div class="row">
                   <!-- Fila para botones -->
-                  <div class="col-4">
+                  <div class="col-12">
                     <!-- Columna para el botón de "Entrar" -->
                     <button class="btn btn-primary w-100" type="submit">Entrar</button>
                     <!-- Botón para enviar el formulario -->
-                  </div>
-                  <div class="col-8 text-end">
-                    <!-- Columna para el botón de "¿Has olvidado tu contraseña?" -->
-                    <a href="#" class="btn btn-link px-0">¿Has olvidado tu contraseña?</a>
-                    <!-- Botón para recuperar la contraseña -->
-                  </div>
+                  </div>                  
                 </div>
               </form>
             </div>

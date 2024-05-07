@@ -601,7 +601,7 @@ class configController extends mainModel {
 
         $tabla .= '
         <div class="table-responsive table-wrapper">
-                <table class="table border mb-0 table-info table-hover table-sm table-striped">
+                <table class="table border mb-0  table-hover table-sm table-striped">
                     <thead class="table-light fw-semibold">
                         <tr class="align-middle">
                             <th class="clearfix">#</th>                            
@@ -816,7 +816,7 @@ class configController extends mainModel {
 
         $tabla .= '
             <div class="table-responsive table-wrapper">
-                <table class="table border mb-0 table-info table-hover table-striped table-sm">                
+                <table class="table border mb-0  table-hover table-striped table-sm">                
                     <thead class="table-light fw-semibold">
                         <tr class="align-middle">
                             <th class="clearfix">#</th>                            
@@ -1026,7 +1026,7 @@ class configController extends mainModel {
 
         $tabla .= '
         <div class="table-responsive table-wrapper">
-                <table class="table border mb-0 table-info table-hover table-sm table-striped">
+                <table class="table border mb-0  table-hover table-sm table-striped">
                     <thead class="table-light fw-semibold">
                         <tr class="align-middle">
                             <th class="clearfix">#</th>                            
@@ -1183,7 +1183,7 @@ class configController extends mainModel {
 
         $tabla .= '
         <div class="table-responsive table-wrapper" id="contenidoCargado">
-                <table class="table border mb-0 table-info table-hover table-sm table-striped">
+                <table class="table border mb-0  table-hover table-sm table-striped">
                     <thead class="table-light fw-semibold">
                         <tr class="align-middle">
                             <th class="clearfix">#</th>                            

@@ -13,10 +13,10 @@
         </div>
     </div>
     <div class="row">
-        <form class="FormularioAjax row" action="<?php echo APP_URL; ?>app/ajax/otAjax.php" method="POST">
+        <form class="row" action="" method="">
             <div class="col-md-2">
                 <label class="form-label" for="validationServer03"><b>SELECCIONE AREA:</b></label>
-                <select class="form-select" name="area" aria-label="Default select example">
+                <select class="form-select" name="area" id="area" aria-label="Default select example">
                     <option value="0">TODAS</option>
                     <option value="1">SEÑALIZACIÓN</option>
                     <option value="2">INFRAESTRUCTURA</option>
@@ -37,7 +37,7 @@
                 <label class="form-label"><b>N° de O.T.:</b></label>
                 <div class="input-group">
                     <input class="form-control" name="nrot" id="nrot" type="text" value="" placeholder="Numero de O.T.">
-                    <button class="btn btn-primary" type="submit" id="" title="Buscar">
+                    <button class="btn btn-primary" type="button" id="btnBuscarOt" title="Buscar">
                         <img src="<?php echo APP_URL; ?>app/views/icons/buscar.png" width="20" height="20">
                     </button>
                 </div>
@@ -55,7 +55,7 @@
                         <div class="input-group">
                             <input type="date" class="form-control" id="fecha_hasta" name="fecha_hasta"
                                 aria-describedby="textHelp">
-                            <button class="btn btn-primary" type="submit" id="" title="Buscar">
+                            <button class="btn btn-primary" type="button" id="btnBuscarFecha" title="Buscar">
                                 <img src="<?php echo APP_URL; ?>app/views/icons/buscar.png" width="20" height="20">
                             </button>
                         </div>
@@ -66,7 +66,7 @@
             <div class=" col-md-4" id="estado_field" style="display:none;">
                 <label for="fecha_desde" class="form-label"><b>Estado:</b></label>
                 <div class="input-group">
-                    <select class="form-select" id="status" name="status" aria-label="Default select example">
+                    <select class="form-select" id="estado" name="estado" aria-label="Default select example">
                         <option selected>Seleccionar</option>
                         <option value="1">EJECUTADA</option>
                         <option value="2">NO EJECUTADA</option>
@@ -74,7 +74,7 @@
                         <option value="4">REPROGRAMADA</option>
                         <option value="5">SUSPENDIDA</option>
                     </select>
-                    <button class="btn btn-primary" type="submit" id="" title="Buscar">
+                    <button class="btn btn-primary" type="button" id="btnBuscarEstado" title="Buscar">
                         <img src="<?php echo APP_URL; ?>app/views/icons/buscar.png" width="20" height="20">
                     </button>
                 </div>
@@ -89,7 +89,7 @@
                         
                         echo $insOt->listarComboUserControlador ();
                     ?>
-                    <button class="btn btn-primary" type="submit" id="" title="Buscar">
+                    <button class="btn btn-primary" type="button" id="btnBuscarUser" title="Buscar">
                         <img src="<?php echo APP_URL; ?>app/views/icons/buscar.png" width="20" height="20">
                     </button>
                 </div>

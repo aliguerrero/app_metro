@@ -50,7 +50,7 @@
     <div class="row">
         <div class="col-md-12">
             <button class="form-control" style="background-color: rgb(60, 75, 100); color:white ;" type="submit"
-                aria-haspopup="true" aria-expanded="false">Guardar</button>
+                aria-haspopup="true" aria-expanded="false">Actualizar</button>
         </div>
     </div>
 </form>
