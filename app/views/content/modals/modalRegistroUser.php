@@ -64,7 +64,7 @@
                         <div class="col-md-12">
                             <?php                                
                                 // Listar roles
-                                echo $insUsuario->listarComboRolesControlador ();
+                                echo $insUsuario->listarComboRolesControlador ('tipo1');
                             ?>
                         </div>
                     </div>

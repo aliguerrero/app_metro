@@ -31,7 +31,7 @@
                 </div>
                 <div class="col-md-2">
                     <label class="form-label"><b>Acciones:</b></label>
-                    <?php 
+                    <?php
 
                     echo $insLogs->listarComboAccionControlador();
                     ?>
@@ -46,7 +46,7 @@
                             <label for="fecha_hasta" class="form-label"><b>Hasta:</b></label>
                             <div class="input-group">
                                 <input type="date" class="form-control" id="fecha_hasta" name="fecha_hasta" aria-describedby="textHelp">
-                                <button class="btn btn-primary" type="button" id="btnBuscarFecha" title="Buscar">
+                                <button class="btn btn-primary" type="button" id="btnBuscarLogs" title="Buscar">
                                     <img src="<?php echo APP_URL; ?>app/views/icons/buscar.png" width="20" height="20">
                                 </button>
                             </div>
@@ -60,12 +60,16 @@
 <div class="row">
     <div class="card mb-4">
         <div class="card-header">
+            <button type="button" class="btn btn-sm btn-primary ms-auto" id="btnRecargar" title="Recargar Tabla">
+                <i class="bi bi-arrow-clockwise"></i> <!-- Icono de actualización -->
+            </button>
             <strong>Registros Logs</strong>
         </div>
         <div class="card-body">
-        <?php
-        echo $insLogs->listarLogsControlador();
-        ?>
+            <?php
+            echo $insLogs->listarLogsControlador();
+            ?>
         </div>
     </div>
 </div>
+<?php require_once "./app/views/scripts/script-logs.php"; ?>

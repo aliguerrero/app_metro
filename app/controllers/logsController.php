@@ -27,7 +27,7 @@ class logsController extends mainModel
 
         $tabla .= '
                     <div class="table-responsive table-wrapper2">
-                        <table class="table border mb-0 table-hover table-sm table-striped">
+                        <table class="table border mb-0 table-hover table-sm table-striped" id="tablaDatosLogs">
                         <thead class="table-light fw-semibold">
                             <tr class="align-middle">
                                 <th class="clearfix">#</th>
@@ -35,7 +35,6 @@ class logsController extends mainModel
                                 <th class="clearfix">Acción</th>
                                 <th class="clearfix">Respuesta</th>
                                 <th class="clearfix">Fecha / Hora</th>
-                                <th class="text-center col-auto">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -70,11 +69,7 @@ class logsController extends mainModel
                                     <div class=""><b>' . $rows['fecha_hora'] . '</b></div>
                                 </div>
                             </td>                                     
-                            <td class="col-p">
-                                <button type="button" title="Ver" class="btn btn-primary">
-                                    <i class="bi bi-eye"></i>
-                                </button>                       
-                            </td>                                                 
+                                                                           
                         </tr>
                     ';
                 $contador++;
@@ -104,7 +99,7 @@ class logsController extends mainModel
         $combo = '';
 
         // Consulta para obtener los datos de los miembros según el tipo especificado
-        $consulta_datos = 'SELECT * FROM user_system WHERE std_reg=1';
+        $consulta_datos = 'SELECT * FROM user_system';
 
         // Ejecutar la consulta para obtener los datos de los miembros
         $datos = $this->ejecutarConsulta($consulta_datos);
@@ -114,7 +109,7 @@ class logsController extends mainModel
         // Si el tipo es 1, el combo es para el responsable de control de falla
         $combo .= '
                 <select class="form-select" id="user" name="user" aria-label="Default select example">
-                    <option selected>Seleccionar</option>
+                    <option selected>TODOS</option>
             ';
 
         // Comprobar si hay miembros disponibles para mostrar en el combo
@@ -152,7 +147,7 @@ class logsController extends mainModel
         // Comprobar el tipo de miembro para determinar la etiqueta del combo
         // Si el tipo es 1, el combo es para el responsable de control de falla
         $combo .= '
-                <select class="form-select" id="user" name="user" aria-label="Default select example">
+                <select class="form-select" id="accion" name="accion" aria-label="Default select example">
                     <option selected>TODAS</option>
             ';
 

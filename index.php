@@ -21,7 +21,7 @@
 <head>
     <?php require_once "./app/views/inc/head.php"; ?>
 </head>
-<body class="d-flex justify-content-center align-items-center">
+<body class="d-flex justify-content-center align-items-center">    
     <?php
         // Importar la clase viewsController
         use app\controllers\viewsController;

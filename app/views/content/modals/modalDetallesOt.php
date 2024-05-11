@@ -1,5 +1,4 @@
-<div class="modal fade" id="ventanaModalDetalleOt" tabindex="-1" aria-labelledby="ventanaModalDetalleOt"
-    aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal fade" id="ventanaModalDetalleOt" tabindex="-1" aria-labelledby="ventanaModalDetalleOt" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -14,39 +13,39 @@
                         <div class="col-md-4"><br>
                             <input type="hidden" name="id" id="id" value="">
                             <label class="form-label">Cant. Operador(es):</label>
-                            <input class="form-control " id="cant" name="cant" type="number"
-                                placeholder="Cantidad de Operadores">
+                            <input class="form-control " id="cant" name="cant" type="number" placeholder="Cantidad de Operadores">
 
                         </div>
                         <div class="col-md-4"><br>
-                            <?php                            
-                               // cargar turno
-                                echo $insOt->listarComboTurnoControlador ();
+                            <?php
+                            // cargar turno
+                            echo $insOt->listarComboTurnoControlador();
                             ?> </div>
                         <div class="col-md-4"><br>
-                            <?php                            
-                               // cargar estado
-                                echo $insOt->listarComboEstadoControlador ();
+                            <label class="form-label">Estado O.T.:</label>
+                            <?php
+                            // cargar estado
+                            echo $insOt->listarComboEstadoControlador();
                             ?>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4"><br>
-                            <?php                            
-                               // cargar combo
-                                echo $insOt->listarComboOtControlador (2);
+                            <?php
+                            // cargar combo
+                            echo $insOt->listarComboOtControlador(2);
                             ?>
                         </div>
                         <div class="col-md-4"><br>
-                            <?php                            
-                               // cargar combo
-                                echo $insOt->listarComboOtControlador (1);
+                            <?php
+                            // cargar combo
+                            echo $insOt->listarComboOtControlador(1);
                             ?>
                         </div>
                         <div class="col-md-4"><br>
-                            <?php                            
-                               // cargar tecnico
-                                echo $insOt->listarComboTecControlador ();
+                            <?php
+                            // cargar tecnico
+                            echo $insOt->listarComboTecControlador();
                             ?>
                         </div>
                     </div>
@@ -60,14 +59,12 @@
                                 <div class="row">
                                     <div class="hstack gap-1 p-1 mx-auto text-center">
                                         <span class="input-group-text" id="inputGroup-sizing-sm">Ini</span>
-                                        <input type="time" class="form-control" id="prep_ini" name="prep_ini"
-                                            aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                        <input type="time" class="form-control" id="prep_ini" name="prep_ini" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                                     </div>
 
                                     <div class="hstack gap-1 p-1 mx-auto text-center">
                                         <span class="input-group-text" id="inputGroup-sizing-sm">Fin</span>
-                                        <input type="time" class="form-control" id="prep_fin" name="prep_fin"
-                                            aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                        <input type="time" class="form-control" id="prep_fin" name="prep_fin" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                                     </div>
                                 </div>
                             </div>
@@ -80,14 +77,12 @@
                                 <div class="row">
                                     <div class="hstack gap-1 p-1 mx-auto text-center">
                                         <span class="input-group-text" id="inputGroup-sizing-sm">Ini</span>
-                                        <input type="time" class="form-control" id="tras_ini" name="tras_ini"
-                                            aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                        <input type="time" class="form-control" id="tras_ini" name="tras_ini" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                                     </div>
 
                                     <div class="hstack gap-1 p-1 mx-auto text-center">
                                         <span class="input-group-text" id="inputGroup-sizing-sm">Fin</span>
-                                        <input type="time" class="form-control" id="tras_fin" name="tras_fin"
-                                            aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                        <input type="time" class="form-control" id="tras_fin" name="tras_fin" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                                     </div>
                                 </div>
                             </div>
@@ -100,8 +95,7 @@
                                 <div class="row">
                                     <div class="hstack gap-1 p-1 mx-auto text-center">
                                         <span class="input-group-text" id="inputGroup-sizing-sm">Ini</span>
-                                        <input type="time" class="form-control" id="ejec_ini" name="ejec_ini"
-                                            aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                        <input type="time" class="form-control" id="ejec_ini" name="ejec_ini" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                                     </div>
 
                                     <div class="hstack gap-1 p-1 mx-auto text-center">
@@ -114,19 +108,16 @@
                     </div>
                     <div class="row">
                         <label id="hello-world">Observacion</label>
-                        <textarea id="observacion" name="observacion" class="form-control" rows="5"
-                            maxlength="250"></textarea>
+                        <textarea id="observacion" name="observacion" class="form-control" rows="5" maxlength="250"></textarea>
                     </div>
                     <hr>
                     <div class="row">
                         <div class="col-md-6">
-                            <button class="form-control" style="background-color: rgb(60, 75, 100); color:white ;"
-                                type="submit" aria-haspopup="true" aria-expanded="false">Guardar</button>
+                            <button class="form-control" style="background-color: rgb(60, 75, 100); color:white ;" type="submit" aria-haspopup="true" aria-expanded="false">Guardar</button>
                         </div>
 
                         <div class="col-md-6">
-                            <button class="form-control" style="background-color: rgb(60, 75, 100); color:white ;"
-                                type="button" data-bs-dismiss="modal">Cancelar
+                            <button class="form-control" style="background-color: rgb(60, 75, 100); color:white ;" type="button" data-bs-dismiss="modal">Cancelar
                             </button>
                         </div>
                     </div>

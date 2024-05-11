@@ -8,7 +8,8 @@ if (file_exists(__DIR__ . '/../../config/server.php')) {
     require_once __DIR__ . '/../../config/server.php';
 }
 
-class mainModel{
+class mainModel
+{
     /* Propiedades para la conexión a la base de datos */
     private $server = DB_SERVER;
     private $db     = DB_NAME;
@@ -16,7 +17,8 @@ class mainModel{
     private $pass   = DB_PASS;
 
     /* Método protegido para establecer la conexión a la base de datos */
-    protected function conectar()    {
+    protected function conectar()
+    {
         try {
             /* Intenta establecer una conexión PDO con la base de datos */
             $conexion = new PDO("mysql:host={$this->server};dbname={$this->db};charset=utf8", $this->user, $this->pass);
@@ -30,6 +32,11 @@ class mainModel{
         }
     }
 
+    protected function ordenarFecha($fecha)
+    {
+        $fecha_formateada = date('d/m/Y', strtotime($fecha));
+        return $fecha_formateada;
+    }
     /* Método protegido para ejecutar una consulta SQL en la base de datos */
     protected function ejecutarConsulta($consulta)
     {
@@ -92,6 +99,14 @@ class mainModel{
         return $this->ejecutarConsulta($consulta);
     }
 
+    public function ejecutarSqlUpdate($tabla, $datos, $condicion)
+    {
+        return $this->actualizarDatos($tabla, $datos, $condicion);
+    }
+    public function ejecutarSqlUpdateOT($consulta, $datos)
+    {
+        return $this->actualizarDatosHerramientaOt($consulta, $datos);
+    }
     /* Función pública para limpiar una cadena de posibles inyecciones de código */
 
     public function limpiarCadena($cadena)
@@ -214,6 +229,27 @@ class mainModel{
         return $sql;
     }
 
+    protected function actualizarDatosHerramientaOt($consulta, $datos)
+    {
+        try {
+            /* Prepara la consulta SQL utilizando la conexión PDO establecida */
+            $sql = $this->conectar()->prepare($consulta);
+
+            /* Ejecuta la consulta SQL */
+            if ($sql->execute($datos)) {
+                /* Si la consulta se ejecuta correctamente, devuelve el objeto PDOStatement */
+                return $sql;
+            } else {
+                /* Si ocurre un error al ejecutar la consulta, devuelve false */
+                return false;
+            }
+        } catch (PDOException $e) {
+            /* Captura cualquier excepción de PDO ( por ejemplo, error de sintaxis SQL ) y maneja el error */
+            /* Aquí puedes registrar el error en un archivo de registro, enviar un correo electrónico de notificación, etc. */
+            /* En este ejemplo, simplemente lanzamos una nueva excepción con el mensaje de error original */
+            throw new Exception('Error al ejecutar la consulta SQL: ' . $e->getMessage());
+        }
+    }
     /*---------- Funcion eliminar registro ----------*/
     protected function eliminarRegistro($tabla, $campo, $id)
     {
