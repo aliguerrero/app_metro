@@ -109,6 +109,16 @@ function alertas_ajax(alerta) {
             }
         });
     }
+    else if (alerta.tipo == "detalle") {
+        limpiarDetalles();
+        reiniciarTabla('');
+        Swal.fire({
+            icon: alerta.icono,
+            title: alerta.titulo,
+            text: alerta.texto,
+            confirmButtonText: 'Aceptar'
+        });
+    }
 }
 
 //boton cerrar sesion
@@ -137,3 +147,46 @@ btn_exit.addEventListener("click", function(e){
         }
     });
 });
+
+function limpiarDetalles() {
+    let modificarModalDetalle = document.getElementById('detallesOt');
+
+    let inputT = modificarModalDetalle.querySelector('.modal-body #detalle');
+    let inputId = modificarModalDetalle.querySelector('.modal-body #id');
+    let inputId2 = modificarModalDetalle.querySelector('.modal-body #id2');
+    let inputFecha = modificarModalDetalle.querySelector('.modal-body #fecha');
+    let inputDesc = modificarModalDetalle.querySelector('.modal-body #desc');
+    let inputCant = modificarModalDetalle.querySelector('.modal-body #cant');
+    let inputTurno = modificarModalDetalle.querySelector('.modal-body #turno');
+    let inputStatus = modificarModalDetalle.querySelector('.modal-body #status');
+    let inputCco = modificarModalDetalle.querySelector('.modal-body #cco');
+    let inputCcf = modificarModalDetalle.querySelector('.modal-body #ccf');
+    let inputTecnico = modificarModalDetalle.querySelector('.modal-body #tec');
+    let inputPrep_ini = modificarModalDetalle.querySelector('.modal-body #prep_ini');
+    let inputPrep_fin = modificarModalDetalle.querySelector('.modal-body #prep_fin');
+    let inputTras_ini = modificarModalDetalle.querySelector('.modal-body #tras_ini');
+    let inputTras_fin = modificarModalDetalle.querySelector('.modal-body #tras_fin');
+    let inputEjec_ini = modificarModalDetalle.querySelector('.modal-body #ejec_ini');
+    let inputEjec_fin = modificarModalDetalle.querySelector('.modal-body #ejec_fin');
+    let inputObserv = modificarModalDetalle.querySelector('.modal-body #observacion');
+
+
+    // Asignar los datos del usuario a los campos de entrada en el modal
+    inputT.value = "registrar_detalle";
+    inputId2.value = '';
+    inputFecha.value = '';
+    inputDesc.value = '';
+    inputCant.value = '';
+    inputTurno.value = 'Seleccionar';
+    inputStatus.value = 'Seleccionar';
+    inputCco.value = 'Seleccionar';
+    inputCcf.value = 'Seleccionar';
+    inputTecnico.value = 'Seleccionar';
+    inputPrep_ini.value = '';
+    inputPrep_fin.value = '';
+    inputTras_ini.value = '';
+    inputTras_fin.value = '';
+    inputEjec_ini.value = '';
+    inputEjec_fin.value = '';
+    inputObserv.value = '';
+}

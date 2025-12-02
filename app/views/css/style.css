@@ -85,7 +85,10 @@
   font-weight: normal;
   font-style: normal;
 }
-
+.detalle{  
+  padding-left: 80px;
+  padding-right: 80px;
+}
 .footer {
   background-color: #000;
   color: #000;

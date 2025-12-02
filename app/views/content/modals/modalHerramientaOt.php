@@ -16,7 +16,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-1">
-                                <h5 class="text-uppercase" id="codigoOt"></h5>
+                                <h5 class="text-uppercase" id="codigoOth"></h5>
                             </div>
                             <div class="col">
                                 <h5 class="text-uppercase" id="nombreOt"></h5>

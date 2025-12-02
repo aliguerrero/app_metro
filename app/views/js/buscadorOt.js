@@ -285,16 +285,7 @@ function tablaOt(dir, contador, estado, color, n_ot, nombre_trab, fecha) {
     tabla = `
             <td class="clearfix col-auto">
                             <div class=""><b>${contador}</b></div>
-                        </td>
-                        <td class="clearfix col-pE">
-                            <div class="avatar avatar-md" title="${self.estado(estado)}"><img class="avatar-img"
-                                src="${dir}app/views/icons/ot.png"><span
-                                style="position: absolute; bottom: 0; display: block; border: 1px solid #fff;
-                                    border-radius: 50em; width: 0.7333333333rem; height: 0.7333333333rem; right: 0; 
-                                    background-color: ${color};" ></span>
-                            </div>
-                            <b>${self.estado(estado)}</b>
-                        </td>
+                        </td>                        
                         <td class="col-p6">
                             <div class="clearfix">
                                 <div class=""><b>${self.formatearFecha(fecha)}</b></div>
@@ -316,12 +307,12 @@ function tablaOt(dir, contador, estado, color, n_ot, nombre_trab, fecha) {
                             </button>                       
                         </td>
                         <td class="col-p">
-                            <button type="button" title="Generar Reporte" class="btn btn-primary">
+                            <a href="#" title="Generar Reporte" id="detalleot" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reporteOt" data-bs-id="${n_ot}">
                                 <i class="bi bi-file-earmark-text"></i>
-                            </button>                       
+                            </a>                                               
                         </td>
                         <td class="col-p">
-                            <a href="#" title="Detalles Orden" id="detalleot" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ventanaModalDetalleOt" data-bs-id="${n_ot}">
+                            <a href="#" title="Detalles Orden" id="detalleot" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detallesOt" data-bs-id="${n_ot}">
                                 <i class="bi bi-card-list"></i>
                             </a> 
                         </td>

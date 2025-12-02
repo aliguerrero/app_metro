@@ -7,21 +7,33 @@ use app\models\mainModel;
 $mainModel = new mainModel();
 
 $id = $mainModel->limpiarCadena($_POST['id']);
+$fecha = $mainModel->limpiarCadena($_POST['fecha']);
+$codigo = $mainModel->limpiarCadena($_POST['codigo']);
+$tipo = $mainModel->limpiarCadena($_POST['tipo']);
 
-$consulta_datos = "SELECT detalle.*, usuario.user
-FROM detalle_orden detalle
-JOIN user_system usuario ON detalle.id_user_act = usuario.id_user
-WHERE detalle.n_ot = '$id' LIMIT 1";
+if ($tipo != 'eliminar') {
+    $consulta_datos = "SELECT detalle.*, usuario.user
+    FROM detalle_orden detalle
+    JOIN user_system usuario ON detalle.id_user_act = usuario.id_user
+    WHERE detalle.n_ot = '$codigo' and detalle.fecha = '$fecha' and detalle.id = '$id'";
+    // Llamar al método ejecutarConsulta desde el contexto de mainModel
+    $datos = $mainModel->ejecutarConsultaDesdeCargarUser($consulta_datos);
+    $total = $datos->rowCount();
 
-// Llamar al método ejecutarConsulta desde el contexto de mainModel
-$datos = $mainModel->ejecutarConsultaDesdeCargarUser($consulta_datos);
-$total = $datos->rowCount();
+    $tdatos = [];
 
-$tdatos = [];
+    if ($total > 0) {
+        $tdatos = $datos->fetch(PDO::FETCH_ASSOC);
+    }
 
-if ($total > 0) {
-    $tdatos = $datos->fetch(PDO::FETCH_ASSOC);
+    echo json_encode($tdatos, JSON_UNESCAPED_UNICODE);
+} else {
+    $datosr = array(
+        ':id' => $id,
+        ':not' => $codigo,
+        ':fecha' => $fecha
+    );
+    $consulta = "DELETE FROM detalle_orden WHERE n_ot = :not AND id = :id AND fecha = :fecha";
+    $datos = $mainModel->ejecutarSqlUpdateOT($consulta, $datosr);
+    echo json_encode($datos, JSON_UNESCAPED_UNICODE);
 }
-
-echo json_encode($tdatos, JSON_UNESCAPED_UNICODE);
-?>

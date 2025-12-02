@@ -228,6 +228,48 @@ class mainModel
 
         return $sql;
     }
+    protected function actualizarDatosMas($tabla, $datos, $condiciones)
+{
+    // Construir la parte de la consulta para actualizar los campos
+    $query = "UPDATE $tabla SET ";
+    $count = 0;
+    foreach ($datos as $clave) {
+        if ($count >= 1) {
+            $query .= ', ';
+        }
+        $query .= $clave['campo_nombre'] . ' = ' . $clave['campo_marcador'];
+        $count++;
+    }
+
+    // Construir la parte de la consulta para las condiciones
+    $query .= ' WHERE ';
+    $count = 0;
+    foreach ($condiciones as $condicion) {
+        if ($count >= 1) {
+            $query .= ' AND ';
+        }
+        $query .= $condicion['condicion_campo'] . ' = ' . $condicion['condicion_marcador'];
+        $count++;
+    }
+
+    // Preparar la consulta
+    $sql = $this->conectar()->prepare($query);
+
+    // Vincular los parámetros para los datos
+    foreach ($datos as $clave) {
+        $sql->bindParam($clave['campo_marcador'], $clave['campo_valor']);
+    }
+
+    // Vincular los parámetros para las condiciones
+    foreach ($condiciones as $condicion) {
+        $sql->bindParam($condicion['condicion_marcador'], $condicion['condicion_valor']);
+    }
+
+    // Ejecutar la consulta
+    $sql->execute();
+
+    return $sql;
+}
 
     protected function actualizarDatosHerramientaOt($consulta, $datos)
     {

@@ -3,17 +3,55 @@ document.addEventListener('DOMContentLoaded', function () {
     // Obtener el modal de modificación por su ID
     let dir = document.getElementById('url').value;
 
-
     let btnBuscarHerramienta = document.getElementById('btnBuscarHerramienta');
     let btnBuscarHerramientaOt = document.getElementById('btnBuscarHerramientaOt');
 
     let btnRecargarHer = document.getElementById('btnRecargarHer');
     let btnRecargarOt = document.getElementById('btnRecargarOt');
 
+    let modificarModalHerr = document.getElementById('ModificarHerrOt');
+
+    //Vista Usuario
+    // Agregar un listener para el evento "shown.bs.modal", que se dispara cuando el modal se muestra al usuario
+    modificarModalHerr.addEventListener('show.bs.modal', function (event) {
+        // Obtener el botón que abrió el modal
+        let button = event.relatedTarget;
+        // Obtener el ID del usuario del atributo "data-bs-id" del botón
+        let id = button.getAttribute('data-bs-id');
+        // Obtener referencias a los campos de entrada dentro del modal
+        let inputCodigo = modificarModalHerr.querySelector('.modal-body #codigoOth');
+        let inputNombre = modificarModalHerr.querySelector('.modal-body #nombreOt');
+        // Construir la URL del script PHP que carga los datos del usuario
+        let url = "http://localhost/app_metro/app/controllers/cargarDatosOt.php";
+        // Crear un objeto FormData y agregar el ID del usuario como parámetro
+        let formData = new FormData();
+        formData.append('id', id);
+
+        // Realizar una petición fetch al script PHP para obtener los datos del usuario
+        fetch(url, {
+            method: "POST",
+            body: formData
+        })
+            .then(response => {
+                // Verificar si la respuesta HTTP fue exitosa
+                if (!response.ok) {
+                    throw new Error('Error al cargar los datos');
+                }
+                // Convertir la respuesta en formato JSON y devolverla
+                return response.json();
+            })
+            .then(data => {
+                // Asignar los datos del usuario a los campos de entrada en el modal
+                inputCodigo.textContent = data.n_ot;
+                inputNombre.textContent = data.nombre_trab;
+
+            });
+    });
+
 
     // Agregar un listener para el evento "shown.bs.modal", que se dispara cuando el modal se muestra al usuario
     btnBuscarHerramienta.addEventListener('click', function (event) {
-        let codigoOt = document.getElementById("codigoOt").innerText;
+        let codigoOth = $('#codigoOth').text();
         let tipoBusqueda = 'her';
         let campo = limpiarCadena(document.getElementById('campoHe').value);
         if (campo === "") {
@@ -34,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             let fila = tabla.insertRow();
                             fila.classList.add('align-middle'); // Agregar clase para centrar verticalmente la fila
                             // Celdas de la fila con el mismo estilo que en tu HTML
-                            fila.innerHTML = tablaHerramienta(dir, contador, codigoOt, datos.id_herramienta, datos.nombre_herramienta, datos.cantidad_disponible);
+                            fila.innerHTML = tablaHerramienta(dir, contador, codigoOth, datos.id_herramienta, datos.nombre_herramienta, datos.cantidad_disponible);
                             contador++;
                         });
                     } else {
@@ -58,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     btnBuscarHerramientaOt.addEventListener('click', function (event) {
-        let codigoOt = document.getElementById("codigoOt").innerText;
+        let codigoOth = $('#codigoOth').text();
         let tipoBusqueda = 'herOt';
         let campo = limpiarCadena(document.getElementById('campoOt').value);
         if (campo === "") {
@@ -69,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 url: 'http://localhost/app_metro/app/controllers/cargarDatosBuscadorHOT.php',
                 method: 'GET',
                 dataType: 'json',
-                data: { id: codigoOt, campo: campo, tipoBusqueda: tipoBusqueda },
+                data: { id: codigoOth, campo: campo, tipoBusqueda: tipoBusqueda },
                 success: function (data) {
                     if (data.length > 0) {
                         let tabla = document.getElementById('tablaHerramientaOt').getElementsByTagName('tbody')[0];
@@ -113,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     $('#ModificarHerrOt').on('hidden.bs.modal', function (e) {
-        // Limpiar el contenido del elemento con el ID "codigoOt"
+        // Limpiar el contenido del elemento con el ID "codigoOth"
         $('#campoHe').val('');
         $('#campoOt').val('');
         reiniciarTablaHerr(dir);
@@ -121,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 function reiniciarTablaHerr(dir) {
-    let codigoOt = document.getElementById("codigoOt").innerText;
+    let codigoOth = $('#codigoOth').text();
     let tipoBusqueda = 'todoHer';
     $.ajax({
         url: 'http://localhost/app_metro/app/controllers/cargarDatosBuscadorHOT.php',
@@ -137,7 +175,7 @@ function reiniciarTablaHerr(dir) {
                     let fila = tabla.insertRow();
                     fila.classList.add('align-middle'); // Agregar clase para centrar verticalmente la fila
                     // Celdas de la fila con el mismo estilo que en tu HTML                    
-                    fila.innerHTML = tablaHerramienta(dir, contador, codigoOt, datos.id_herramienta, datos.nombre_herramienta, datos.cantidad_disponible);
+                    fila.innerHTML = tablaHerramienta(dir, contador, codigoOth, datos.id_herramienta, datos.nombre_herramienta, datos.cantidad_disponible);
                     contador++;
                 });
             } else {
@@ -153,13 +191,13 @@ function reiniciarTablaHerr(dir) {
     });
 }
 function reiniciarTablaHerrOt(dir) {
-    let codigoOt = document.getElementById("codigoOt").innerText;
+    let codigoOth = $('#codigoOth').text();
     let tipoBusqueda = 'todoHerOt';
     $.ajax({
         url: 'http://localhost/app_metro/app/controllers/cargarDatosBuscadorHOT.php',
         method: 'GET',
         dataType: 'json',
-        data: { id: codigoOt, tipoBusqueda: tipoBusqueda },
+        data: { id: codigoOth, tipoBusqueda: tipoBusqueda },
         success: function (data) {
             let tabla = document.getElementById('tablaHerramientaOt').getElementsByTagName('tbody')[0];
             tabla.innerHTML = ''; // Limpiar el cuerpo de la tabla antes de insertar nuevos datos
@@ -263,7 +301,7 @@ function tablaVacia() {
     return tabla;
 }
 
-function agregarQuitarHerramienta(tipo, codigoOt, codigoHer, dir) {
+function agregarQuitarHerramienta(tipo, codigoOth, codigoHer, dir) {
     let self = this;
     let tipoBusqueda = 'eliminar';
     Swal.fire({
@@ -281,7 +319,7 @@ function agregarQuitarHerramienta(tipo, codigoOt, codigoHer, dir) {
                 url: 'http://localhost/app_metro/app/controllers/cargarDatosBuscadorHOT.php',
                 method: 'GET',
                 dataType: 'json',
-                data: { id: codigoOt, codigoHer: codigoHer, tipoBusqueda: tipoBusqueda, tipo: tipo },
+                data: { id: codigoOth, codigoHer: codigoHer, tipoBusqueda: tipoBusqueda, tipo: tipo },
                 success: function (data) {
                     if (data != 'nohay') {
                         if (tipo === 'mas') {

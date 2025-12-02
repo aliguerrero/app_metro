@@ -120,7 +120,7 @@
 </div>
 
 <?php include 'modals/modalRegistroOt.php' ?>
-<?php include 'modals/modalDetallesOt.php' ?>
+<?php include 'modals/modalRegistrodetallesOt.php' ?>
 <?php include 'modals/modalModificarOt.php' ?>
 <?php include 'modals/modalModificarHerramienta.php' ?>
 <?php include 'modals/modalHerramientaOt.php' ?>

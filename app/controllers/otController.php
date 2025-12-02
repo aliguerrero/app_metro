@@ -75,6 +75,8 @@ class otController extends mainModel
             return json_encode($alerta);
             exit();
         }
+        $datos = $this->ejecutarConsulta("SELECT * FROM area_trabajo WHERE nomeclatura ='$area'");
+        $datos = $datos->fetch();
 
         # Definición de un array asociativo $miembro_datos_reg que contiene los datos del miembro a registrar
         $ot_datos_reg = [
@@ -86,7 +88,7 @@ class otController extends mainModel
             [
                 'campo_nombre' => 'id_area',
                 'campo_marcador' => ':id_area',
-                'campo_valor' => $area
+                'campo_valor' => $datos['id_area']
             ],
             [
                 'campo_nombre' => 'id_user',
@@ -253,6 +255,8 @@ class otController extends mainModel
     {
         #Se obtienen y limpian los datos del formulario
         $id = $this->limpiarCadena($_POST['id']);
+        $fecha = $this->limpiarCadena($_POST['fecha']);
+        $desc   = $this->limpiarCadena($_POST['desc']);
         $cant = $this->limpiarCadena($_POST['cant']);
         $turno   = $this->limpiarCadena($_POST['turno']);
         $status = $this->limpiarCadena($_POST['status']);
@@ -267,15 +271,45 @@ class otController extends mainModel
         $ejec_fin = $this->limpiarCadena($_POST['ejec_fin']);
         $observacion = $this->limpiarCadena($_POST['observacion']);
         # Verificación de campos obligatorios #
-        if ($id == '' || $cant == 0 || $turno == 'Seleccionar' || $status == 'Seleccionar' || $cco == 'Seleccionar' || $ccf == 'Seleccionar' || $tecnico == 'Seleccionar' || $prep_ini == '' || $prep_fin == '' || $tras_ini == '' || $tras_fin == '' || $ejec_ini == '' || $ejec_fin == '') {
-            // Si algún campo obligatorio está vacío, se devuelve una alerta de error
+        $campos = [
+            'Descripción' => $desc,
+            'Fecha' => $fecha,
+            'ID' => $id,
+            'Cantidad' => $cant,
+            'Turno' => $turno,
+            'Estado' => $status,
+            'CCO' => $cco,
+            'CCF' => $ccf,
+            'Técnico' => $tecnico,
+            'Preparación Inicio' => $prep_ini,
+            'Preparación Fin' => $prep_fin,
+            'Traslado Inicio' => $tras_ini,
+            'Traslado Fin' => $tras_fin,
+            'Ejecución Inicio' => $ejec_ini,
+            'Ejecución Fin' => $ejec_fin,
+        ];
+
+        $errores = [];
+
+        foreach ($campos as $campo => $valor) {
+            if (
+                $valor === '' ||
+                $valor === 'Seleccionar' ||
+                ($campo === 'Cantidad' && $valor == 0)
+            ) {
+                $errores[] = $campo;
+            }
+        }
+
+        if (!empty($errores)) {
+            $textoErrores = 'No has llenado los siguientes campos obligatorios: ' . implode(', ', $errores);
             $alerta = [
                 'tipo' => 'simple',
                 'titulo' => 'Ocurrió un error inesperado',
-                'texto' => 'No has llenado todos los campos que son obligatorios',
+                'texto' => $textoErrores,
                 'icono' => 'error'
             ];
-            return json_encode($alerta);
+            echo json_encode($alerta);
             exit();
         }
 
@@ -285,6 +319,16 @@ class otController extends mainModel
                 'campo_nombre' => 'n_ot',
                 'campo_marcador' => ':nrot',
                 'campo_valor' => $id
+            ],
+            [
+                'campo_nombre' => 'fecha',
+                'campo_marcador' => ':fecha',
+                'campo_valor' => $fecha
+            ],
+            [
+                'campo_nombre' => 'descripcion',
+                'campo_marcador' => ':desc',
+                'campo_valor' => $desc
             ],
             [
                 'campo_nombre' => 'cant_tec',
@@ -357,7 +401,7 @@ class otController extends mainModel
             $this->registrarLog($_SESSION['id'], 'REGISTRO DETALLES OT', 'REGISTRO EXITOSO DE PARA LA OT ' . $id);
             #Si se registró correctamente, se devuelve un mensaje de éxito
             $alerta = [
-                'tipo' => 'limpiar',
+                'tipo' => 'detalle',
                 'titulo' => 'Detalles Registrados',
                 'texto' => 'Los detalles de la orden de trabajo se ha registrado con éxito',
                 'icono' => 'success'
@@ -383,6 +427,9 @@ class otController extends mainModel
     {
         #Se obtienen y limpian los datos del formulario
         $id = $this->limpiarCadena($_POST['id']);
+        $id2 = $this->limpiarCadena($_POST['id2']);
+        $fecha = $this->limpiarCadena($_POST['fecha']);
+        $desc   = $this->limpiarCadena($_POST['desc']);
         $cant = $this->limpiarCadena($_POST['cant']);
         $turno   = $this->limpiarCadena($_POST['turno']);
         $status = $this->limpiarCadena($_POST['status']);
@@ -398,20 +445,68 @@ class otController extends mainModel
         $observacion = $this->limpiarCadena($_POST['observacion']);
 
         # Verificación de campos obligatorios #
-        if ($id == '' || $cant <= 0 || $turno == 'Seleccionar' || $status == 'Seleccionar' || $cco == 'Seleccionar' || $ccf == 'Seleccionar' || $tecnico == 'Seleccionar' || $prep_ini == '' || $prep_fin == '' || $tras_ini == '' || $tras_fin == '' || $ejec_ini == '' || $ejec_fin == '') {
-            // Si algún campo obligatorio está vacío, se devuelve una alerta de error
+        $campos = [
+            'Descripción' => $desc,
+            'Fecha' => $fecha,
+            'ID' => $id,
+            'Cantidad' => $cant,
+            'Turno' => $turno,
+            'Estado' => $status,
+            'CCO' => $cco,
+            'CCF' => $ccf,
+            'Técnico' => $tecnico,
+            'Preparación Inicio' => $prep_ini,
+            'Preparación Fin' => $prep_fin,
+            'Traslado Inicio' => $tras_ini,
+            'Traslado Fin' => $tras_fin,
+            'Ejecución Inicio' => $ejec_ini,
+            'Ejecución Fin' => $ejec_fin,
+        ];
+
+        $errores = [];
+
+        foreach ($campos as $campo => $valor) {
+            if (
+                $valor === '' ||
+                $valor === 'Seleccionar' ||
+                ($campo === 'Cantidad' && $valor == 0)
+            ) {
+                $errores[] = $campo;
+            }
+        }
+
+        if (!empty($errores)) {
+            $textoErrores = 'No has llenado los siguientes campos obligatorios: ' . implode(', ', $errores);
             $alerta = [
                 'tipo' => 'simple',
                 'titulo' => 'Ocurrió un error inesperado',
-                'texto' => 'No has llenado todos los campos que son obligatorios',
+                'texto' => $textoErrores,
                 'icono' => 'error'
             ];
-            return json_encode($alerta);
+            echo json_encode($alerta);
             exit();
         }
 
+        // Continuar con el resto del código si todos los campos están completos
+
+
         # Definición de un array asociativo $miembro_datos_reg que contiene los datos del miembro a registrar
         $ot_datos_reg = [
+            [
+                'campo_nombre' => 'n_ot',
+                'campo_marcador' => ':nrot',
+                'campo_valor' => $id
+            ],
+            [
+                'campo_nombre' => 'fecha',
+                'campo_marcador' => ':fecha',
+                'campo_valor' => $fecha
+            ],
+            [
+                'campo_nombre' => 'descripcion',
+                'campo_marcador' => ':desc',
+                'campo_valor' => $desc
+            ],
             [
                 'campo_nombre' => 'cant_tec',
                 'campo_marcador' => ':cant',
@@ -474,17 +569,23 @@ class otController extends mainModel
                 'campo_valor' => $observacion
             ]
         ];
-
         $condicion = [
-            'condicion_campo' => 'n_ot',
-            'condicion_marcador' => ':ID',
-            'condicion_valor' => $id
+            [
+                'condicion_campo' => 'n_ot',
+                'condicion_marcador' => ':ID',
+                'condicion_valor' => $id
+            ],
+            [
+                'condicion_campo' => 'id',
+                'condicion_marcador' => ':ID2',
+                'condicion_valor' => $id2
+            ]
         ];
 
-        if ($this->actualizarDatos('detalle_orden', $ot_datos_reg, $condicion)) {
+        if ($this->actualizarDatosMas('detalle_orden', $ot_datos_reg, $condicion)) {
             $this->registrarLog($_SESSION['id'], 'MODIFICAR DETALLES OT', 'MODIFICACION EXITOSA DE PARA LA OT ' . $id);
             $alerta = [
-                'tipo' => 'limpiar',
+                'tipo' => 'detalle',
                 'titulo' => 'Datos Actualizados',
                 'texto' => 'Se actualizo correctamente',
                 'icono' => 'success'
@@ -506,12 +607,20 @@ class otController extends mainModel
         $tabla = '';
         $consulta_datos = "SELECT ot.*, det_ord.id_estado, estado.nombre_estado, estado.color
             FROM orden_trabajo ot
-            LEFT JOIN detalle_orden det_ord ON ot.n_ot = det_ord.n_ot
+            LEFT JOIN (
+                SELECT n_ot, MAX(id_estado) as id_estado
+                FROM detalle_orden
+                GROUP BY n_ot
+            ) det_ord ON ot.n_ot = det_ord.n_ot
             LEFT JOIN estado_ot estado ON det_ord.id_estado = estado.id_estado
             WHERE ot.std_reg = '1' ORDER BY ot.n_ot ASC ";
 
         $consulta_total = "SELECT COUNT(ot.n_ot) FROM orden_trabajo ot
-            LEFT JOIN detalle_orden det_ord ON ot.n_ot = det_ord.n_ot
+            LEFT JOIN (
+                SELECT n_ot, MAX(id_estado) as id_estado
+                FROM detalle_orden
+                GROUP BY n_ot
+            ) det_ord ON ot.n_ot = det_ord.n_ot
             LEFT JOIN estado_ot estado ON det_ord.id_estado = estado.id_estado
             WHERE ot.std_reg = '1'";
 
@@ -528,7 +637,6 @@ class otController extends mainModel
                         <thead class="table-light fw-semibold">
                             <tr class="align-middle">
                                 <th class="clearfix">#</th>                                
-                                <th class="clearfix">Estado O.T.</th>
                                 <th class="clearfix">Fecha</th>
                                 <th class="clearfix">Codigo</th>
                                 <th class="clearfix">Nombre Trabajo</th>
@@ -543,18 +651,9 @@ class otController extends mainModel
 
                 $tabla .= '
                         <tr class="align-middle">
-                            <td class="clearfix col-auto">
+                            <td class="clearfix col-p">
                                 <div class=""><b>' . $contador . '</b></div>
-                            </td>
-                            <td class="clearfix col-pE">
-                                <div class="avatar avatar-md" title="' . $this->estado($rows['nombre_estado']) . '"><img class="avatar-img"
-                                    src="' . APP_URL . 'app/views/icons/ot.png"><span
-                                    style="position: absolute; bottom: 0; display: block; border: 1px solid #fff;
-                                     border-radius: 50em; width: 0.7333333333rem; height: 0.7333333333rem; right: 0; 
-                                     background-color: ' . $this->color($rows['color']) . ';" ></span>
-                                </div>
-                                <b>' . $this->estado($rows['nombre_estado']) . '</b>
-                            </td>
+                            </td>                            
                             <td class="col-p6">
                                 <div class="clearfix">
                                     <div class=""><b>' . $this->ordenarFecha($rows['fecha']) . '</b></div>
@@ -576,12 +675,12 @@ class otController extends mainModel
                                 </button>                       
                             </td>
                             <td class="col-p">
-                                <button type="button" title="Generar Reporte" class="btn btn-primary">
+                                <a href="#" title="Generar Reporte" id="detalleot" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reporteOt" data-bs-id="' . $rows['n_ot'] . '">
                                     <i class="bi bi-file-earmark-text"></i>
-                                </button>                       
+                                </a>                                            
                             </td>
                             <td class="col-p">
-                                <a href="#" title="Detalles Orden" id="detalleot" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ventanaModalDetalleOt" data-bs-id="' . $rows['n_ot'] . '">
+                                <a href="#" title="Detalles Orden" id="detalleot" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detallesOt" data-bs-id="' . $rows['n_ot'] . '">
                                     <i class="bi bi-card-list"></i>
                                 </a> 
                             </td>
@@ -622,6 +721,70 @@ class otController extends mainModel
 
         $tabla .= '</tbody> </table> </div> ';
 
+
+        return $tabla;
+    }
+    public function listarDetalles()
+    {
+
+        $tabla = "";
+
+
+        $consulta_datos = "SELECT h.*,(h.cantidad - COALESCE(SUM(hot.cantidadot), 0)) AS cantidad_disponible,
+                COALESCE(SUM(hot.cantidadot), 0) AS herramienta_ocupada
+                FROM 
+                herramienta h
+                LEFT JOIN 
+                herramientaot hot ON h.id_herramienta = hot.id_herramienta WHERE std_reg='1'
+                GROUP BY 
+                h.id_herramienta ASC";
+
+        $consulta_total = "SELECT COUNT(h.id_herramienta ) 
+                FROM 
+                herramienta h
+                LEFT JOIN 
+                herramientaot hot ON h.id_herramienta = hot.id_herramienta WHERE std_reg='1'";
+
+
+        $datos = $this->ejecutarConsulta($consulta_datos);
+        $datos = $datos->fetchAll();
+
+        $total = $this->ejecutarConsulta($consulta_total);
+        $total = (int) $total->fetchColumn();
+
+
+        $tabla .= '
+        <div class="table-responsive" id="tabla-ot">
+        <table class="table border mb-0 table-hover table-sm table-striped" id="tablaDetalles">
+                        <thead class="table-light fw-semibold">
+                            <tr class="align-middle">
+                                <th class="clearfix">#</th>
+                                <th class="clearfix">Estado</th>        
+                                <th class="clearfix">Fecha</th>
+                                <th class="clearfix">Descripción</th>
+                                <th class="text-center" colspan="2">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            ';
+        if ($total >= 1) {
+            $tabla .= '
+                <tr class="align-middle">
+                <td class="text-center">
+                </td>
+            </tr>
+                    ';
+        } else {
+
+            $tabla .= '
+                    <tr class="align-middle">
+                        <td class="text-center">
+                            No hay registros en el sistema
+                        </td>
+                    </tr>
+                ';
+        }
+        $tabla .= '</tbody> </table> </div> ';
 
         return $tabla;
     }

@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let inputId2 = modificarModalUser.querySelector('.modal-body #cedula');
         let inputNombre = modificarModalUser.querySelector('.modal-body #nombre');
         let inputUser = modificarModalUser.querySelector('.modal-body #username');
-        let inputTipo = modificarModalUser.querySelector('.modal-body #tipo');
+        let inputTipo = modificarModalUser.querySelector('.modal-body #tipo2');
 
         // Construir la URL del script PHP que carga los datos del usuario
         let url = "http://localhost/app_metro/app/controllers/cargarDatosUser.php";

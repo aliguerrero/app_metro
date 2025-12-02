@@ -312,7 +312,7 @@ class userController extends mainModel
         // Si el tipo no es 1, el combo es para el responsable de control de operaciones
         $combo .= '
                 <label class="form-label">TIPO DE USUARIO</label>
-                <select class="form-select" name="'.$tipo.'" id="'.$tipo.'" aria-label="Default select example" value="">
+                <select class="form-select" name="'.$tipo.'" id="'.$tipo.'" aria-label="Default select example">
                     <option selected>Seleccionar</option>
                 ';
 
